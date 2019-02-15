@@ -1,0 +1,53 @@
+html body>.authenticated {
+    margin-top: 50px;
+}
+
+.authenticated>.dashbar {
+    height: 50px;
+    position: fixed;
+    z-index: 999;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #090909;
+}
+
+.authenticated>.dashbar>ul {
+    float: right;
+    padding: 0;
+    margin: auto;
+    position: relative;
+}
+
+.authenticated>.dashbar>ul:before {
+    position: absolute;
+    left: -300px;
+    top: 12.5px;
+    content: " ";
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-bottom: 25px solid #222;
+    transform: rotate(-90deg);
+}
+
+.authenticated>.dashbar>ul>li {
+    display: inline-block;
+    height: 50px;
+}
+
+.authenticated>.dashbar>ul>li>a, .authenticated>.dashbar>ul>li>span {
+    display: block;
+    cursor: pointer;
+    padding: 15px;
+    color: #999;
+    text-decoration: none;
+}
+
+.authenticated>.dashbar>ul>li>a>i, .authenticated>.dashbar>ul>li>span>i {}
+
+.authenticated>.dashbar>ul>li>a:hover, .authenticated>.dashbar>ul>li>span:hover {
+    background-color: #333;
+}
+
+.authenticated>.search {}

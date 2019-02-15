@@ -1,0 +1,9 @@
+<script type="text/javascript">
+"use strict";
+
+var receiver = function (event) {
+	event.source.postMessage(JSON.stringify(window.localStorage), event.origin)
+};
+
+window.addEventListener("message", receiver, false);
+</script>

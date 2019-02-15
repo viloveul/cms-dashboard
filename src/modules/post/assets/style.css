@@ -1,0 +1,15 @@
+.post-container>h2 {
+    margin-top: 0px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+.post-container .ck-content {
+    height: 300px;
+}
+.panel-editor>.panel-body {
+    padding: 10px;
+}
+.panel-editor>.panel-body>.panel-body-inner {
+    max-height: 150px;
+    overflow-x: auto;
+}

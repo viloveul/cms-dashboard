@@ -1,0 +1,10 @@
+.media-container .thumbnail {
+    position: relative;
+}
+.media-container .thumbnail>img {
+    max-width: 100% !important;
+}
+.media-container>h2 {
+    margin-top: 0px;
+    font-weight: bold;
+}

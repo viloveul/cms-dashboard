@@ -1,0 +1,19 @@
+/**
+ * Comment List
+ */
+
+.comment-list .comment {
+    border: 1px solid #CCC;
+    padding: 15px 15px 0px;
+    margin-bottom: 15px;
+    background-color: #EEE;
+}
+.comment-wrapper > .comment-header {
+	margin-bottom: 15px;
+}
+.comment-wrapper > .comment-header h4{
+	margin: 0px auto 5px; 
+}
+.comment-wrapper > .comment-body {
+	margin-bottom: 15px;
+}
