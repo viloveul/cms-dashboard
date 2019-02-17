@@ -1,7 +1,7 @@
 <template>
   <div class="post-container">
     <h2>Posts</h2>
-    <VueGoodTable
+    <vue-good-table
       @on-column-filter="onColumnFilter"
       @on-page-change="onPageChange"
       @on-per-page-change="onPerPageChange"
@@ -24,21 +24,16 @@
           </span>
         </div>
       </template>
-    </VueGoodTable>
+    </vue-good-table>
   </div>
 </template>
 
 <script type="text/javascript">
 
-import 'vue-good-table/dist/vue-good-table.css'
-
+import './../assets/style.css'
 import endpoints from '@/common/endpoints'
-import { VueGoodTable } from 'vue-good-table'
 
 export default {
-  components: {
-    VueGoodTable
-  },
   async created () {
     this.serverParams = {...this.$route.query}
     this.pagination.setCurrentPage = parseInt(this.serverParams.page || 1)
@@ -51,15 +46,10 @@ export default {
     await this.loadData()
   },
   async mounted () {
-    await this.$store.dispatch('updateTitle', 'Posts')
+    await this.$store.commit('setTitle', 'Posts')
     await this.$store.commit('setBreadcrumbs', [
-      {
-        label: 'Board',
-        link: '/'
-      },
-      {
-        label: 'Posts'
-      }
+      {label: 'Board', link: '/'},
+      {label: 'Posts'}
     ])
   },
   methods: {
@@ -167,14 +157,6 @@ export default {
           }
         },
         {
-          label: 'Author',
-          field: 'author.nickname',
-          filterOptions: {
-            enabled: false
-          },
-          sortable: false
-        },
-        {
           label: 'Status',
           field: 'status',
           filterOptions: {
@@ -234,7 +216,3 @@ export default {
   }
 }
 </script>
-
-<style type="text/css">
-@import './../assets/style.css'
-</style>

@@ -1,7 +1,7 @@
-const mutations = {
+import initial from '@/modules/media/store/initial'
+
+export default {
   setFile (state, file) {
-    state = file
+    state.attributes = Object.assign({}, initial.attributes, file.attributes)
   }
 }
-
-export default mutations

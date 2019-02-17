@@ -7,7 +7,7 @@
         </router-link>
       </h3>
       <div class="sidebar-inner">
-        <BoardMenu :path="$route.path" :privileges="privileges" />
+        <NavMenu :path="$route.path" :privileges="privileges" />
       </div>
     </aside>
     <div class="board-wrapper">
@@ -32,13 +32,13 @@
 
 import '@/assets/style.css'
 
-import BoardMenu from '@/components/BoardMenu'
+import NavMenu from '@/components/NavMenu'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import session from '@/common/session'
 
 export default {
   components: {
-    BoardMenu,
+    NavMenu,
     Breadcrumbs
   },
   async mounted () {

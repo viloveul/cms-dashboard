@@ -1,5 +1,5 @@
-const mutations = {
-  async setOption (state, payload) {
+export default {
+  setOption: async (state, payload) => {
     for (let i in payload) {
       if (payload[i] !== null) {
         if (typeof payload[i] !== 'string') {
@@ -11,5 +11,3 @@ const mutations = {
     }
   }
 }
-
-export default mutations

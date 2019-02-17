@@ -97,17 +97,14 @@
 
 <script type="text/javascript">
 
+import './../assets/style.css'
+
 export default {
   async mounted () {
-    await this.$store.dispatch('updateTitle', 'Settings')
+    await this.$store.commit('setTitle', 'Settings')
     await this.$store.commit('setBreadcrumbs', [
-      {
-        label: 'Board',
-        link: '/'
-      },
-      {
-        label: 'Settings'
-      }
+      {label: 'Board', link: '/'},
+      {label: 'Settings'}
     ])
     await this.$store.dispatch('setting/fetchOption', 'tags')
     await this.$store.dispatch('setting/fetchOption', 'posts')
@@ -161,7 +158,3 @@ export default {
   }
 }
 </script>
-
-<style type="text/css">
-@import './../assets/style.css'
-</style>

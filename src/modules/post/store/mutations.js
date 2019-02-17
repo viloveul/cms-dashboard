@@ -1,6 +1,6 @@
 import initial from '@/modules/post/store/initial'
 
-const mutations = {
+export default {
   setPost (state, post) {
     state.post = Object.assign({}, initial.post, post)
   },
@@ -11,5 +11,3 @@ const mutations = {
     state.tags = tags
   }
 }
-
-export default mutations

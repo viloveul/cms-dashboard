@@ -1,5 +1,5 @@
-const initial = {
-  comment: {
+export default {
+  attributes: {
     id: 0,
     post_id: 0,
     parent_id: 0,
@@ -12,21 +12,25 @@ const initial = {
     status: 1,
     created_at: '',
     deleted_at: '',
-    updated_at: '',
+    updated_at: ''
+  },
+  relationships: {
     post: {
-      id: 0,
-      title: '',
-      slug: '',
-      type: 'post',
-      description: ''
+      data: {
+        id: 0,
+        title: '',
+        slug: '',
+        type: 'post',
+        description: ''
+      }
     },
     author: {
-      id: 0,
-      name: '',
-      nickname: '',
-      email: ''
+      data: {
+        id: 0,
+        name: '',
+        nickname: '',
+        email: ''
+      }
     }
   }
 }
-
-export default initial

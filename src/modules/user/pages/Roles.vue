@@ -26,7 +26,7 @@
       </div>
 
       <div class="col-md-9">
-        <VueGoodTable
+        <vue-good-table
           @on-column-filter="onColumnFilter"
           @on-page-change="onPageChange"
           @on-per-page-change="onPerPageChange"
@@ -46,7 +46,7 @@
               </router-link>
             </div>
           </template>
-        </VueGoodTable>
+        </vue-good-table>
       </div>
     </div>
   </div>
@@ -54,15 +54,11 @@
 
 <script type="text/javascript">
 
-import 'vue-good-table/dist/vue-good-table.css'
+import './../assets/style.css'
 
 import endpoints from '@/common/endpoints'
-import { VueGoodTable } from 'vue-good-table'
 
 export default {
-  components: {
-    VueGoodTable
-  },
   async beforeRouteLeave (to, from, next) {
     await this.$store.dispatch('user/resetRole')
     next()
@@ -79,15 +75,10 @@ export default {
     await this.loadData()
   },
   async mounted () {
-    await this.$store.dispatch('updateTitle', 'Roles')
+    await this.$store.commit('setTitle', 'Roles')
     await this.$store.commit('setBreadcrumbs', [
-      {
-        label: 'Board',
-        link: '/'
-      },
-      {
-        label: 'Roles'
-      }
+      {label: 'Board', link: '/'},
+      {label: 'Roles'}
     ])
   },
   methods: {
@@ -210,7 +201,3 @@ export default {
   }
 }
 </script>
-
-<style type="text/css">
-@import './../assets/style.css'
-</style>

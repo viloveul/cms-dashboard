@@ -2,9 +2,7 @@
   <div class="user-container">
     <div class="media">
       <div class="media-left hidden-xs">
-        <router-link :to="'/@' + me.username">
-          <img :src="me.picture" class="media-object thumbnail" style="max-height: 120px;" :alt="me.username">
-        </router-link>
+        <img :src="me.picture" class="media-object thumbnail" style="max-height: 120px;" :alt="me.username">
       </div>
       <div class="media-body">
         <h2 class="media-heading">{{ me.name }}</h2>
@@ -49,6 +47,8 @@
 
 <script type="text/javascript">
 
+import './../assets/style.css'
+
 export default {
   computed: {
     me () {
@@ -57,10 +57,6 @@ export default {
   }
 }
 </script>
-
-<style type="text/css">
-@import './../assets/style.css'
-</style>
 
 <style type="text/css" scoped="true">
 .user-container table,

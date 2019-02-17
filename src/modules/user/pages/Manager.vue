@@ -1,7 +1,7 @@
 <template>
   <div class="user-container">
     <h2>Users</h2>
-    <VueGoodTable
+    <vue-good-table
       @on-column-filter="onColumnFilter"
       @on-page-change="onPageChange"
       @on-per-page-change="onPerPageChange"
@@ -24,21 +24,15 @@
           </span>
         </div>
       </template>
-    </VueGoodTable>
+    </vue-good-table>
   </div>
 </template>
 
 <script type="text/javascript">
 
-import 'vue-good-table/dist/vue-good-table.css'
-
-import endpoints from '@/common/endpoints'
-import { VueGoodTable } from 'vue-good-table'
+import './../assets/style.css'
 
 export default {
-  components: {
-    VueGoodTable
-  },
   async created () {
     this.serverParams = {...this.$route.query}
     this.pagination.setCurrentPage = parseInt(this.serverParams.page || 1)
@@ -51,15 +45,10 @@ export default {
     await this.loadData()
   },
   async mounted () {
-    await this.$store.dispatch('updateTitle', 'Users')
+    await this.$store.commit('setTitle', 'Users')
     await this.$store.commit('setBreadcrumbs', [
-      {
-        label: 'Board',
-        link: '/'
-      },
-      {
-        label: 'Users'
-      }
+      {label: 'Board', link: '/'},
+      {label: 'Users'}
     ])
   },
   methods: {
@@ -68,13 +57,14 @@ export default {
         clearTimeout(this.timeout)
       }
       this.timeout = setTimeout(async () => {
-        await endpoints.getUsers(this.serverParams).then(res => {
-          this.rows = res.data.data.map(user => {
-            return user.attributes
-          })
-          this.links = res.data.links
-          this.meta = res.data.meta
+        let data = await this.$store.dispatch('user/fetchUsers', {
+          params: this.serverParams
         })
+        this.rows = data.data.map(user => {
+          return user.attributes
+        })
+        this.links = data.links
+        this.meta = data.meta
       }, 500)
     },
     async handleDelete (id) {
@@ -225,7 +215,3 @@ export default {
   }
 }
 </script>
-
-<style type="text/css">
-@import './../assets/style.css'
-</style>

@@ -1,4 +1,4 @@
-const getters = {
+export default {
   getUser: (state) => () => {
     return state.user
   },
@@ -18,5 +18,3 @@ const getters = {
     return state.role
   }
 }
-
-export default getters

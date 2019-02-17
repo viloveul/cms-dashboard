@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import general from '@/common/general'
-
 import App from '@/App'
 import Login from '@/Login'
 
@@ -21,7 +20,8 @@ import {
 } from '@/modules/setting'
 
 import {
-  Manager as CommentManager
+  Manager as CommentManager,
+  Editor as CommentEditor
 } from '@/modules/comment'
 
 import {
@@ -91,6 +91,10 @@ const routes = [
       {
         path: '/comment',
         component: CommentManager
+      },
+      {
+        path: '/comment/update/:id',
+        component: CommentEditor
       },
       {
         path: '/tag',

@@ -42,6 +42,7 @@
 
 <script type="text/javascript">
 
+import './../assets/style.css'
 import Fileman from '@/modules/media/components/Fileman'
 
 export default {
@@ -49,15 +50,10 @@ export default {
     Fileman
   },
   async mounted () {
-    await this.$store.dispatch('updateTitle', 'Settings')
+    await this.$store.commit('setTitle', 'Settings')
     await this.$store.commit('setBreadcrumbs', [
-      {
-        label: 'Board',
-        link: '/'
-      },
-      {
-        label: 'Settings'
-      }
+      {label: 'Board', link: '/'},
+      {label: 'Settings'}
     ])
     await this.$store.dispatch('setting/fetchOption', 'brand')
     await this.$store.dispatch('setting/fetchOption', 'description')
@@ -92,7 +88,3 @@ export default {
   }
 }
 </script>
-
-<style type="text/css">
-@import './../assets/style.css'
-</style>

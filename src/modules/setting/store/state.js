@@ -1,4 +1,4 @@
-const state = {
+export default {
   brand: 'Viloveul',
   description: 'Content Management System',
   email: 'me@viloveul.com',
@@ -33,5 +33,3 @@ const state = {
     comment: false
   }
 }
-
-export default state

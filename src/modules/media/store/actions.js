@@ -2,23 +2,20 @@ import Vue from 'vue'
 import initial from '@/modules/media/store/initial'
 import endpoints from '@/common/endpoints'
 
-const actions = {
-  async resetFile (context) {
+export default {
+  resetFile: async (context) => {
     for (let i in context.state) {
       await Vue.set(context.state, i, initial[i])
     }
   },
-  async uploadFile (context, payload) {
+  uploadFile: async (context, payload) => {
     await endpoints.uploadFiles(payload)
   },
-  async deleteFile (context, payload) {
-    await endpoints.deleteFile(payload)
+  deleteFile: async (context, payload) => {
+    await endpoints.deleteUploadedFile(payload)
   },
-  async fetchFile (context, payload) {
-    let { data } = await endpoints.getFile(payload)
-    context.commit('setFile', data.data.attributes)
-    return data.data.attributes
+  fetchFile: async (context, payload) => {
+    let { data } = await endpoints.detailUploadedFile(payload)
+    await context.commit('setFile', data.data)
   }
 }
-
-export default actions

@@ -1,21 +1,7 @@
-import Axios from 'axios'
-import general from '@/common/general'
-import session from '@/common/session'
 import qs from 'qs'
+import http from '@/common/http'
 
-const http = Axios.create({
-  baseURL: general.getApiUrl(),
-  transformRequest: function (data, headers) {
-    headers['Authorization'] = session.getAuthHeader()
-    return data
-  }
-})
-
-const endpoints = {
-  base () {
-    return http
-  },
-
+export default {
   /**
    * AUTH ENDPOINT
    */
@@ -231,41 +217,5 @@ const endpoints = {
     return http.delete('/comment/delete/' + $id, {
       params: $params || {}
     })
-  },
-
-  /**
-   * BLOG ENDPOINT
-   */
-  async getBlogPost ($params) {
-    return http.get('/blog/index', {
-      params: $params || {}
-    })
-  },
-  async getBlogDetail ($slug, $params) {
-    return http.get('/blog/detail/' + $slug, {
-      params: $params || {}
-    })
-  },
-  async getBlogArchive ($slug, $params) {
-    return http.get('/blog/archive/' + $slug, {
-      params: $params || {}
-    })
-  },
-  async getBlogAuthor ($slug, $params) {
-    return http.get('/blog/author/' + $slug, {
-      params: $params || {}
-    })
-  },
-  async getBlogCommentList ($id, $params) {
-    return http.get('/blog/comments/' + $id, {
-      params: $params || {}
-    })
-  },
-  async sendComment ($id, $data, $params) {
-    return http.post('/blog/comment/' + $id, qs.stringify($data), {
-      params: $params || {}
-    })
   }
 }
-
-export default endpoints

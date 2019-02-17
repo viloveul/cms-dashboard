@@ -2,7 +2,7 @@ let curDate = new Date()
 let dateFormated = curDate.getFullYear() + '-' + curDate.getMonth().toString().padStart(2, '0') + '-' + curDate.getDate().toString().padStart(2, '0')
 let timeFormated = curDate.getHours().toString().padStart(2, '0') + ':' + curDate.getMinutes().toString().padStart(2, '0') + ':' + curDate.getSeconds().toString().padStart(2, '0')
 
-const initial = {
+export default {
   tags: [],
   tag: {
     attributes: {
@@ -56,5 +56,3 @@ const initial = {
   },
   relations: []
 }
-
-export default initial

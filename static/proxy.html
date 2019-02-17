@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Proxy</title>
+</head>
+<body>
+	<script type="text/javascript">
+		"use strict";
+		window.addEventListener("message", function (event) {
+			if (event.data === 'viloveul.read') {
+				event.source.postMessage(
+					JSON.stringify(window.localStorage),
+					event.origin
+				);
+			} else if (event.data === 'viloveul.clear') {
+				window.localStorage.clear()
+			}
+		});
+	</script>
+</body>
+</html>

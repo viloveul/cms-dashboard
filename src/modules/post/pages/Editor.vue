@@ -1,6 +1,6 @@
 <template>
   <div class="post-container">
-    <h2>Create Post</h2>
+    <h2>Post Editor</h2>
     <form method="post" v-on:submit.prevent="handleSave" class="row">
       <div class="col-md-9">
         <div class="form-group">
@@ -100,6 +100,7 @@
 
 <script type="text/javascript">
 
+import './../assets/style.css'
 import TagPanel from '@/modules/post/components/TagPanel'
 import Fileman from '@/modules/media/components/Fileman'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
@@ -113,19 +114,11 @@ export default {
     await this.$store.dispatch('post/fetchTags')
     await this.$store.dispatch('setting/fetchOption', 'posts')
     await this.$store.dispatch('setting/fetchOption', 'tags')
-    await this.$store.dispatch('updateTitle', 'Post Editor')
+    await this.$store.commit('setTitle', 'Post Editor')
     await this.$store.commit('setBreadcrumbs', [
-      {
-        label: 'Board',
-        link: '/'
-      },
-      {
-        label: 'Posts',
-        link: '/post'
-      },
-      {
-        label: 'Editor'
-      }
+      {label: 'Board', link: '/'},
+      {label: 'Posts', link: '/post'},
+      {label: 'Editor'}
     ])
     if (this.$route.params.id !== undefined) {
       await this.$store.dispatch('post/fetchPost', this.$route.params.id)
@@ -271,7 +264,3 @@ export default {
 }
 
 </script>
-
-<style type="text/css">
-@import './../assets/style.css'
-</style>

@@ -1,7 +1,7 @@
 import endpoints from '@/common/endpoints'
 
-const actions = {
-  async updateOption ({ commit }, payload) {
+export default {
+  updateOption: async ({ commit }, payload) => {
     let options = {}
     for (let i in payload) {
       await endpoints.setOption(i, payload[i]).then(async () => {
@@ -10,11 +10,9 @@ const actions = {
     }
     await commit('setOption', options)
   },
-  async fetchOption ({ commit }, payload) {
+  fetchOption: async ({ commit }, payload) => {
     let { data } = await endpoints.getOption(payload)
-    commit('setOption', {[payload]: data.data.option})
-    return {[payload]: data.data.option}
+    await commit('setOption', {[payload]: data.data.option})
+    return data.data.option
   }
 }
-
-export default actions

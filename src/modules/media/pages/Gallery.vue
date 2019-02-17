@@ -1,7 +1,7 @@
 <template>
   <div class="media-container">
     <h2>Gallery</h2>
-    <VueGoodTable
+    <vue-good-table
       @on-column-filter="onColumnFilter"
       @on-page-change="onPageChange"
       @on-per-page-change="onPerPageChange"
@@ -15,37 +15,52 @@
       styleClass="table condensed table-bordered table-striped">
       <template slot="table-row" slot-scope="props" v-if="props.column.field == 'name'">
         <div class="media">
-          <a class="media-left" href="#">
+          <a class="media-left" v-on:click.prevent="handlePreview(props.row.id)">
             <img :src="props.row.image_url" class="media-object" style="max-width: 75px;">
           </a>
           <div class="media-body">
             <div class="media-heading">{{ props.row.name }}</div>
             <div class="action">
-              <router-link :to="'/media/update/' + props.row.id" class="text-warning">
-                <i class="glyphicon glyphicon-pencil"></i> Update
-              </router-link>
-              <span class="text-danger" v-if="parseInt(props.row.status) !== 3" v-on:click="handleDelete(props.row.id)">
-                <i class="glyphicon glyphicon-trash"></i> Delete
-              </span>
+              <a class="text-warning" v-on:click.prevent="handlePreview(props.row.id)">
+                <i class="glyphicon glyphicon-pencil"></i> Preview
+              </a>
             </div>
           </div>
         </div>
       </template>
-    </VueGoodTable>
+    </vue-good-table>
+    <div class="modal fade in" tabindex="-1" role="dialog" style="display: block;" v-if="preview === true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" v-on:click="preview = false" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">
+              {{ uploadedFile.name }}
+            </h4>
+          </div>
+          <div class="modal-body">
+            <div style="max-height: 300px; overflow-x: auto;">
+              <img :src="uploadedFile.image_url" style="max-width: 100%;">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <span class="btn btn-danger" v-on:click="handleDelete(uploadedFile.id)">Delete</span>
+            <span class="btn btn-info" v-on:click="preview = false">Close</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script type="text/javascript">
 
-import 'vue-good-table/dist/vue-good-table.css'
-
+import './../assets/style.css'
 import endpoints from '@/common/endpoints'
-import { VueGoodTable } from 'vue-good-table'
 
 export default {
-  components: {
-    VueGoodTable
-  },
   async created () {
     this.serverParams = {...this.$route.query}
     this.pagination.setCurrentPage = parseInt(this.serverParams.page || 1)
@@ -58,16 +73,16 @@ export default {
     await this.loadData()
   },
   async mounted () {
-    await this.$store.dispatch('updateTitle', 'Media')
+    await this.$store.commit('setTitle', 'Media')
     await this.$store.commit('setBreadcrumbs', [
-      {
-        label: 'Board',
-        link: '/'
-      },
-      {
-        label: 'Media'
-      }
+      {label: 'Board', link: '/'},
+      {label: 'Media'}
     ])
+  },
+  computed: {
+    uploadedFile () {
+      return this.$store.getters['media/getFile']()
+    }
   },
   methods: {
     async loadData () {
@@ -84,8 +99,14 @@ export default {
         })
       }, 500)
     },
+    async handlePreview (id) {
+      this.preview = true
+      await this.$store.dispatch('media/resetFile')
+      await this.$store.dispatch('media/fetchFile', id)
+    },
     async handleDelete (id) {
-      await this.$store.dispatch('post/deleteFile', id)
+      this.preview = false
+      await this.$store.dispatch('media/deleteFile', id)
       await this.loadData()
     },
     onPerPageChange (params, x) {
@@ -137,6 +158,7 @@ export default {
   },
   data: () => {
     return {
+      preview: false,
       timeout: null,
       rows: [],
       links: {},
@@ -226,7 +248,3 @@ export default {
   }
 }
 </script>
-
-<style type="text/css">
-@import './../assets/style.css'
-</style>

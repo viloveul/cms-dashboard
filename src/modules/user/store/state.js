@@ -2,12 +2,10 @@ import initial from '@/modules/user/store/initial'
 
 let initState = {...JSON.parse(JSON.stringify(initial))}
 
-const state = {
+export default {
   ...initState,
   me: {
-    ...initState.user
+    ...initState.user.attributes
   },
   privileges: []
 }
-
-export default state

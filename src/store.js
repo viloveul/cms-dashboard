@@ -48,15 +48,6 @@ const getters = {
 }
 
 const actions = {
-  updateTitle: ({ commit }, payload) => {
-    commit('setTitle', payload)
-  },
-  updateErrors: ({ commit }, payload) => {
-    commit('setErrors', payload)
-  },
-  updateRedirection: ({ commit }, path) => {
-    commit('setRedirection', path)
-  },
   resetErrors: (context, payload) => {
     context.state.errors = []
   }

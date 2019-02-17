@@ -88,7 +88,7 @@ export default {
       menus: [
         {
           label: '@Profile',
-          link: '',
+          link: '/',
           icon: 'sunglasses',
           match: /^$/
         },

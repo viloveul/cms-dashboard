@@ -14,6 +14,24 @@ const actions = {
       await Vue.set(context.state.role, i, initial.role[i])
     }
   },
+  requestToken: async ({ commit }, payload) => {
+    await session.unsetToken()
+    let {data} = await endpoints.requestToken(payload)
+    await session.setToken(data.data.token)
+    return data.data.token
+  },
+  fetchMe: async ({ commit }, payload) => {
+    if (session.hasToken()) {
+      await endpoints.getMe().then(res => {
+        commit('setMe', res.data.data.attributes)
+        commit('setPrivileges', res.data.meta.privileges)
+      }).catch(async (e) => {
+        await session.unsetToken()
+        commit('setMe', {...initial.user})
+        commit('setPrivileges', [])
+      })
+    }
+  },
   createUser: async (context, payload) => {
     let { data } = await endpoints.createUser(payload)
     return data.data.attributes
@@ -25,20 +43,24 @@ const actions = {
     let { data } = await endpoints.updateUser(payload.id, payload)
     return data.data.attributes
   },
+  fetchUsers: async (context, payload) => {
+    let { data } = await endpoints.getUsers(payload.params)
+    return data
+  },
   fetchUser: async (context, payload) => {
     let { data } = await endpoints.getUser(payload)
-    context.commit('setUser', data.data)
-    return data.data.attributes
+    await context.commit('setUser', data.data)
+    return data.data
   },
   fetchRoles: async (context, payload) => {
     let { data } = await endpoints.getAllRoles(payload)
-    context.commit('setRoles', data.data)
+    await context.commit('setRoles', data.data)
     return data.data
   },
   fetchRole: async (context, payload) => {
     let { data } = await endpoints.getRole(payload)
-    context.commit('setRole', data.data)
-    return data.data.attributes
+    await context.commit('setRole', data.data)
+    return context.getters.getRole()
   },
   createRole: async (context, payload) => {
     let { data } = await endpoints.createRole(payload)
@@ -53,24 +75,6 @@ const actions = {
   },
   unAssignRoleChilds: async (context, payload) => {
     await endpoints.unAssignRole(payload.id, {childs: [...payload.childIds]})
-  },
-  requestToken: async ({ commit }, payload) => {
-    await session.unsetToken()
-    await endpoints.requestToken(payload).then(async (res) => {
-      await session.setToken(res.data.data.token)
-    })
-  },
-  fetchMe: async ({ commit }, payload) => {
-    if (session.hasToken()) {
-      await endpoints.getMe().then(res => {
-        commit('setMe', res.data.data.attributes)
-        commit('setPrivileges', res.data.meta.privileges)
-      }).catch(async (e) => {
-        await session.unsetToken()
-        commit('setMe', {...initial.user})
-        commit('setPrivileges', [])
-      })
-    }
   }
 }
 

@@ -1,7 +1,5 @@
-const getters = {
+export default {
   getFile: (state) => () => {
-    return state
+    return state.attributes
   }
 }
-
-export default getters

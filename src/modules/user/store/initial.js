@@ -1,4 +1,4 @@
-const initial = {
+export default {
   roles: [],
   role: {
     attributes: {
@@ -31,5 +31,3 @@ const initial = {
     }
   }
 }
-
-export default initial

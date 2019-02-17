@@ -1,7 +1,7 @@
 <template>
   <div class="login-page-container">
     <div class="login-page">
-      <h1><router-link :to="'/'">{{ getOption('brand') }}</router-link></h1>
+      <h1><router-link :to="'/'">{{ brand }}</router-link></h1>
       <div class="login-page-inner">
         <div class="alert alert-danger" v-for="(error, index) in errors" :key="index">
           {{ error }}
@@ -10,9 +10,9 @@
           <div class="form-group">
             <div class="input-group input-group-username">
               <div class="input-group-addon">
-                <i class="glyphicon glyphicon-envelope"></i>
+                <i class="glyphicon glyphicon-user"></i>
               </div>
-              <input type="text" v-model="username" class="form-control input-lg" autocomplete="off" placeholder="Email">
+              <input type="text" v-model="username" class="form-control input-lg" autocomplete="off" placeholder="Username">
             </div>
           </div>
           <div class="form-group">
@@ -39,6 +39,7 @@ export default {
   name: 'Login',
   data () {
     return {
+      brand: 'Viloveul',
       username: null,
       password: null
     }
@@ -55,16 +56,14 @@ export default {
       }
     }
   },
-  mounted () {
+  async mounted () {
     session.unsetToken()
-    this.$store.dispatch('setting/fetchOption', 'brand')
+    await this.$store.commit('setTitle', 'Login')
+    this.brand = await this.$store.dispatch('setting/fetchOption', 'brand')
   },
   computed: {
     errors () {
       return this.$store.getters['getErrors']()
-    },
-    getOption () {
-      return this.$store.getters['setting/getOption']
     },
     redirect () {
       return this.$store.getters['getRedirect']()

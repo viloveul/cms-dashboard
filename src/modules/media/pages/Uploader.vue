@@ -17,21 +17,15 @@
 
 <script type="text/javascript">
 
+import './../assets/style.css'
+
 export default {
   async mounted () {
-    await this.$store.dispatch('updateTitle', 'Media Upload')
+    await this.$store.commit('setTitle', 'Media Upload')
     await this.$store.commit('setBreadcrumbs', [
-      {
-        label: 'Board',
-        link: '/'
-      },
-      {
-        label: 'Media',
-        link: '/media'
-      },
-      {
-        label: 'Upload'
-      }
+      {label: 'Board', link: '/'},
+      {label: 'Media', link: '/media'},
+      {label: 'Upload'}
     ])
   },
   methods: {
@@ -47,6 +41,7 @@ export default {
         this.logs.splice(i, 1)
       }
       this.$refs.file.value = []
+      this.$router.push('/media')
     }
   },
   data () {
@@ -57,7 +52,3 @@ export default {
   }
 }
 </script>
-
-<style type="text/css">
-@import './../assets/style.css'
-</style>

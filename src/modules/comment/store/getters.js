@@ -1,4 +1,5 @@
-const getters = {
+export default {
+  getComment: (state) => () => {
+    return state.attributes
+  }
 }
-
-export default getters

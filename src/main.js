@@ -4,10 +4,12 @@ import Vue from 'vue'
 import NProgress from 'nprogress'
 import store from '@/store'
 import router from '@/router'
+import http from '@/common/http'
 import CKEditor from '@ckeditor/ckeditor5-vue'
-import endpoints from '@/common/endpoints'
+import VueGoodTablePlugin from 'vue-good-table'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
+import 'vue-good-table/dist/vue-good-table.css'
 import 'vue-datetime/dist/vue-datetime.css'
 import 'nprogress/nprogress.css'
 import '@/assets/dashbar.css'
@@ -15,17 +17,18 @@ import '@/assets/dashbar.css'
 Vue.config.productionTip = false
 
 Vue.use(CKEditor)
+Vue.use(VueGoodTablePlugin)
 
 NProgress.configure({
   trickle: false
 })
 
-endpoints.base().interceptors.request.use(config => {
+http.interceptors.request.use(config => {
   NProgress.start()
   return config
 })
 
-endpoints.base().interceptors.response.use(
+http.interceptors.response.use(
   res => {
     NProgress.done()
     return res
@@ -35,7 +38,7 @@ endpoints.base().interceptors.response.use(
       let errors = err.response.data.errors.map(e => {
         return e.detail
       })
-      store.dispatch('updateErrors', errors)
+      store.commit('setErrors', errors)
     }
     NProgress.done()
     return Promise.reject(err)
@@ -44,11 +47,11 @@ endpoints.base().interceptors.response.use(
 
 router.beforeEach((to, from, next) => {
   if (to.path !== from.path) {
-    store.commit('setBreadcrumbs', [])
     store.dispatch('resetErrors')
-    store.dispatch('updateTitle', 'Viloveul')
+    store.commit('setBreadcrumbs', [])
+    store.commit('setTitle', 'Viloveul')
   }
-  store.dispatch('updateRedirection', from.path)
+  store.commit('setRedirection', from.path)
   return next()
 })
 

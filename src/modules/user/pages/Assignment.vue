@@ -44,51 +44,40 @@
 
 <script type="text/javascript">
 
-import store from '@/store'
+import './../assets/style.css'
 
 export default {
   async mounted () {
-    await this.$store.dispatch('updateTitle', 'Role Assignment')
+    await this.$store.commit('setTitle', 'Role Assignment')
     await this.$store.commit('setBreadcrumbs', [
-      {
-        label: 'Board',
-        link: '/'
-      },
-      {
-        label: 'Roles',
-        link: '/role'
-      },
-      {
-        label: 'Role Assignment'
-      }
+      {label: 'Board', link: '/'},
+      {label: 'Roles', link: '/role'},
+      {label: 'Role Assignment'}
     ])
-    await store.dispatch('user/fetchRoles')
+    this.roles = await this.$store.dispatch('user/fetchRoles')
   },
   methods: {
     async handleAssign () {
-      await store.dispatch('user/assignRoleChilds', {
+      await this.$store.dispatch('user/assignRoleChilds', {
         id: this.id,
         childIds: this.toAssign
       })
       await this.handleChange()
     },
     async handleUnAssign () {
-      await store.dispatch('user/unAssignRoleChilds', {
+      await this.$store.dispatch('user/unAssignRoleChilds', {
         id: this.id,
         childIds: this.toUnAssign
       })
       await this.handleChange()
     },
     async handleChange () {
-      await store.dispatch('user/fetchRole', this.id)
+      await this.$store.dispatch('user/fetchRole', this.id)
     }
   },
   computed: {
     group () {
       return this.$store.getters['user/getRole']()
-    },
-    roles () {
-      return this.$store.getters['user/getRoles']()
     },
     access () {
       return this.roles.filter(res => {
@@ -115,15 +104,12 @@ export default {
     return {
       id: 0,
       toAssign: [],
-      toUnAssign: []
+      toUnAssign: [],
+      roles: []
     }
   }
 }
 </script>
-
-<style type="text/css">
-@import './../assets/style.css'
-</style>
 
 <style type="text/css" scoped>
   .dor {

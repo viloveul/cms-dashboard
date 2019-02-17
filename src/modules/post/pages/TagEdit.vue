@@ -38,6 +38,7 @@
 
 <script type="text/javascript">
 
+import './../assets/style.css'
 import endpoints from '@/common/endpoints'
 
 export default {
@@ -47,15 +48,10 @@ export default {
   },
   async mounted () {
     await this.$store.dispatch('post/fetchTag', this.$route.params.id)
-    await this.$store.dispatch('updateTitle', 'Tags')
+    await this.$store.commit('setTitle', 'Tags')
     await this.$store.commit('setBreadcrumbs', [
-      {
-        label: 'Board',
-        link: '/'
-      },
-      {
-        label: 'Tags'
-      }
+      {label: 'Board', link: '/'},
+      {label: 'Tags'}
     ])
     endpoints.getOption('tags').then(res => {
       this.types = res.data.data.option
@@ -99,7 +95,3 @@ export default {
   }
 }
 </script>
-
-<style type="text/css">
-@import './../assets/style.css'
-</style>

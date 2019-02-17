@@ -1,4 +1,7 @@
-const mutations = {
-}
+import initial from '@/modules/comment/store/initial'
 
-export default mutations
+export default {
+  setComment: (state, comment) => {
+    state.attributes = Object.assign({}, initial.attributes, comment.attributes)
+  }
+}

@@ -30,6 +30,8 @@
 
 <script type="text/javascript">
 
+import './../assets/style.css'
+
 export default {
   async beforeRouteLeave (to, from, next) {
     await this.$store.dispatch('user/resetRole')
@@ -37,15 +39,10 @@ export default {
   },
   async mounted () {
     await this.$store.dispatch('user/fetchRole', this.$route.params.id)
-    await this.$store.dispatch('updateTitle', 'Roles')
+    await this.$store.commit('setTitle', 'Roles')
     await this.$store.commit('setBreadcrumbs', [
-      {
-        label: 'Board',
-        link: '/'
-      },
-      {
-        label: 'Roles'
-      }
+      {label: 'Board', link: '/'},
+      {label: 'Roles'}
     ])
   },
   methods: {
@@ -62,7 +59,3 @@ export default {
   }
 }
 </script>
-
-<style type="text/css">
-@import './../assets/style.css'
-</style>

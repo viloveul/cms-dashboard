@@ -34,7 +34,7 @@
       </div>
 
       <div class="col-md-9">
-        <VueGoodTable
+        <vue-good-table
           @on-column-filter="onColumnFilter"
           @on-page-change="onPageChange"
           @on-per-page-change="onPerPageChange"
@@ -57,7 +57,7 @@
               </span>
             </div>
           </template>
-        </VueGoodTable>
+        </vue-good-table>
       </div>
     </div>
   </div>
@@ -65,15 +65,10 @@
 
 <script type="text/javascript">
 
-import 'vue-good-table/dist/vue-good-table.css'
-
+import './../assets/style.css'
 import endpoints from '@/common/endpoints'
-import { VueGoodTable } from 'vue-good-table'
 
 export default {
-  components: {
-    VueGoodTable
-  },
   async beforeRouteLeave (to, from, next) {
     await this.$store.dispatch('post/resetTag')
     next()
@@ -90,15 +85,10 @@ export default {
     await this.loadData()
   },
   async mounted () {
-    await this.$store.dispatch('updateTitle', 'Tags')
+    await this.$store.commit('setTitle', 'Tags')
     await this.$store.commit('setBreadcrumbs', [
-      {
-        label: 'Board',
-        link: '/'
-      },
-      {
-        label: 'Tags'
-      }
+      {label: 'Board', link: '/'},
+      {label: 'Tags'}
     ])
     endpoints.getOption('tags').then(res => {
       this.types = res.data.data.option
@@ -115,6 +105,11 @@ export default {
     },
     async handleSave () {
       await this.$store.dispatch('post/createTag', {...this.tag.attributes})
+      await this.$store.dispatch('post/resetTag')
+      await this.loadData()
+    },
+    async handleDelete (id) {
+      await this.$store.dispatch('post/deleteTag', id)
       await this.$store.dispatch('post/resetTag')
       await this.loadData()
     },
@@ -225,6 +220,49 @@ export default {
           filterOptions: {
             enabled: true
           }
+        },
+        {
+          label: 'Status',
+          field: 'status',
+          filterOptions: {
+            enabled: true,
+            filterDropdownItems: [
+              {
+                value: 0,
+                text: 'Unpublish'
+              },
+              {
+                value: 1,
+                text: 'Published'
+              },
+              {
+                value: 2,
+                text: 'On Moderate'
+              },
+              {
+                value: 3,
+                text: 'Deleted'
+              }
+            ]
+          },
+          formatFn: (value) => {
+            let text
+            switch (parseInt(value)) {
+              case 3:
+                text = 'Deleted'
+                break
+              case 2:
+                text = 'On Moderate'
+                break
+              case 1:
+                text = 'Published'
+                break
+              default:
+                text = 'Unpublish'
+                break
+            }
+            return text
+          }
         }
       ],
       serverParams: {
@@ -243,7 +281,3 @@ export default {
   }
 }
 </script>
-
-<style type="text/css">
-@import './../assets/style.css'
-</style>

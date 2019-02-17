@@ -38,7 +38,7 @@
       <div class="form-group">
         <label>Groups</label>
         <label class="checkbox-inline" v-for="(group, index) in roles" :key="index">
-          <input type="checkbox" v-model="relations" :value="group.id"> {{ group.name }}
+          <input type="checkbox" v-model="relations" :value="group.id"> {{ group.attributes.name }}
         </label>
       </div>
       <div class="form-group">
@@ -61,33 +61,27 @@
 
 <script type="text/javascript">
 
+import './../assets/style.css'
+
 export default {
   async mounted () {
-    await this.$store.dispatch('updateTitle', 'User Editor')
+    await this.$store.commit('setTitle', 'User Editor')
     await this.$store.commit('setBreadcrumbs', [
-      {
-        label: 'Board',
-        link: '/'
-      },
-      {
-        label: 'Users',
-        link: '/user'
-      },
-      {
-        label: 'Editor'
-      }
+      {label: 'Board', link: '/'},
+      {label: 'Users', link: '/user'},
+      {label: 'Editor'}
     ])
-    await this.$store.dispatch('user/fetchRoles', {type: 'group'})
+    this.roles = await this.$store.dispatch('user/fetchRoles', {type: 'group'})
     if (this.$route.params.id !== undefined) {
-      await this.$store.dispatch('user/fetchUser', this.$route.params.id)
-      this.relations = this.user.relationships.roles.data.map(role => {
+      let user = await this.$store.dispatch('user/fetchUser', this.$route.params.id)
+      this.relations = user.relationships.roles.data.map(role => {
         return role.id
       })
     }
   },
   async beforeRouteLeave (to, from, next) {
-    await this.$store.dispatch('user/resetUser')
     next()
+    await this.$store.dispatch('user/resetUser')
   },
   methods: {
     async handleSave () {
@@ -103,19 +97,13 @@ export default {
   computed: {
     user () {
       return this.$store.getters['user/getUser']()
-    },
-    roles () {
-      return this.$store.getters['user/getRoles']()
     }
   },
   data () {
     return {
+      roles: [],
       relations: []
     }
   }
 }
 </script>
-
-<style type="text/css">
-@import './../assets/style.css'
-</style>

@@ -24,7 +24,7 @@ let recursiveMapItems = (results, items, parentId, prefix) => {
   return results
 }
 
-const getters = {
+export default {
   getPost: (state) => () => {
     return state.post
   },
@@ -35,5 +35,3 @@ const getters = {
     return recursiveMapItems([], groupingItems([...state.tags]), 0, '')
   }
 }
-
-export default getters
