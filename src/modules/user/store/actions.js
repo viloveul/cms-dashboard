@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import initial from '@/modules/user/store/initial'
-import session from '@/common/session'
+import general from '@/common/general'
 import endpoints from '@/common/endpoints'
 
 const actions = {
@@ -14,23 +14,28 @@ const actions = {
       await Vue.set(context.state.role, i, initial.role[i])
     }
   },
-  requestToken: async ({ commit }, payload) => {
-    await session.unsetToken()
-    let {data} = await endpoints.requestToken(payload)
-    await session.setToken(data.data.token)
+  resetMe: async (context) => {
+    await context.commit('setMe', {...initial.user.attributes})
+    await context.commit('setPrivileges', [])
+  },
+  resetToken: async (context) => {
+    await window.localStorage.clear()
+    await context.dispatch('resetMe')
+  },
+  requestToken: async (context, payload) => {
+    await context.dispatch('resetToken')
+    let { data } = await endpoints.requestToken(payload)
+    await window.localStorage.setItem(general.getTokenKey(), data.data.token)
+    await context.dispatch('fetchMe')
     return data.data.token
   },
-  fetchMe: async ({ commit }, payload) => {
-    if (session.hasToken()) {
-      await endpoints.getMe().then(res => {
-        commit('setMe', res.data.data.attributes)
-        commit('setPrivileges', res.data.meta.privileges)
-      }).catch(async (e) => {
-        await session.unsetToken()
-        commit('setMe', {...initial.user})
-        commit('setPrivileges', [])
-      })
-    }
+  fetchMe: async (context) => {
+    await endpoints.getMe().then(async (res) => {
+      await context.commit('setMe', res.data.data.attributes)
+      await context.commit('setPrivileges', res.data.meta.privileges)
+    }).catch(async (e) => {
+      await context.dispatch('resetToken')
+    })
   },
   createUser: async (context, payload) => {
     let { data } = await endpoints.createUser(payload)

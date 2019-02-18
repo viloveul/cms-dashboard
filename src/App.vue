@@ -2,7 +2,10 @@
   <div class="app-board">
     <aside class="board-sidebar">
       <h3 class="brand">
-        <router-link :to="'/'">
+        <a :href="getOption('url')" v-if="getOption('url') !== null && getOption('url') !== '/'">
+          <i class="glyphicon glyphicon-home"></i> {{ getOption('brand') }}
+        </a>
+        <router-link :to="'/'" v-else>
           <i class="glyphicon glyphicon-home"></i> {{ getOption('brand') }}
         </router-link>
       </h3>
@@ -34,7 +37,6 @@ import '@/assets/style.css'
 
 import NavMenu from '@/components/NavMenu'
 import Breadcrumbs from '@/components/Breadcrumbs'
-import session from '@/common/session'
 
 export default {
   components: {
@@ -43,12 +45,14 @@ export default {
   },
   async mounted () {
     await this.$store.dispatch('user/fetchMe')
-    if (!session.hasToken()) {
+    if (this.me.id === 0) {
       await this.$router.push('/login')
     } else {
+      let url = await this.$store.dispatch('setting/fetchOption', 'url')
       await this.$store.dispatch('setting/fetchOption', 'brand')
       await this.$store.dispatch('setting/fetchOption', 'contents')
       await this.$store.dispatch('setting/fetchOption', 'moderations')
+      window.localStorage.setItem('url', url)
     }
   },
   methods: {

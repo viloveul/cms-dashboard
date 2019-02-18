@@ -9,6 +9,12 @@
         </div>
       </div>
       <div class="form-group">
+        <label class="col-md-2 control-label control-label-normal">URL</label>
+        <div class="col-md-6">
+          <input type="text" class="form-control" v-model="options.url">
+        </div>
+      </div>
+      <div class="form-group">
         <label class="col-md-2 control-label control-label-normal">Email</label>
         <div class="col-md-6">
           <input type="text" class="form-control" v-model="options.email">
@@ -59,10 +65,12 @@ export default {
     await this.$store.dispatch('setting/fetchOption', 'description')
     await this.$store.dispatch('setting/fetchOption', 'email')
     await this.$store.dispatch('setting/fetchOption', 'banner')
+    await this.$store.dispatch('setting/fetchOption', 'url')
     this.options.brand = this.$store.getters['setting/getOption']('brand')
     this.options.description = this.$store.getters['setting/getOption']('description')
     this.options.email = this.$store.getters['setting/getOption']('email')
     this.options.banner = this.$store.getters['setting/getOption']('banner')
+    this.options.url = this.$store.getters['setting/getOption']('url')
   },
   methods: {
     handleSelectedBanner (x) {
@@ -82,6 +90,7 @@ export default {
         brand: '',
         description: '',
         email: '',
+        url: '',
         banner: ''
       }
     }

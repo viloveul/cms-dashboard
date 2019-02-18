@@ -29,8 +29,6 @@
 
 <script type="text/javascript">
 
-import session from '@/common/session'
-
 export default {
   props: {
     privileges: {
@@ -45,9 +43,9 @@ export default {
     }
   },
   methods: {
-    handleLogout () {
-      session.unsetToken()
-      this.$router.push('/login')
+    async handleLogout () {
+      await this.$store.dispatch('user/resetToken')
+      await this.$router.push('/login')
     },
     generateMenus () {
       let menus = []

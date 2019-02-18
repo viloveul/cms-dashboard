@@ -33,7 +33,6 @@
 <script>
 
 import '@/assets/login.css'
-import session from '@/common/session'
 
 export default {
   name: 'Login',
@@ -51,19 +50,22 @@ export default {
         username: this.username,
         password: this.password
       })
-      if (session.hasToken()) {
+      if (this.me.id !== 0) {
         await this.$router.replace(this.redirect)
       }
     }
   },
   async mounted () {
-    session.unsetToken()
     await this.$store.commit('setTitle', 'Login')
+    await this.$store.dispatch('user/resetToken')
     this.brand = await this.$store.dispatch('setting/fetchOption', 'brand')
   },
   computed: {
     errors () {
       return this.$store.getters['getErrors']()
+    },
+    me () {
+      return this.$store.getters['user/getMe']()
     },
     redirect () {
       return this.$store.getters['getRedirect']()

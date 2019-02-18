@@ -6,16 +6,20 @@
 <body>
 	<script type="text/javascript">
 		"use strict";
-		window.addEventListener("message", function (event) {
+		var handler = function (event) {
 			if (event.data === 'viloveul.read') {
-				event.source.postMessage(
-					JSON.stringify(window.localStorage),
-					event.origin
-				);
+				var url = window.localStorage.getItem('url');
+				if (url === event.origin && confirm("Share token with " + event.origin + " ?")) {
+					event.source.postMessage(JSON.stringify(window.localStorage), event.origin);
+				} else {
+					event.source.postMessage('{}', event.origin);
+				}
 			} else if (event.data === 'viloveul.clear') {
 				window.localStorage.clear()
 			}
-		});
+			window.removeEventListener('message', handler, true);
+		};
+		window.addEventListener("message", handler, true);
 	</script>
 </body>
 </html>
