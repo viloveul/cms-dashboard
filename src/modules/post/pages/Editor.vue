@@ -112,8 +112,7 @@ export default {
   },
   async mounted () {
     await this.$store.dispatch('post/fetchTags')
-    await this.$store.dispatch('setting/fetchOption', 'posts')
-    await this.$store.dispatch('setting/fetchOption', 'tags')
+    await this.$store.dispatch('setting/fetchOption', 'contents')
     await this.$store.commit('setTitle', 'Post Editor')
     await this.$store.commit('setBreadcrumbs', [
       {label: 'Board', link: '/'},
@@ -126,8 +125,9 @@ export default {
         return tag.id
       })
     }
-    this.postTypes = this.$store.getters['setting/getOption']('posts', [])
-    this.tagTypes = this.$store.getters['setting/getOption']('tags', [])
+    let contents = this.$store.getters['setting/getOption']('contents', [])
+    this.postTypes = contents.posts
+    this.tagTypes = contents.tags
   },
   async beforeRouteLeave (to, from, next) {
     await this.$store.dispatch('post/resetPost')

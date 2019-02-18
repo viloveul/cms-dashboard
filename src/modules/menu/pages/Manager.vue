@@ -1,36 +1,66 @@
 <template>
-  <div class="user-container">
-    <h2>Users</h2>
-    <vue-good-table
-      @on-column-filter="onColumnFilter"
-      @on-page-change="onPageChange"
-      @on-per-page-change="onPerPageChange"
-      @on-sort-change="onSortChange"
-      :mode="'remote'"
-      :columns="columns"
-      :rows="rows"
-      :totalRows="meta.total"
-      :lineNumbers="true"
-      :pagination-options="pagination"
-      styleClass="vgt-table table-bordered table-striped">
-      <template slot="table-row" slot-scope="props" v-if="props.column.field == 'name'">
-        {{ props.formattedRow[props.column.field] }}
-        <div class="action">
-          <router-link :to="'/user/update/' + props.row.id" class="text-warning">
-            <i class="glyphicon glyphicon-pencil"></i> Update
-          </router-link>
-          <span class="text-danger" v-if="parseInt(props.row.status) !== 3" v-on:click="handleDelete(props.row.id)">
-            <i class="glyphicon glyphicon-trash"></i> Delete
-          </span>
-        </div>
-      </template>
-    </vue-good-table>
+  <div class="menu-container">
+    <h2>Menus</h2>
+    <div class="row">
+      <div class="col-md-3">
+        <form method="post" v-on:submit.prevent="handleSave">
+          <div class="form-group">
+            <label>Label</label>
+            <input type="text" class="form-control input-sm" v-model="menu.label">
+          </div>
+          <div class="form-group">
+            <label>Url</label>
+            <input type="text" class="form-control input-sm" v-model="menu.url">
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea class="form-control input-sm" v-model="menu.description"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Type</label>
+            <select class="form-control input-sm" v-model="menu.type">
+              <option v-for="type in types" :key="type.name" :value="type.name">{{ type.label }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-9">
+        <vue-good-table
+          @on-column-filter="onColumnFilter"
+          @on-page-change="onPageChange"
+          @on-per-page-change="onPerPageChange"
+          @on-sort-change="onSortChange"
+          :mode="'remote'"
+          :columns="columns"
+          :rows="rows"
+          :totalRows="meta.total"
+          :lineNumbers="true"
+          :pagination-options="pagination"
+          styleClass="vgt-table table-bordered table-striped">
+          <template slot="table-row" slot-scope="props" v-if="props.column.field === 'label'">
+            {{ props.formattedRow[props.column.field] }}
+            <div class="action">
+              <span class="text-warning" v-on:click="handleUpdate(props.row.id)">
+                <i class="glyphicon glyphicon-pencil"></i> Update
+              </span>
+              <span class="text-danger" v-if="parseInt(props.row.status) !== 3" v-on:click="handleDelete(props.row.id)">
+                <i class="glyphicon glyphicon-trash"></i> Delete
+              </span>
+            </div>
+          </template>
+        </vue-good-table>
+      </div>
+    </div>
   </div>
 </template>
 
 <script type="text/javascript">
 
 import './../assets/style.css'
+import endpoints from '@/common/endpoints'
 
 export default {
   async created () {
@@ -45,11 +75,21 @@ export default {
     await this.loadData()
   },
   async mounted () {
-    await this.$store.commit('setTitle', 'Users')
+    await this.$store.dispatch('setting/fetchOption', 'contents')
+    await this.$store.commit('setTitle', 'Menus')
     await this.$store.commit('setBreadcrumbs', [
       {label: 'Board', link: '/'},
-      {label: 'Users'}
+      {label: 'Menus'}
     ])
+  },
+  computed: {
+    menu () {
+      return this.$store.getters['menu/getMenu']()
+    },
+    types () {
+      let contents = this.$store.getters['setting/getOption']('contents')
+      return contents.menus
+    }
   },
   methods: {
     async loadData () {
@@ -57,25 +97,34 @@ export default {
         clearTimeout(this.timeout)
       }
       this.timeout = setTimeout(async () => {
-        let data = await this.$store.dispatch('user/fetchUsers', {
-          params: this.serverParams
+        await endpoints.getMenus(this.serverParams).then(res => {
+          this.rows = res.data.data.map(menu => {
+            return menu.attributes
+          })
+          this.links = res.data.links
+          this.meta = res.data.meta
         })
-        this.rows = data.data.map(user => {
-          return user.attributes
-        })
-        this.links = data.links
-        this.meta = data.meta
       }, 500)
     },
+    async handleSave () {
+      let act = this.menu.id === 0 ? 'menu/createMenu' : 'menu/updateMenu'
+      await this.$store.dispatch(act, this.menu)
+      await this.$store.dispatch('menu/resetMenu')
+      await this.loadData()
+    },
+    async handleUpdate (id) {
+      await this.$store.dispatch('menu/resetMenu')
+      await this.$store.dispatch('menu/fetchMenu', id)
+    },
     async handleDelete (id) {
-      await this.$store.dispatch('user/deleteUser', id)
+      await this.$store.dispatch('menu/deleteMenu', id)
       await this.loadData()
     },
     onPerPageChange (params, x) {
       if (this.serverParams.size !== params.currentPerPage) {
         this.serverParams.size = parseInt(params.currentPerPage)
         this.$router.push({
-          path: '/user',
+          path: '/menu',
           query: this.serverParams
         })
         this.loadData()
@@ -85,7 +134,7 @@ export default {
       if (this.serverParams.page !== params.currentPage) {
         this.serverParams.page = parseInt(params.currentPage)
         this.$router.push({
-          path: '/user',
+          path: '/menu',
           query: this.serverParams
         })
         this.loadData()
@@ -97,7 +146,7 @@ export default {
       }
       this.serverParams.page = 1
       this.$router.push({
-        path: '/user',
+        path: '/menu',
         query: this.serverParams
       })
       this.loadData()
@@ -112,7 +161,7 @@ export default {
       }
 
       this.$router.push({
-        path: '/user',
+        path: '/menu',
         query: this.serverParams
       })
       this.loadData()
@@ -120,6 +169,7 @@ export default {
   },
   data: () => {
     return {
+      timeout: null,
       rows: [],
       links: {},
       meta: {
@@ -127,30 +177,30 @@ export default {
       },
       columns: [
         {
-          label: 'Name',
-          field: 'name',
+          label: 'Label',
+          field: 'label',
           tdClass: 'cell-min-300',
           filterOptions: {
             enabled: true
           }
         },
         {
-          label: 'Username',
-          field: 'username',
+          label: 'Type',
+          field: 'type',
           filterOptions: {
             enabled: true
           }
         },
         {
-          label: 'Email',
-          field: 'email',
+          label: 'Description',
+          field: 'description',
           filterOptions: {
             enabled: true
           }
         },
         {
-          label: 'Created',
-          field: 'created_at',
+          label: 'Url',
+          field: 'url',
           filterOptions: {
             enabled: true
           }
@@ -189,10 +239,10 @@ export default {
                 text = 'On Moderate'
                 break
               case 1:
-                text = 'Actived'
+                text = 'Published'
                 break
               default:
-                text = 'Inactive'
+                text = 'Unpublish'
                 break
             }
             return text

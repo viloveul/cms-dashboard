@@ -223,6 +223,12 @@
     text-decoration: none;
 }
 
-table.table .cell-min-300 {
+table > tbody > tr > *{
+    vertical-align: top !important;
+}
+table > tbody > tr > td.cell-min-300 {
     min-width: 300px;
+}
+table.vgt-table > tbody > tr > th.line-numbers {
+    padding: .75em;
 }

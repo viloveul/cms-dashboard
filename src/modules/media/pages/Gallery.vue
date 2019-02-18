@@ -12,7 +12,7 @@
       :totalRows="meta.total"
       :lineNumbers="true"
       :pagination-options="pagination"
-      styleClass="table condensed table-bordered table-striped">
+      styleClass="vgt-table table-bordered table-striped">
       <template slot="table-row" slot-scope="props" v-if="props.column.field == 'name'">
         <div class="media">
           <a class="media-left" v-on:click.prevent="handlePreview(props.row.id)">

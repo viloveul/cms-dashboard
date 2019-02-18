@@ -1,7 +1,7 @@
 {
-  "name": "viloveul-cms-admin",
+  "name": "viloveul-cms-dashboard",
   "version": "1.0.0",
-  "description": "A Vue.js project",
+  "description": "Viloveul CMS (Dashboard)",
   "author": "Fajrul Akbar Zuhdi <fajrulaz@gmail.com>",
   "private": true,
   "scripts": {
@@ -19,23 +19,21 @@
     "@ckeditor/ckeditor5-vue": "^1.0.0-beta.1",
     "axios": "0.*",
     "bootstrap": "3.*",
-    "luxon": "^1.10.0",
     "nprogress": "^0.2.0",
     "qs": "^6.6.0",
     "vue": "2.5.*",
-    "vue-datetime": "^1.0.0-beta.10",
+    "vue-draggable-nested-tree": "^2.2.6",
     "vue-good-table": "^2.16.0",
     "vue-router": "3.0.*",
     "vuejs-paginate": "^2.1.0",
-    "vuex": "3.0.*",
-    "weekstart": "^1.0.0"
+    "vuex": "3.0.*"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.22.1",
     "babel-eslint": "^7.2.3",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",
-    "babel-jest": "^21.0.2",
+    "babel-jest": "^24.1.0",
     "babel-loader": "^7.1.1",
     "babel-plugin-dynamic-import-node": "^1.2.0",
     "babel-plugin-syntax-jsx": "^6.18.0",

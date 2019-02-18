@@ -10,9 +10,7 @@ import VueGoodTablePlugin from 'vue-good-table'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'vue-good-table/dist/vue-good-table.css'
-import 'vue-datetime/dist/vue-datetime.css'
 import 'nprogress/nprogress.css'
-import '@/assets/dashbar.css'
 
 Vue.config.productionTip = false
 
@@ -34,7 +32,11 @@ http.interceptors.response.use(
     return res
   },
   err => {
-    if (err.response.status !== 404) {
+    if (err.response === undefined) {
+      store.commit('setErrors', [
+        'Oops network problem.'
+      ])
+    } else if (err.response.status !== 404) {
       let errors = err.response.data.errors.map(e => {
         return e.detail
       })

@@ -1,0 +1,42 @@
+.menu-container>h2 {
+    margin-top: 0px;
+    font-weight: bold;
+}
+
+.menu-container .draggable-placeholder {}
+
+.menu-container .draggable-placeholder-inner {
+    border: 1px dashed #0088F8;
+    box-sizing: border-box;
+    background: rgba(0, 136, 249, 0.09);
+    color: #0088f9;
+    text-align: center;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.menu-container .item-manager .tree-node-inner {
+    border: 1px solid #ccc;
+    background: #FFF;
+    padding: 10px;
+}
+
+.menu-container .item-manager .tree-node-inner div.item {
+    display: block;
+    position: relative;
+}
+
+.menu-container .item-manager .tree-node-inner div.item span.handler {
+    cursor: move;
+    width: 30px;
+    display: inline-block;
+    text-align: center;
+    background: #EEE;
+}
+
+.menu-container .item-manager .tree-node-inner div.item-editable {
+    margin: 20px 10px 0px 10px;
+    border: 1px solid #EEE;
+    padding: 15px 15px 0px;
+}

@@ -25,6 +25,11 @@ import {
 } from '@/modules/comment'
 
 import {
+  Manager as MenuManager,
+  Editor as MenuEditor
+} from '@/modules/menu'
+
+import {
   Gallery as MediaGallery,
   Uploader as MediaUploader
 } from '@/modules/media'
@@ -32,8 +37,7 @@ import {
 import {
   Tags as TagManager,
   Manager as PostManager,
-  Editor as PostEditor,
-  TagEdit
+  Editor as PostEditor
 } from '@/modules/post'
 
 Vue.use(VueRouter)
@@ -101,6 +105,14 @@ const routes = [
         component: TagManager
       },
       {
+        path: '/menu',
+        component: MenuManager
+      },
+      {
+        path: '/menu/editor',
+        component: MenuEditor
+      },
+      {
         path: '/media',
         component: MediaGallery
       },
@@ -119,10 +131,6 @@ const routes = [
       {
         path: '/post/update/:id',
         component: PostEditor
-      },
-      {
-        path: '/tag/update/:id',
-        component: TagEdit
       }
     ]
   }

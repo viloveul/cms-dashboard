@@ -37,7 +37,7 @@
           :totalRows="meta.total"
           :lineNumbers="true"
           :pagination-options="pagination"
-          styleClass="table table-condensed table-bordered table-striped">
+          styleClass="vgt-table table-condensed table-bordered table-striped">
           <template slot="table-row" slot-scope="props" v-if="props.column.field == 'name'">
             {{ props.formattedRow[props.column.field] }}
             <div class="action">

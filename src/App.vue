@@ -47,7 +47,8 @@ export default {
       await this.$router.push('/login')
     } else {
       await this.$store.dispatch('setting/fetchOption', 'brand')
-      await this.$store.dispatch('setting/fetchOption', 'tags')
+      await this.$store.dispatch('setting/fetchOption', 'contents')
+      await this.$store.dispatch('setting/fetchOption', 'moderations')
     }
   },
   methods: {

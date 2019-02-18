@@ -191,6 +191,40 @@ export default {
   },
 
   /**
+   * MENUS ENDPOINT
+   */
+  async getMenu ($id, $params) {
+    return http.get('/menu/detail/' + $id, {
+      params: $params || {}
+    })
+  },
+  async getMenus ($params) {
+    return http.get('/menu/index', {
+      params: $params || {}
+    })
+  },
+  async loadMenus ($type, $params) {
+    return http.get('/menu/load/' + $type, {
+      params: $params || {}
+    })
+  },
+  async createMenu ($data, $params) {
+    return http.post('/menu/create', qs.stringify($data), {
+      params: $params || {}
+    })
+  },
+  async updateMenu ($id, $data, $params) {
+    return http.post('/menu/update/' + $id, qs.stringify($data), {
+      params: $params || {}
+    })
+  },
+  async deleteMenu ($id, $params) {
+    return http.delete('/menu/delete/' + $id, {
+      params: $params || {}
+    })
+  },
+
+  /**
    * COMMENTS ENDPOINT
    */
   async getComment ($id, $params) {

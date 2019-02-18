@@ -6,7 +6,7 @@
         :key="index"
         :class="(activedIndex === index) ? 'active' : ''"
       >
-        <router-link v-if="menu.childs.length === 0" :to="menu.link" v-on:click.native="activedIndex = index">
+        <router-link v-if="menu.childs.length === 0" :to="menu.link" v-on:click.native="activedIndex = index" replace>
           <i :class="'glyphicon glyphicon-' + menu.icon"></i> {{ menu.label }}
         </router-link>
         <span v-if="menu.childs.length > 0" v-on:click="activedIndex = index">
@@ -14,7 +14,7 @@
         </span>
         <ul class="sidebar-nav" v-if="menu.childs.length > 0 && activedIndex === index">
           <li v-for="(child, indexChild) in menu.childs" :key="index + '-' + indexChild" :class="menu.actived === true ? 'active' : ''">
-            <router-link :to="child.link">{{ child.label }}</router-link>
+            <router-link :to="child.link" replace>{{ child.label }}</router-link>
           </li>
         </ul>
       </li>
@@ -184,6 +184,25 @@ export default {
           icon: 'comment',
           match: /^\/comment\/(detail|update)\/(\d+)$/,
           privilege: 'comment.index#access'
+        },
+        {
+          label: 'Menus',
+          link: '/menu',
+          icon: 'th-list',
+          match: /^\/menu\/editor$/,
+          privilege: 'menu.index#access',
+          childs: [
+            {
+              label: 'List Menus',
+              link: '/menu',
+              actived: false
+            },
+            {
+              label: 'Editor',
+              link: '/menu/editor',
+              actived: false
+            }
+          ]
         },
         {
           label: 'Setting',

@@ -45,13 +45,13 @@
           :totalRows="meta.total"
           :lineNumbers="true"
           :pagination-options="pagination"
-          styleClass="table table-condensed table-bordered table-striped">
+          styleClass="vgt-table table-bordered table-striped">
           <template slot="table-row" slot-scope="props" v-if="props.column.field == 'title'">
             {{ props.formattedRow[props.column.field] }}
             <div class="action">
-              <router-link :to="'/tag/update/' + props.row.id" class="text-warning">
+              <span class="text-warning" v-on:click="handleUpdate(props.row.id)">
                 <i class="glyphicon glyphicon-pencil"></i> Update
-              </router-link>
+              </span>
               <span class="text-danger" v-if="parseInt(props.row.status) !== 3" v-on:click="handleDelete(props.row.id)">
                 <i class="glyphicon glyphicon-trash"></i> Delete
               </span>
@@ -90,8 +90,8 @@ export default {
       {label: 'Board', link: '/'},
       {label: 'Tags'}
     ])
-    endpoints.getOption('tags').then(res => {
-      this.types = res.data.data.option
+    endpoints.getOption('contents').then(res => {
+      this.types = res.data.data.option.tags
     })
   },
   methods: {
@@ -104,9 +104,14 @@ export default {
       return false
     },
     async handleSave () {
-      await this.$store.dispatch('post/createTag', {...this.tag.attributes})
+      let act = this.tag.id === 0 ? 'post/createTag' : 'post/updateTag'
+      await this.$store.dispatch(act, {...this.tag.attributes})
       await this.$store.dispatch('post/resetTag')
       await this.loadData()
+    },
+    async handleUpdate (id) {
+      await this.$store.dispatch('post/resetTag')
+      await this.$store.dispatch('post/fetchTag', id)
     },
     async handleDelete (id) {
       await this.$store.dispatch('post/deleteTag', id)

@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import user from '@/modules/user/module'
 import post from '@/modules/post/module'
 import media from '@/modules/media/module'
+import menu from '@/modules/menu/module'
 import comment from '@/modules/comment/module'
 import setting from '@/modules/setting/module'
 
@@ -62,6 +63,7 @@ const store = new Vuex.Store({
     user,
     media,
     post,
+    menu,
     comment,
     setting
   }

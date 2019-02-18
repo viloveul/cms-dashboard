@@ -1,6 +1,6 @@
 {
-    "name": "zafex/viloveul-cms-admin",
-    "description": "Viloveul CMS (UI)",
+    "name": "zafex/viloveul-cms-dashboard",
+    "description": "Viloveul CMS (Dashboard)",
     "type": "package",
     "license": "MIT",
     "authors": [{
