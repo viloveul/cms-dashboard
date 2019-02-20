@@ -114,7 +114,7 @@ export default {
           label: 'Roles',
           link: '/role',
           icon: 'transfer',
-          match: /^\/role\/(update|detail|assignment)(\/\d+)?$/,
+          match: /^\/role\/(update|detail|assignment)?$/,
           privilege: 'role.index#access',
           childs: [
             {

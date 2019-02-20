@@ -41,9 +41,9 @@
           <template slot="table-row" slot-scope="props" v-if="props.column.field == 'name'">
             {{ props.formattedRow[props.column.field] }}
             <div class="action">
-              <router-link :to="'/role/update/' + props.row.id" class="text-warning">
+              <span class="text-warning" v-on:click="handleUpdate(props.row.id)">
                 <i class="glyphicon glyphicon-pencil"></i> Update
-              </router-link>
+              </span>
             </div>
           </template>
         </vue-good-table>
@@ -80,11 +80,33 @@ export default {
       {label: 'Board', link: '/'},
       {label: 'Roles'}
     ])
+    if (this.$route.query.id !== undefined) {
+      await this.loadUpdate(this.$route.query.id)
+    }
   },
   methods: {
-    async handleSave () {
-      await this.$store.dispatch('user/createRole', {...this.role.attributes})
+    async loadUpdate (id) {
       await this.$store.dispatch('user/resetRole')
+      await this.$store.dispatch('user/fetchRole', id)
+    },
+    async handleUpdate (id) {
+      await this.loadUpdate(id)
+      await this.$router.push({
+        path: '/role',
+        query: {id}
+      })
+    },
+    async handleSave () {
+      let act = this.role.attributes.id === 0 ? 'user/createRole' : 'user/updateRole'
+      await this.$store.dispatch(act, {...this.role.attributes})
+      await this.$store.dispatch('user/resetRole')
+      await this.$router.push('/role')
+      this.serverParams = {
+        order: 'id',
+        sort: 'desc',
+        page: 1,
+        size: 10
+      }
       await this.loadData()
     },
     async loadData () {

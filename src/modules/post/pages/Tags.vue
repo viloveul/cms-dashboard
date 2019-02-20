@@ -90,9 +90,12 @@ export default {
       {label: 'Board', link: '/'},
       {label: 'Tags'}
     ])
-    endpoints.getOption('contents').then(res => {
+    await endpoints.getOption('contents').then(res => {
       this.types = res.data.data.option.tags
     })
+    if (this.$route.query.id !== undefined) {
+      await this.loadUpdate(this.$route.query.id)
+    }
   },
   methods: {
     isFormatCategory () {
@@ -103,15 +106,29 @@ export default {
       }
       return false
     },
+    async loadUpdate (id) {
+      await this.$store.dispatch('post/resetTag')
+      await this.$store.dispatch('post/fetchTag', id)
+    },
+    async handleUpdate (id) {
+      await this.loadUpdate(id)
+      await this.$router.push({
+        path: '/tag',
+        query: {id}
+      })
+    },
     async handleSave () {
       let act = this.tag.id === 0 ? 'post/createTag' : 'post/updateTag'
       await this.$store.dispatch(act, {...this.tag.attributes})
       await this.$store.dispatch('post/resetTag')
+      await this.$router.push('/tag')
+      this.serverParams = {
+        order: 'id',
+        sort: 'desc',
+        page: 1,
+        size: 10
+      }
       await this.loadData()
-    },
-    async handleUpdate (id) {
-      await this.$store.dispatch('post/resetTag')
-      await this.$store.dispatch('post/fetchTag', id)
     },
     async handleDelete (id) {
       await this.$store.dispatch('post/deleteTag', id)

@@ -9,8 +9,7 @@ import {
   Manager as UserManager,
   Editor as UserEditor,
   Assignment as RoleAssignment,
-  Roles,
-  RoleEdit
+  Roles
 } from '@/modules/user'
 
 import {
@@ -87,10 +86,6 @@ const routes = [
       {
         path: '/role',
         component: Roles
-      },
-      {
-        path: '/role/update/:id',
-        component: RoleEdit
       },
       {
         path: '/comment',

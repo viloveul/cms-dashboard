@@ -81,6 +81,9 @@ export default {
       {label: 'Board', link: '/'},
       {label: 'Menus'}
     ])
+    if (this.$route.query.id !== undefined) {
+      await this.loadUpdate(this.$route.query.id)
+    }
   },
   computed: {
     menu () {
@@ -92,6 +95,17 @@ export default {
     }
   },
   methods: {
+    async loadUpdate (id) {
+      await this.$store.dispatch('menu/resetMenu')
+      await this.$store.dispatch('menu/fetchMenu', id)
+    },
+    async handleUpdate (id) {
+      await this.loadUpdate(id)
+      await this.$router.push({
+        path: '/menu',
+        query: {id}
+      })
+    },
     async loadData () {
       if (this.timeout !== null) {
         clearTimeout(this.timeout)
@@ -110,11 +124,14 @@ export default {
       let act = this.menu.id === 0 ? 'menu/createMenu' : 'menu/updateMenu'
       await this.$store.dispatch(act, this.menu)
       await this.$store.dispatch('menu/resetMenu')
+      await this.$router.push('/menu')
+      this.serverParams = {
+        order: 'id',
+        sort: 'desc',
+        page: 1,
+        size: 10
+      }
       await this.loadData()
-    },
-    async handleUpdate (id) {
-      await this.$store.dispatch('menu/resetMenu')
-      await this.$store.dispatch('menu/fetchMenu', id)
     },
     async handleDelete (id) {
       await this.$store.dispatch('menu/deleteMenu', id)
