@@ -2,14 +2,16 @@
 <html>
 <head>
 	<title>Proxy</title>
+	<meta name="robots" content="noindex, nofollow">
 </head>
 <body>
 	<script type="text/javascript">
 		"use strict";
 		var handler = function (event) {
 			if (event.data === 'viloveul.read') {
-				var url = window.localStorage.getItem('url');
-				if (url === event.origin && confirm("Share token with " + event.origin + " ?")) {
+				var url = window.localStorage.getItem('general:url') || '/';
+				var brand = window.localStorage.getItem('general:brand') || 'Viloveul';
+				if (url === event.origin || confirm("Share your access token on Dashboard " + brand + " with " + event.origin + " ?")) {
 					event.source.postMessage(JSON.stringify(window.localStorage), event.origin);
 				} else {
 					event.source.postMessage('{}', event.origin);

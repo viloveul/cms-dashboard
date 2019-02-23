@@ -19,7 +19,7 @@ const actions = {
     await context.commit('setPrivileges', [])
   },
   resetToken: async (context) => {
-    await window.localStorage.clear()
+    await window.localStorage.removeItem(general.getTokenKey())
     await context.dispatch('resetMe')
   },
   requestToken: async (context, payload) => {

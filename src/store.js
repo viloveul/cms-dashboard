@@ -13,7 +13,8 @@ Vue.use(Vuex)
 const state = {
   redirect: '/',
   breadcrumbs: [],
-  errors: []
+  errors: [],
+  status: 200
 }
 
 const mutations = {
@@ -30,6 +31,9 @@ const mutations = {
   },
   setRedirection: (context, path) => {
     context.redirect = path
+  },
+  setStatus: (context, code) => {
+    context.status = parseInt(code)
   }
 }
 
@@ -45,6 +49,9 @@ const getters = {
   },
   getRedirect: (context) => () => {
     return context.redirect
+  },
+  getStatus: (context) => () => {
+    return parseInt(context.status)
   }
 }
 

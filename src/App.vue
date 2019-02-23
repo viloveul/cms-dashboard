@@ -3,30 +3,25 @@
     <aside class="board-sidebar">
       <h3 class="brand">
         <a :href="getOption('url')" v-if="getOption('url') !== null && getOption('url') !== '/'">
-          <i class="glyphicon glyphicon-home"></i> {{ getOption('brand') }}
+          {{ getOption('brand') }}
         </a>
         <router-link :to="'/'" v-else>
-          <i class="glyphicon glyphicon-home"></i> {{ getOption('brand') }}
+          {{ getOption('brand') }}
         </router-link>
       </h3>
-      <div class="sidebar-inner">
-        <NavMenu :path="$route.path" :privileges="privileges" />
-      </div>
+      <NavMenu :path="$route.path" :privileges="privileges" />
     </aside>
     <div class="board-wrapper">
-      <div class="wrapper-head" v-if="breadcrumbs.length > 0">
+      <header v-if="breadcrumbs.length > 0">
         <Breadcrumbs :items="breadcrumbs" />
-        <p class="me">
-          {{ me.nickname || me.name }}
-        </p>
-      </div>
-      <div class="wrapper-body">
+      </header>
+      <main class="wrapper-body">
         <div class="alert alert-danger" v-for="(error, index) in errors" :key="index">
           {{ error }}
           <span class="close" v-on:click="handleDeleteError(index)">&times;</span>
         </div>
-        <router-view></router-view>
-      </div>
+        <router-view :key="$route.path"></router-view>
+      </main>
     </div>
   </div>
 </template>
@@ -45,19 +40,30 @@ export default {
   },
   async mounted () {
     await this.$store.dispatch('user/fetchMe')
+    let url = await this.$store.dispatch('setting/fetchOption', 'url')
+    let brand = await this.$store.dispatch('setting/fetchOption', 'brand')
+    let email = await this.$store.dispatch('setting/fetchOption', 'email')
+    let description = await this.$store.dispatch('setting/fetchOption', 'description')
+    let banner = await this.$store.dispatch('setting/fetchOption', 'banner')
+    window.localStorage.setItem('general:url', url)
+    window.localStorage.setItem('general:brand', brand)
+    window.localStorage.setItem('general:email', email)
+    window.localStorage.setItem('general:description', description)
+    window.localStorage.setItem('general:banner', banner)
     if (this.me.id === 0) {
       await this.$router.push('/login')
-    } else {
-      let url = await this.$store.dispatch('setting/fetchOption', 'url')
-      await this.$store.dispatch('setting/fetchOption', 'brand')
-      await this.$store.dispatch('setting/fetchOption', 'contents')
-      await this.$store.dispatch('setting/fetchOption', 'moderations')
-      window.localStorage.setItem('url', url)
     }
   },
   methods: {
     handleDeleteError (index) {
       this.errors.splice(index, 1)
+    }
+  },
+  watch: {
+    async status (v) {
+      if (v === 401) {
+        await this.$router.push('/login')
+      }
     }
   },
   computed: {
@@ -75,6 +81,9 @@ export default {
     },
     privileges () {
       return this.$store.getters['user/getPrivileges']()
+    },
+    status () {
+      return this.$store.getters['getStatus']()
     }
   }
 }

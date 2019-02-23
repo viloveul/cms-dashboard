@@ -81,6 +81,9 @@ export default {
     },
     async handleSave () {
       await this.$store.dispatch('setting/updateOption', this.options)
+      for (let i in this.options) {
+        window.localStorage.setItem('general:' + i, this.options[i])
+      }
     }
   },
   data () {

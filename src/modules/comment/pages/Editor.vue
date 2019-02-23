@@ -62,11 +62,8 @@
 import './../assets/style.css'
 
 export default {
-  async beforeRouteLeave (to, from, next) {
-    await this.$store.dispatch('comment/resetComment')
-    next()
-  },
   async mounted () {
+    await this.$store.dispatch('comment/resetComment')
     await this.$store.dispatch('comment/fetchComment', this.$route.params.id)
     await this.$store.commit('setTitle', 'Comment Editor')
     await this.$store.commit('setBreadcrumbs', [

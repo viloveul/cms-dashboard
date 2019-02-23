@@ -111,6 +111,7 @@ export default {
     TagPanel
   },
   async mounted () {
+    await this.$store.dispatch('post/resetPost')
     await this.$store.dispatch('post/fetchTags')
     await this.$store.dispatch('setting/fetchOption', 'contents')
     await this.$store.commit('setTitle', 'Post Editor')
@@ -128,10 +129,6 @@ export default {
     let contents = this.$store.getters['setting/getOption']('contents', [])
     this.postTypes = contents.posts
     this.tagTypes = contents.tags
-  },
-  async beforeRouteLeave (to, from, next) {
-    await this.$store.dispatch('post/resetPost')
-    next()
   },
   methods: {
     isFormatPost () {

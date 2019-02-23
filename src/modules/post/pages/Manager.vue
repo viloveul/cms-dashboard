@@ -71,8 +71,8 @@ export default {
       await this.$store.dispatch('post/deletePost', id)
       await this.loadData()
     },
-    onPerPageChange (params, x) {
-      if (this.serverParams.size !== params.currentPerPage) {
+    onPerPageChange (params) {
+      if (this.serverParams.size !== params.currentPerPage && this.serverParams.size !== undefined) {
         this.serverParams.size = parseInt(params.currentPerPage)
         this.$router.push({
           path: '/post',

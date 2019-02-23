@@ -59,10 +59,6 @@ import './../assets/style.css'
 import endpoints from '@/common/endpoints'
 
 export default {
-  async beforeRouteLeave (to, from, next) {
-    await this.$store.dispatch('user/resetRole')
-    next()
-  },
   async created () {
     this.serverParams = {...this.$route.query}
     this.pagination.setCurrentPage = parseInt(this.serverParams.page || 1)
@@ -75,13 +71,14 @@ export default {
     await this.loadData()
   },
   async mounted () {
+    await this.$store.dispatch('user/resetRole')
     await this.$store.commit('setTitle', 'Roles')
     await this.$store.commit('setBreadcrumbs', [
       {label: 'Board', link: '/'},
       {label: 'Roles'}
     ])
-    if (this.$route.query.id !== undefined) {
-      await this.loadUpdate(this.$route.query.id)
+    if (this.$route.params.id !== undefined) {
+      await this.loadUpdate(this.$route.params.id)
     }
   },
   methods: {
@@ -91,10 +88,7 @@ export default {
     },
     async handleUpdate (id) {
       await this.loadUpdate(id)
-      await this.$router.push({
-        path: '/role',
-        query: {id}
-      })
+      await this.$router.push('/role/update/' + id)
     },
     async handleSave () {
       let act = this.role.attributes.id === 0 ? 'user/createRole' : 'user/updateRole'
@@ -123,8 +117,8 @@ export default {
         })
       }, 500)
     },
-    onPerPageChange (params, x) {
-      if (this.serverParams.size !== params.currentPerPage) {
+    onPerPageChange (params) {
+      if (this.serverParams.size !== params.currentPerPage && this.serverParams.size !== undefined) {
         this.serverParams.size = parseInt(params.currentPerPage)
         this.$router.push({
           path: '/role',

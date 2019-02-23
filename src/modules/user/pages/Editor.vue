@@ -65,6 +65,7 @@ import './../assets/style.css'
 
 export default {
   async mounted () {
+    await this.$store.dispatch('user/resetUser')
     await this.$store.commit('setTitle', 'User Editor')
     await this.$store.commit('setBreadcrumbs', [
       {label: 'Board', link: '/'},
@@ -78,10 +79,6 @@ export default {
         return role.id
       })
     }
-  },
-  async beforeRouteLeave (to, from, next) {
-    next()
-    await this.$store.dispatch('user/resetUser')
   },
   methods: {
     async handleSave () {

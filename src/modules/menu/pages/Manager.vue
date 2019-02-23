@@ -75,14 +75,15 @@ export default {
     await this.loadData()
   },
   async mounted () {
+    await this.$store.dispatch('menu/resetMenu')
     await this.$store.dispatch('setting/fetchOption', 'contents')
     await this.$store.commit('setTitle', 'Menus')
     await this.$store.commit('setBreadcrumbs', [
       {label: 'Board', link: '/'},
       {label: 'Menus'}
     ])
-    if (this.$route.query.id !== undefined) {
-      await this.loadUpdate(this.$route.query.id)
+    if (this.$route.params.id !== undefined) {
+      await this.loadUpdate(this.$route.params.id)
     }
   },
   computed: {
@@ -96,15 +97,11 @@ export default {
   },
   methods: {
     async loadUpdate (id) {
-      await this.$store.dispatch('menu/resetMenu')
       await this.$store.dispatch('menu/fetchMenu', id)
     },
     async handleUpdate (id) {
       await this.loadUpdate(id)
-      await this.$router.push({
-        path: '/menu',
-        query: {id}
-      })
+      await this.$router.push('/menu/update/' + id)
     },
     async loadData () {
       if (this.timeout !== null) {
@@ -137,8 +134,8 @@ export default {
       await this.$store.dispatch('menu/deleteMenu', id)
       await this.loadData()
     },
-    onPerPageChange (params, x) {
-      if (this.serverParams.size !== params.currentPerPage) {
+    onPerPageChange (params) {
+      if (this.serverParams.size !== params.currentPerPage && this.serverParams.size !== undefined) {
         this.serverParams.size = parseInt(params.currentPerPage)
         this.$router.push({
           path: '/menu',

@@ -6,7 +6,7 @@
         :key="index"
         :class="(activedIndex === index) ? 'active' : ''"
       >
-        <router-link v-if="menu.childs.length === 0" :to="menu.link" v-on:click.native="activedIndex = index" replace>
+        <router-link v-if="menu.childs.length === 0" :to="menu.link" v-on:click.native="activedIndex = index">
           <i :class="'glyphicon glyphicon-' + menu.icon"></i> {{ menu.label }}
         </router-link>
         <span v-if="menu.childs.length > 0" v-on:click="activedIndex = index">
@@ -14,7 +14,7 @@
         </span>
         <ul class="sidebar-nav" v-if="menu.childs.length > 0 && activedIndex === index">
           <li v-for="(child, indexChild) in menu.childs" :key="index + '-' + indexChild" :class="menu.actived === true ? 'active' : ''">
-            <router-link :to="child.link" replace>{{ child.label }}</router-link>
+            <router-link :to="child.link">{{ child.label }}</router-link>
           </li>
         </ul>
       </li>
@@ -114,7 +114,7 @@ export default {
           label: 'Roles',
           link: '/role',
           icon: 'transfer',
-          match: /^\/role\/(update|detail|assignment)?$/,
+          match: /^\/role\/(update\/\d+|detail\/\d+|assignment\/\d+)?$/,
           privilege: 'role.index#access',
           childs: [
             {

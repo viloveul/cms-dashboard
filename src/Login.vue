@@ -38,7 +38,6 @@ export default {
   name: 'Login',
   data () {
     return {
-      brand: 'Viloveul',
       username: null,
       password: null
     }
@@ -58,11 +57,14 @@ export default {
   async mounted () {
     await this.$store.commit('setTitle', 'Login')
     await this.$store.dispatch('user/resetToken')
-    this.brand = await this.$store.dispatch('setting/fetchOption', 'brand')
+    await this.$store.dispatch('setting/fetchOption', 'brand')
   },
   computed: {
     errors () {
       return this.$store.getters['getErrors']()
+    },
+    brand () {
+      return this.$store.getters['setting/getOption']('brand', 'Viloveul')
     },
     me () {
       return this.$store.getters['user/getMe']()

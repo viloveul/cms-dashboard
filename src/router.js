@@ -88,6 +88,10 @@ const routes = [
         component: Roles
       },
       {
+        path: '/role/update/:id',
+        component: Roles
+      },
+      {
         path: '/comment',
         component: CommentManager
       },
@@ -96,11 +100,11 @@ const routes = [
         component: CommentEditor
       },
       {
-        path: '/tag',
-        component: TagManager
+        path: '/menu',
+        component: MenuManager
       },
       {
-        path: '/menu',
+        path: '/menu/update/:id',
         component: MenuManager
       },
       {
@@ -126,6 +130,14 @@ const routes = [
       {
         path: '/post/update/:id',
         component: PostEditor
+      },
+      {
+        path: '/tag',
+        component: TagManager
+      },
+      {
+        path: '/tag/update/:id',
+        component: TagManager
       }
     ]
   }

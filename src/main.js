@@ -28,11 +28,13 @@ http.interceptors.request.use(config => {
 
 http.interceptors.response.use(
   res => {
+    store.commit('setStatus', res.status)
     NProgress.done()
     return res
   },
   err => {
     if (err.response === undefined) {
+      store.commit('setStatus', 500)
       store.commit('setErrors', [
         'Oops network problem.'
       ])
@@ -40,6 +42,7 @@ http.interceptors.response.use(
       let errors = err.response.data.errors.map(e => {
         return e.detail
       })
+      store.commit('setStatus', err.response.status)
       store.commit('setErrors', errors)
     }
     NProgress.done()
@@ -49,7 +52,9 @@ http.interceptors.response.use(
 
 router.beforeEach((to, from, next) => {
   if (to.path !== from.path) {
-    store.dispatch('resetErrors')
+    if (to.path !== '/login') {
+      store.dispatch('resetErrors')
+    }
     store.commit('setBreadcrumbs', [])
     store.commit('setTitle', 'Viloveul')
   }
