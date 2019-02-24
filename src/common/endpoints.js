@@ -225,6 +225,20 @@ export default {
   },
 
   /**
+   * WIDGET
+   */
+  async getWidgetAvailables ($params) {
+    return http.get('/widget/availables', {
+      params: $params || {}
+    })
+  },
+  async getWidgetItems ($type, $params) {
+    return http.get('/widget/load/' + $type, {
+      params: $params || {}
+    })
+  },
+
+  /**
    * COMMENTS ENDPOINT
    */
   async getComment ($id, $params) {

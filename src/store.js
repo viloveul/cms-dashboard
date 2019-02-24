@@ -7,6 +7,7 @@ import media from '@/modules/media/module'
 import menu from '@/modules/menu/module'
 import comment from '@/modules/comment/module'
 import setting from '@/modules/setting/module'
+import widget from '@/modules/widget/module'
 
 Vue.use(Vuex)
 
@@ -72,7 +73,8 @@ const store = new Vuex.Store({
     post,
     menu,
     comment,
-    setting
+    setting,
+    widget
   }
 })
 

@@ -39,6 +39,8 @@ import {
   Editor as PostEditor
 } from '@/modules/post'
 
+import { Manager as Widget } from '@/modules/widget'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -138,6 +140,14 @@ const routes = [
       {
         path: '/tag/update/:id',
         component: TagManager
+      },
+      {
+        path: '/widget',
+        component: Widget
+      },
+      {
+        path: '/widget/:type',
+        component: Widget
       }
     ]
   }

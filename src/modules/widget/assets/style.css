@@ -1,0 +1,41 @@
+.widget-container>h2 {
+    margin-top: 0px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+.widget-item {
+	box-sizing: border-box;
+	border: 1px solid #CCC;
+	margin: 5px auto;
+	background: #fcfcfc;
+}
+.widget-item .item-header {
+	display: block;
+	position: relative;
+	padding: 10px 10px 10px 40px;
+	height: 40px;
+	overflow: hidden;
+}
+.widget-item .item-header .handler {
+	width: 30px;
+	background: #CCC;
+	position: absolute;
+	top: 0px;
+	vertical-align: middle;
+	font-size: 25px;
+	text-align: center;
+	left: 0px;
+	height: 100%;
+	cursor: move;
+}
+.widget-item .item-header .text {
+	cursor: pointer;
+	display: block;
+}
+.widget-item .item-body {
+	border-top: 1px solid #CCC;
+	padding: 5px 10px;
+}
+.widget-item .item-body .form-group {
+	margin: 5px auto;
+}

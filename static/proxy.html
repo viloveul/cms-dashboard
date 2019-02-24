@@ -8,15 +8,27 @@
 	<script type="text/javascript">
 		"use strict";
 		var handler = function (event) {
-			if (event.data === 'viloveul.read') {
-				var url = window.localStorage.getItem('general:url') || '/';
-				var brand = window.localStorage.getItem('general:brand') || 'Viloveul';
+			var url = window.localStorage.getItem('general:url') || '/';
+			var brand = window.localStorage.getItem('general:brand') || 'Viloveul';
+			var keys = Object.keys(window.localStorage)
+			if (event.data === 'viloveul.token') {
 				if (url === event.origin || confirm("Share your access token on Dashboard " + brand + " with " + event.origin + " ?")) {
-					event.source.postMessage(JSON.stringify(window.localStorage), event.origin);
+					event.source.postMessage(window.localStorage.getItem('vtoken'), event.origin);
 				} else {
-					event.source.postMessage('{}', event.origin);
+					event.source.postMessage('e', event.origin);
 				}
-			} else if (event.data === 'viloveul.clear') {
+			} else if (event.data !== 'viloveul.clear') {
+				try {
+					var parsed = JSON.parse(event.data);
+					for (var a in parsed) {
+						if (a.search(/^features:/) !== -1) {
+							window.localStorage.setItem(a, JSON.stringify(parsed[a]))
+						}
+					}
+				} catch (e) {
+					event.source.postMessage('e', event.origin);
+				}
+			} else {
 				window.localStorage.clear()
 			}
 			window.removeEventListener('message', handler, true);

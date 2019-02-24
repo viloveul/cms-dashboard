@@ -184,6 +184,12 @@ export default {
           privilege: 'comment.index#access'
         },
         {
+          label: 'Widgets',
+          link: '/widget',
+          icon: 'link',
+          privilege: 'widget.availables#access'
+        },
+        {
           label: 'Menus',
           link: '/menu',
           icon: 'th-list',

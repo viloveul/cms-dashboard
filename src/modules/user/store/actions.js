@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import initial from '@/modules/user/store/initial'
-import general from '@/common/general'
 import endpoints from '@/common/endpoints'
 
 const actions = {
@@ -19,13 +18,13 @@ const actions = {
     await context.commit('setPrivileges', [])
   },
   resetToken: async (context) => {
-    await window.localStorage.removeItem(general.getTokenKey())
+    await window.localStorage.removeItem('vtoken')
     await context.dispatch('resetMe')
   },
   requestToken: async (context, payload) => {
     await context.dispatch('resetToken')
     let { data } = await endpoints.requestToken(payload)
-    await window.localStorage.setItem(general.getTokenKey(), data.data.token)
+    await window.localStorage.setItem('vtoken', data.data.token)
     await context.dispatch('fetchMe')
     return data.data.token
   },

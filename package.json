@@ -25,6 +25,7 @@
     "vue-draggable-nested-tree": "^2.2.6",
     "vue-good-table": "^2.16.0",
     "vue-router": "3.0.*",
+    "vuedraggable": "^2.17.0",
     "vuejs-paginate": "^2.1.0",
     "vuex": "3.0.*"
   },
