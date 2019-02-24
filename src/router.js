@@ -53,11 +53,6 @@ const routes = [
     component: App,
     children: [
       {
-        path: '',
-        exact: true,
-        component: UserProfile
-      },
-      {
         path: '/setting',
         component: GeneralSetting
       },
@@ -148,6 +143,17 @@ const routes = [
       {
         path: '/widget/:type',
         component: Widget
+      },
+      {
+        path: '',
+        exact: true,
+        component: UserProfile
+      },
+      {
+        path: '/*',
+        component: () => {
+          window.location.href = '/'
+        }
       }
     ]
   }

@@ -187,6 +187,7 @@ export default {
           label: 'Widgets',
           link: '/widget',
           icon: 'link',
+          match: /^\/widget$/,
           privilege: 'widget.availables#access'
         },
         {
