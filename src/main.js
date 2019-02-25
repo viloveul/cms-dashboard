@@ -33,6 +33,7 @@ http.interceptors.response.use(
     return res
   },
   err => {
+    store.dispatch('resetErrors')
     if (err.response === undefined) {
       store.commit('setStatus', 500)
       store.commit('setErrors', [

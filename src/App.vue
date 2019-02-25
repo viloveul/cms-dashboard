@@ -38,7 +38,7 @@ export default {
     NavMenu,
     Breadcrumbs
   },
-  async created () {
+  async mounted () {
     await this.$store.dispatch('user/fetchMe')
     if (this.me.id === 0) {
       await this.$router.replace('/login')

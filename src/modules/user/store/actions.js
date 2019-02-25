@@ -29,12 +29,10 @@ const actions = {
     return data.data.token
   },
   fetchMe: async (context) => {
-    await endpoints.getMe().then(async (res) => {
-      await context.commit('setMe', res.data.data.attributes)
-      await context.commit('setPrivileges', res.data.meta.privileges)
-    }).catch(async (e) => {
-      await context.dispatch('resetToken')
-    })
+    let res = await endpoints.getMe()
+    await context.commit('setMe', res.data.data.attributes)
+    await context.commit('setPrivileges', res.data.meta.privileges)
+    return res.data.data.attributes
   },
   createUser: async (context, payload) => {
     let { data } = await endpoints.createUser(payload)
