@@ -41,9 +41,8 @@
             </h4>
           </div>
           <div class="modal-body">
-            <div style="max-height: 300px; overflow-x: auto;">
-              <img :src="uploadedFile.image_url" style="max-width: 100%;">
-            </div>
+            <code>{{ uploadedFile.url }}</code>
+            <img :src="uploadedFile.image_url" style="max-width: 100%;">
           </div>
           <div class="modal-footer">
             <span class="btn btn-danger" v-on:click="handleDelete(uploadedFile.id)">Delete</span>

@@ -1,6 +1,9 @@
 import initial from '@/modules/user/store/initial'
 
 export default {
+  setProfile: (state, profile) => {
+    state.profile = Object.assign({}, initial.profile, profile)
+  },
   setUser: (state, user) => {
     state.user = Object.assign({}, initial.user, user)
   },

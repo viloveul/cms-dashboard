@@ -37,6 +37,23 @@ export default {
       params: $params || {}
     })
   },
+  async getProfile ($id, $params) {
+    return http.get('/profile/detail/' + $id, {
+      params: $params || {}
+    })
+  },
+  async updateProfile ($id, $data, $params) {
+    return http.post('/profile/update/' + $id, qs.stringify($data), {
+      params: $params || {}
+    })
+  },
+  async syncUserRelations ($id, $data) {
+    return http.post('/user/relations/' + $id, JSON.stringify($data), {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  },
   async updateUser ($id, $data, $params) {
     return http.post('/user/update/' + $id, qs.stringify($data), {
       params: $params || {}

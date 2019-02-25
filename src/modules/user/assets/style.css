@@ -3,6 +3,33 @@
     margin-bottom: 15px;
     font-weight: bold;
 }
+.user-container table.profile,
+.user-container table.profile * {
+  background: none !important;
+  border: none !important;
+}
+.user-container table.profile td {
+  padding: 0px !important;
+}
+.user-container table.profile td.key {
+  width: 75px !important;
+}
+.user-container table.profile td.colon {
+  width: 10px !important;
+}
 .user-container>form {
 	max-width: 600px;
+}
+.user-container .form-edit-profile {
+	position: relative;
+}
+.user-container .form-edit-profile .edit-handler {
+	position: absolute;
+	top: 0;
+	right: 0;
+	cursor: pointer;
+	visibility: hidden;
+}
+.user-container .form-edit-profile:hover .edit-handler {
+	visibility: visible;
 }

@@ -5,6 +5,9 @@ export default {
   getMe: (state) => () => {
     return state.me
   },
+  getProfile: (state) => () => {
+    return state.profile
+  },
   getPrivileges: (state) => () => {
     return state.privileges
   },

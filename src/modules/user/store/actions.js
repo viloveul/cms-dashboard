@@ -47,6 +47,14 @@ const actions = {
     let { data } = await endpoints.updateUser(payload.id, payload)
     return data.data.attributes
   },
+  syncRelations: async (context, payload) => {
+    let { data } = await endpoints.syncUserRelations(payload.id, payload.relations)
+    return data.data.attributes
+  },
+  updateProfile: async (context, payload) => {
+    let { data } = await endpoints.updateProfile(payload.id, payload.params)
+    return data.data.attributes
+  },
   fetchUsers: async (context, payload) => {
     let { data } = await endpoints.getUsers(payload.params)
     return data
@@ -55,6 +63,11 @@ const actions = {
     let { data } = await endpoints.getUser(payload)
     await context.commit('setUser', data.data)
     return data.data
+  },
+  fetchProfile: async (context, payload) => {
+    let { data } = await endpoints.getProfile(payload)
+    await context.commit('setProfile', data.data.attributes)
+    return data.data.attributes
   },
   fetchRoles: async (context, payload) => {
     let { data } = await endpoints.getAllRoles(payload)

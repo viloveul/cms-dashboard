@@ -13,6 +13,12 @@ export default {
       }
     }
   },
+  profile: {
+    phone: '',
+    website: '',
+    birthday: '',
+    quote: ''
+  },
   user: {
     attributes: {
       id: 0,

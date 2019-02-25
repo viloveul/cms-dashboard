@@ -105,11 +105,10 @@ export default {
   display: block;
 }
 .modal-body .content {
-  height: 50vh;
+  min-height: 50vh;
   padding: 20px;
   margin: 15px auto;
   border: 1px solid #CCC;
-  overflow-x: auto;
 }
 .content .thumbnail {
     position: relative;

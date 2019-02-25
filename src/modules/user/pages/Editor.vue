@@ -83,8 +83,11 @@ export default {
   methods: {
     async handleSave () {
       let action = this.user.id > 0 ? 'user/updateUser' : 'user/createUser'
-      await this.$store.dispatch(action, {
-        ...this.user.attributes,
+      let user = await this.$store.dispatch(action, {
+        ...this.user.attributes
+      })
+      await this.$store.dispatch('user/syncRelations', {
+        id: user.id,
         relations: this.relations
       })
       await this.$store.dispatch('user/resetUser')
