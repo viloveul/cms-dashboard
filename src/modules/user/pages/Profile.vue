@@ -149,8 +149,9 @@ export default {
     }
   },
   async mounted () {
-    await this.$store.dispatch('user/fetchMe')
-    await this.$store.dispatch('user/fetchProfile', this.me.id)
+    if (this.me.id !== 0) {
+      await this.$store.dispatch('user/fetchProfile', this.me.id)
+    }
   },
   methods: {
     async handleSaveAccount () {

@@ -38,8 +38,11 @@ export default {
     NavMenu,
     Breadcrumbs
   },
-  async mounted () {
+  async created () {
     await this.$store.dispatch('user/fetchMe')
+    if (this.me.id === 0) {
+      await this.$router.replace('/login')
+    }
     let url = await this.$store.dispatch('setting/fetchOption', 'url')
     let brand = await this.$store.dispatch('setting/fetchOption', 'brand')
     let email = await this.$store.dispatch('setting/fetchOption', 'email')
@@ -50,9 +53,6 @@ export default {
     window.localStorage.setItem('general:email', email)
     window.localStorage.setItem('general:description', description)
     window.localStorage.setItem('general:banner', banner)
-    if (this.me.id === 0) {
-      await this.$router.push('/login')
-    }
   },
   methods: {
     handleDeleteError (index) {

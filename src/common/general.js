@@ -1,6 +1,6 @@
 const baseUrl = (typeof process.env.VILOVEUL_BASE_URL !== 'undefined') ? process.env.VILOVEUL_BASE_URL : __dirname
 
-const apiUrl = (typeof process.env.VILOVEUL_API_URL !== 'undefined') ? process.env.VILOVEUL_API_URL : 'http://localhost:3333/api/v1'
+const apiUrl = (typeof process.env.VILOVEUL_API_URL !== 'undefined') ? process.env.VILOVEUL_API_URL : 'http://api.viloveul.com/api/v1'
 
 const tokenHeader = (typeof process.env.VILOVEUL_TOKEN_HEADER !== 'undefined') ? process.env.VILOVEUL_TOKEN_HEADER : 'Bearer'
 
