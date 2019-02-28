@@ -4,17 +4,17 @@
       <li
         v-for="(menu, index) in mymenus"
         :key="index"
-        :class="(activedIndex === index) ? 'active' : ''"
+        :class="[(activedIndex === index) ? 'active' : '']"
       >
         <router-link v-if="menu.childs.length === 0" :to="menu.link" v-on:click.native="activedIndex = index">
           <i :class="'glyphicon glyphicon-' + menu.icon"></i> {{ menu.label }}
         </router-link>
-        <span v-if="menu.childs.length > 0" v-on:click="activedIndex = index">
+        <span v-if="menu.childs.length > 0" v-on:click="handleClick(index)">
           <i :class="'glyphicon glyphicon-' + menu.icon"></i> {{ menu.label }}
         </span>
-        <ul class="sidebar-nav" v-if="menu.childs.length > 0 && activedIndex === index">
+        <ul class="sidebar-nav" v-if="menu.childs.length > 0 && (openedParent === index)">
           <li v-for="(child, indexChild) in menu.childs" :key="index + '-' + indexChild" :class="menu.actived === true ? 'active' : ''">
-            <router-link :to="child.link">{{ child.label }}</router-link>
+            <router-link :to="child.link" v-on:click.native="activedIndex = index">{{ child.label }}</router-link>
           </li>
         </ul>
       </li>
@@ -47,6 +47,13 @@ export default {
       await this.$store.dispatch('user/resetToken')
       await this.$router.push('/login')
     },
+    async handleClick (index) {
+      if (this.openedParent === index) {
+        this.openedParent = -1
+      } else {
+        this.openedParent = index
+      }
+    },
     generateMenus () {
       let menus = []
       let filteredMenus = this.menus.filter((item) => {
@@ -69,6 +76,7 @@ export default {
           }
         }
       }
+      this.openedParent = this.activedIndex
       return menus
     }
   },
@@ -82,7 +90,8 @@ export default {
   },
   data () {
     return {
-      activedIndex: null,
+      activedIndex: -1,
+      openedParent: -1,
       menus: [
         {
           label: '@Profile',

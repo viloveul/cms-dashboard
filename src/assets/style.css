@@ -34,8 +34,8 @@
 /* SIDEBAR */
 
 .board-sidebar {
-    background-color: #333;
-    background-image: linear-gradient(to right, #000000, #333333 7px);
+    background-color: #990000;
+    background-image: linear-gradient(to right, #000000, #990000 7px);
     width: 250px;
     position: absolute;
     top: 0;
@@ -49,10 +49,10 @@
 }
 
 .board-sidebar .brand {
-    border-top: 2px solid #222;
-    border-bottom: 2px solid #222;
-    background-color: #222;
-    background-image: linear-gradient(to right, #000000, #222 7px);
+    border-top: 2px solid #660000;
+    border-bottom: 2px solid #660000;
+    background-color: #990000;
+    background-image: linear-gradient(to right, #000000, #990000 7px);
     display: block;
     padding: 10px 15px;
     position: relative;
@@ -163,8 +163,8 @@
 
 .board-sidebar .board-menu .menu-inner li>span:hover, .board-sidebar .board-menu .menu-inner li>a:hover {
     color: #ffffff;
-    background-color: #2d363f;
-    background-image: linear-gradient(to right, #000000, #2d363f 7px);
+    background-color: #770000;
+    background-image: linear-gradient(to right, #000000, #770000 7px);
 }
 
 .board-sidebar .board-menu .menu-inner .arrow {
@@ -186,7 +186,7 @@
 }
 
 .board-sidebar .board-menu .menu-inner>li {
-    border-top: 1px solid #222;
+    border-top: 1px solid #660000;
 }
 
 .board-sidebar .board-menu .menu-inner>li>span, .board-sidebar .board-menu .menu-inner>li>a {
@@ -197,8 +197,8 @@
 }
 
 .board-sidebar .board-menu .menu-inner>li.active>span, .board-sidebar .board-menu .menu-inner>li.active>a, .board-sidebar .board-menu .menu-inner>li.active>a:hover {
-    background-color: #858E86 !important;
-    background-image: linear-gradient(to right, #000000, #858E86 7px) !important;
+    background-color: #953E36 !important;
+    background-image: linear-gradient(to right, #000000, #953E36 7px) !important;
     color: #ffffff !important;
 }
 
@@ -221,8 +221,8 @@
     padding-bottom: 10px;
     padding-left: 50px;
     padding-right: 15px;
-    background-color: #333e48;
-    background-image: linear-gradient(to right, #000000, #333e48 7px) !important;
+    background-color: #444444;
+    background-image: linear-gradient(to right, #000000, #444444 7px) !important;
 }
 
 .board-sidebar .board-menu .menu-inner>li>.sidebar-nav>li.active a {

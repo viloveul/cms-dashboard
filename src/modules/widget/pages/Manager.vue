@@ -86,6 +86,11 @@ export default {
   async mounted () {
     await this.$store.dispatch('widget/fetchAvailables')
     await this.$store.dispatch('setting/fetchOption', 'contents')
+    await this.$store.commit('setTitle', 'Widgets')
+    await this.$store.commit('setBreadcrumbs', [
+      {label: 'Board', link: '/'},
+      {label: 'Widgets'}
+    ])
     let widgets = window.localStorage.getItem('features:widget:types')
     try {
       this.widgets = JSON.parse(widgets) || []

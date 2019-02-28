@@ -10,9 +10,10 @@
 		var handler = function (event) {
 			var url = window.localStorage.getItem('general:url') || '/';
 			var brand = window.localStorage.getItem('general:brand') || 'Viloveul';
+			var token = window.localStorage.getItem('vtoken');
 			if (event.data === 'viloveul.token') {
 				let matched = url === event.origin || url === 'http://localhost' || url === 'http://127.0.0.1';
-				if (matched === true || confirm("Share your access token on Dashboard " + brand + " with " + event.origin + " ?")) {
+				if (matched === true || (token !== null && confirm("Share your access token on Dashboard " + brand + " with " + event.origin + " ?"))) {
 					event.source.postMessage(window.localStorage.getItem('vtoken'), event.origin);
 				} else {
 					event.source.postMessage('e', event.origin);
