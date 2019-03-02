@@ -1,7 +1,7 @@
 {
-    "name": "zafex/viloveul-cms-dashboard",
+    "name": "viloveul-cms/dashboard",
     "description": "Viloveul CMS (Dashboard)",
-    "type": "package",
+    "type": "project",
     "license": "MIT",
     "authors": [{
         "name": "Fajrul Akbar Zuhdi",
@@ -13,6 +13,9 @@
         "build": [
             "npm install",
             "npm run build"
+        ],
+        "post-create-project-cmd": [
+            "npm install"
         ]
     }
 }

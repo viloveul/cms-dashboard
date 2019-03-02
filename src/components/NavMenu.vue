@@ -4,14 +4,15 @@
       <li
         v-for="(menu, index) in mymenus"
         :key="index"
-        :class="[(activedIndex === index) ? 'active' : '']"
+        :class="[(activedIndex === index) ? ' active ' : '', (openedParent === index) ? ' opened ' : '']"
       >
         <router-link v-if="menu.childs.length === 0" :to="menu.link" v-on:click.native="activedIndex = index">
           <i :class="'glyphicon glyphicon-' + menu.icon"></i> {{ menu.label }}
         </router-link>
-        <span v-if="menu.childs.length > 0" v-on:click="handleClick(index)">
+        <span v-else v-on:click="handleClick(index)">
           <i :class="'glyphicon glyphicon-' + menu.icon"></i> {{ menu.label }}
         </span>
+
         <ul class="sidebar-nav" v-if="menu.childs.length > 0 && (openedParent === index)">
           <li v-for="(child, indexChild) in menu.childs" :key="index + '-' + indexChild" :class="menu.actived === true ? 'active' : ''">
             <router-link :to="child.link" v-on:click.native="activedIndex = index">{{ child.label }}</router-link>
