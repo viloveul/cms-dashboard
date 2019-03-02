@@ -9,7 +9,8 @@ export default {
     }
   },
   uploadFile: async (context, payload) => {
-    await endpoints.uploadFiles(payload)
+    let res = await endpoints.uploadFiles(payload)
+    return res.data.data
   },
   deleteFile: async (context, payload) => {
     await endpoints.deleteUploadedFile(payload)

@@ -7,6 +7,7 @@ import router from '@/router'
 import http from '@/common/http'
 import CKEditor from '@ckeditor/ckeditor5-vue'
 import VueGoodTablePlugin from 'vue-good-table'
+import Croppa from 'vue-croppa'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'vue-good-table/dist/vue-good-table.css'
@@ -16,6 +17,7 @@ Vue.config.productionTip = false
 
 Vue.use(CKEditor)
 Vue.use(VueGoodTablePlugin)
+Vue.use(Croppa)
 
 NProgress.configure({
   trickle: false

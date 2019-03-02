@@ -193,11 +193,24 @@ export default {
           privilege: 'comment.index#access'
         },
         {
-          label: 'Widgets',
-          link: '/widget',
+          label: 'Features',
+          link: '/feature',
           icon: 'link',
-          match: /^\/widget$/,
-          privilege: 'widget.availables#access'
+          match: /^\/feature\/(widget|banner)$/,
+          childs: [
+            {
+              label: 'Widgets',
+              link: '/feature/widget',
+              actived: false,
+              privilege: 'widget.availables#access'
+            },
+            {
+              label: 'Banner',
+              link: '/feature/banner',
+              actived: false,
+              privilege: 'setting.set#access'
+            }
+          ]
         },
         {
           label: 'Menus',

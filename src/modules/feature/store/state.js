@@ -1,4 +1,4 @@
-import initial from '@/modules/widget/store/initial'
+import initial from '@/modules/feature/store/initial'
 
 let initState = {...JSON.parse(JSON.stringify(initial))}
 

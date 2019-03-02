@@ -34,12 +34,15 @@ import {
 } from '@/modules/media'
 
 import {
+  Widget,
+  Banner
+} from '@/modules/feature'
+
+import {
   Tags as TagManager,
   Manager as PostManager,
   Editor as PostEditor
 } from '@/modules/post'
-
-import { Manager as Widget } from '@/modules/widget'
 
 Vue.use(VueRouter)
 
@@ -137,12 +140,16 @@ const routes = [
         component: TagManager
       },
       {
-        path: '/widget',
+        path: '/feature/widget',
         component: Widget
       },
       {
-        path: '/widget/:type',
+        path: '/feature/widget/:type',
         component: Widget
+      },
+      {
+        path: '/feature/banner',
+        component: Banner
       },
       {
         path: '',

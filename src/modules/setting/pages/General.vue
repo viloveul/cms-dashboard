@@ -27,34 +27,19 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="col-md-2 control-label control-label-normal">Banner</label>
-        <div class="col-md-10">
-          <div v-if="options.banner !== null && options.banner.length > 0">
-            <img :src="options.banner" style="max-width: 100%;" /><br />
-            <span class="btn btn-danger btn-xs" v-on:click="options.banner = ''">Delete Banner</span>
-          </div>
-          <span class="btn btn-info" v-on:click="banner = true" v-else>Add Banner Image</span>
-        </div>
-      </div>
-      <div class="form-group">
         <div class="col-md-8">
           <button type="submit" class="btn btn-primary">Save</button>
         </div>
       </div>
     </form>
-    <Fileman v-if="banner" v-on:close-fileman="banner = false" v-on:selected-fileman="handleSelectedBanner" />
   </div>
 </template>
 
 <script type="text/javascript">
 
 import './../assets/style.css'
-import Fileman from '@/modules/media/components/Fileman'
 
 export default {
-  components: {
-    Fileman
-  },
   async mounted () {
     await this.$store.commit('setTitle', 'Settings')
     await this.$store.commit('setBreadcrumbs', [
@@ -64,21 +49,13 @@ export default {
     await this.$store.dispatch('setting/fetchOption', 'brand')
     await this.$store.dispatch('setting/fetchOption', 'description')
     await this.$store.dispatch('setting/fetchOption', 'email')
-    await this.$store.dispatch('setting/fetchOption', 'banner')
     await this.$store.dispatch('setting/fetchOption', 'url')
     this.options.brand = this.$store.getters['setting/getOption']('brand')
     this.options.description = this.$store.getters['setting/getOption']('description')
     this.options.email = this.$store.getters['setting/getOption']('email')
-    this.options.banner = this.$store.getters['setting/getOption']('banner')
     this.options.url = this.$store.getters['setting/getOption']('url')
   },
   methods: {
-    handleSelectedBanner (x) {
-      this.banner = false
-      if (x.type.indexOf('image') !== -1) {
-        this.options.banner = x.url
-      }
-    },
     async handleSave () {
       await this.$store.dispatch('setting/updateOption', this.options)
       for (let i in this.options) {
@@ -93,8 +70,7 @@ export default {
         brand: '',
         description: '',
         email: '',
-        url: '',
-        banner: ''
+        url: ''
       }
     }
   }

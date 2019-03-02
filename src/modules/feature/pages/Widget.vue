@@ -1,5 +1,5 @@
 <template>
-  <div class="widget-container">
+  <div class="feature-container">
     <h2>Widgets</h2>
     <div class="row" v-if="widgets.length > 0">
       <div class="col-md-4">
@@ -67,33 +67,34 @@
 
 <script type="text/javascript">
 
-import '@/modules/widget/assets/style.css'
+import '@/modules/feature/assets/style.css'
 
 import Draggable from 'vuedraggable'
-import Menu from '@/modules/widget/components/Menu'
-import RecentPost from '@/modules/widget/components/RecentPost'
-import RecentComment from '@/modules/widget/components/RecentComment'
-import Archive from '@/modules/widget/components/Archive'
+import WidgetMenu from '@/modules/feature/components/WidgetMenu'
+import WidgetRecentPost from '@/modules/feature/components/WidgetRecentPost'
+import WidgetRecentComment from '@/modules/feature/components/WidgetRecentComment'
+import WidgetArchive from '@/modules/feature/components/WidgetArchive'
 
 export default {
   components: {
     Draggable,
-    MenuWidget: Menu,
-    RecentPostWidget: RecentPost,
-    RecentCommentWidget: RecentComment,
-    ArchiveWidget: Archive
+    WidgetMenu,
+    WidgetRecentPost,
+    WidgetRecentComment,
+    WidgetArchive
   },
   async mounted () {
-    await this.$store.dispatch('widget/fetchAvailables')
+    await this.$store.dispatch('feature/fetchWidgetAvailables')
     await this.$store.dispatch('setting/fetchOption', 'contents')
     await this.$store.commit('setTitle', 'Widgets')
     await this.$store.commit('setBreadcrumbs', [
       {label: 'Board', link: '/'},
       {label: 'Widgets'}
     ])
-    let widgets = window.localStorage.getItem('features:widget:types')
+    let feature = window.localStorage.getItem('features:widget')
     try {
-      this.widgets = JSON.parse(widgets) || []
+      let widgets = JSON.parse(feature) || []
+      this.widgets = widgets.types
       if (this.widgets.length > 0) {
         await this.handleChange(this.widgets[0])
       }
@@ -103,7 +104,7 @@ export default {
   },
   methods: {
     getComponent (item) {
-      let name = item.name + 'Widget'
+      let name = 'Widget' + item.name
       if (name in this.$options.components) {
         return name
       } else {
@@ -115,8 +116,8 @@ export default {
     },
     async handleChange (type) {
       this.actived = type
-      await this.$store.dispatch('widget/resetDetail')
-      await this.$store.dispatch('widget/resetItems')
+      await this.$store.dispatch('feature/resetWidgetDetail')
+      await this.$store.dispatch('feature/resetWidgetItems')
       this.items = await this.$store.dispatch('setting/fetchOption', 'widget-' + type) || []
     },
     async handleAddItem () {
@@ -135,7 +136,7 @@ export default {
   },
   computed: {
     availables () {
-      return this.$store.getters['widget/getAvailables']()
+      return this.$store.getters['feature/getWidgetAvailables']()
     }
   },
   data () {
