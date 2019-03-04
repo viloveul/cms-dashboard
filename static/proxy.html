@@ -7,37 +7,47 @@
     <body>
         <script type="text/javascript">
             "use strict";
-			var handler = function (event) {
+
+			window.addEventListener("message", function (event) {
 				var url = window.localStorage.getItem('general:url') || '/';
 				var brand = window.localStorage.getItem('general:brand') || 'Viloveul';
-				try {
-					var parsed = JSON.parse(event.data);
+
+				if (typeof event.data === 'object') {
 					if (url === event.origin) {
-						for (var a in parsed) {
-							window.localStorage.setItem('features:' + a, JSON.stringify(parsed[a]))
-						}
-					}
-					event.source.postMessage('ok', event.origin);
-				} catch (e) {
-					if (event.data.indexOf('viloveul.get:') === 0) {
-						var k = event.data.substr(13);
-						if (url === event.origin || confirm('allow ' + event.origin + ' for access ' + k + '?')) {
-							event.source.postMessage(window.localStorage.getItem(k), event.origin);
-						} else {
-							event.source.postMessage('e', event.origin);
-						}
-					} else if (event.data.indexOf('viloveul.unset:') === 0) {
-						var k = event.data.substr(15);
-						if (url === event.origin || confirm('allow ' + event.origin + ' for delete ' + k + '?')) {
-							window.localStorage.removeItem(k)
+						for (var z in event.data) {
+							if (typeof event.data[z] === 'string') {
+								window.localStorage.setItem('features:' + z, event.data[z]);
+							} else {
+								window.localStorage.setItem('features:' + z, JSON.stringify(event.data[z]));
+							}
 						}
 						event.source.postMessage('ok', event.origin);
 					} else {
 						event.source.postMessage('e', event.origin);
 					}
+				} else {
+					var matched = url === event.origin;
+					var ok = confirm('allow ' + event.origin + ' for execute ' + event.data + ' ?');
+					if (matched === true || ok === true) {
+						if (event.data.indexOf('viloveul.get:') === 0) {
+							event.source.postMessage(window.localStorage.getItem(event.data.substr(13)), event.origin);
+						} else if (event.data.indexOf('viloveul.unset:') === 0) {
+							window.localStorage.removeItem(event.data.substr(15));
+							event.source.postMessage('ok', event.origin);
+						} else {
+							event.source.postMessage('e', event.origin);
+						}
+					} else {
+						event.source.postMessage('e', event.origin);
+					}
 				}
-			};
-			window.addEventListener("message", handler, true);
+			});
+
+			window.addEventListener("storage", function (event) {
+				if (event.key === 'vtoken' && event.newValue === null) {
+					alert("You was logged out from dashboard.");
+				}
+			});
         </script>
     </body>
 </html>
