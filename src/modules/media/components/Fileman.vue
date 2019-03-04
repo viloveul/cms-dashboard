@@ -50,6 +50,12 @@ export default {
   components: {
     Paginate
   },
+  props: {
+    type: {
+      type: String,
+      default: 'gallery'
+    }
+  },
   async mounted () {
     await this.loadData()
   },
@@ -58,6 +64,7 @@ export default {
       if (this.timeout !== null) {
         clearTimeout(this.timeout)
       }
+      this.requests.search_ref = this.type
       this.timeout = setTimeout(async () => {
         await endpoints.getUploadedFiles(this.requests).then(res => {
           this.rows = res.data.data

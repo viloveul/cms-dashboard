@@ -74,7 +74,7 @@ export default {
       await this.banner.generateBlob(
         async blob => {
           let form = new FormData()
-          form.append('file', blob)
+          form.append('banner', blob)
           let data = await this.$store.dispatch('media/uploadFile', form)
           if (data.length > 0) {
             this.url = data[0].attributes.url

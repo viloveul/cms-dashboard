@@ -36,7 +36,7 @@ export default {
     async handleUpload () {
       for (let i = 0; i < this.files.length; i++) {
         let data = new FormData()
-        data.append('file', this.files[i])
+        data.append('gallery', this.files[i])
         await this.$store.dispatch('media/uploadFile', data)
         this.logs.splice(i, 1)
       }

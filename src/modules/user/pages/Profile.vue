@@ -2,7 +2,12 @@
   <div class="user-container">
     <div class="media">
       <div class="media-left hidden-xs">
-        <img :src="me.picture" class="media-object thumbnail" style="max-height: 120px;" :alt="me.username">
+        <img
+          style="max-height: 120px;"
+          :src="me.picture"
+          :class="'media-object thumbnail'"
+          :alt="me.username"
+        >
       </div>
       <div class="media-body">
         <h2 class="media-heading">{{ me.name }}</h2>
@@ -85,6 +90,32 @@
             <div class="alert alert-danger">
               Anda diharuskan memasukkan password untuk merubah info account
             </div>
+            <div class="thumbnail" style="max-width: 310px; margin: 0px auto 30px; text-align: center; display: block">
+              <croppa
+                v-if="pictureUpload === true"
+                v-model="picture"
+                :width="300"
+                :height="300"
+                :disable-scroll-to-zoom="false"
+                :disable-drag-to-move="false"
+                :prevent-white-space="true"
+                :disable-rotation="true"
+                :show-remove-button="false"
+              >
+              </croppa>
+              <img v-else :src="me.picture" style="width: 300px; height: 300px;">
+              <div class="caption">
+                <span v-if="pictureUpload === true" v-on:click="handleSavePicture" class="btn btn-info btn-sm">
+                  <i class="glyphicon glyphicon-upload"></i> Upload
+                </span>
+                <span v-if="pictureUpload === true" v-on:click="pictureUpload = false" class="btn btn-warning btn-sm">
+                  <i class="glyphicon glyphicon-remove-circle"></i> Cancel
+                </span>
+                <span v-else class="btn btn-warning btn-sm" v-on:click="pictureUpload = true">
+                  <i class="glyphicon glyphicon-pencil"></i> Change
+                </span>
+              </div>
+            </div>
             <form class="form-horizontal" v-on:submit.prevent="handleSaveAccount">
               <div class="form-group">
                 <label class="control-label col-md-2">Name</label>
@@ -105,7 +136,7 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-md-2">Picture (URL)</label>
+                <label class="control-label col-md-2">Picture</label>
                 <div class="col-md-8">
                   <input type="text" v-model="me.picture" class="form-control">
                 </div>
@@ -138,6 +169,7 @@
 <script type="text/javascript">
 
 import './../assets/style.css'
+import 'vue-croppa/dist/vue-croppa.css'
 
 export default {
   computed: {
@@ -166,6 +198,27 @@ export default {
       })
       this.toggleEditProfile()
     },
+    async handleSavePicture () {
+      if (this.pictureUpload === true) {
+        await this.picture.generateBlob(
+          async blob => {
+            let form = new FormData()
+            form.append('profile', blob)
+            let data = await this.$store.dispatch('media/uploadFile', form)
+            if (data.length > 0) {
+              this.me.picture = data[0].attributes.url
+              this.pictureUpload = false
+            }
+          },
+          'image/png',
+          0
+        )
+      }
+    },
+    async handleFileChoose (file) {
+      this.pictureUpload = true
+      this.picture.refresh()
+    },
     async toggleEditAccount () {
       this.modalAccount = !this.modalAccount
       if (this.modalAccount === false) {
@@ -178,6 +231,8 @@ export default {
   },
   data () {
     return {
+      picture: null,
+      pictureUpload: false,
       modalAccount: false,
       editProfile: false
     }
