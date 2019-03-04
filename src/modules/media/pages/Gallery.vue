@@ -62,6 +62,7 @@ import endpoints from '@/common/endpoints'
 export default {
   async created () {
     this.serverParams = {...this.$route.query}
+    this.serverParams.search_ref = 'gallery'
     this.pagination.setCurrentPage = parseInt(this.serverParams.page || 1)
     this.pagination.perPage = parseInt(this.serverParams.size || 10)
     for (let i in this.columns) {

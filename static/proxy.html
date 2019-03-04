@@ -1,45 +1,43 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Proxy</title>
-	<meta name="robots" content="noindex, nofollow">
-</head>
-<body>
-	<script type="text/javascript">
-		"use strict";
-		var handler = function (event) {
-			var url = window.localStorage.getItem('general:url') || '/';
-			var brand = window.localStorage.getItem('general:brand') || 'Viloveul';
-			var token = window.localStorage.getItem('vtoken');
-			let matched = url === event.origin || url === 'http://localhost' || url === 'http://127.0.0.1';
-			if (event.data === 'viloveul.token') {
-				if (matched === true || (token !== null && confirm("Share your access token on Dashboard " + brand + " with " + event.origin + " ?"))) {
-					event.source.postMessage(window.localStorage.getItem('vtoken'), event.origin);
-				} else {
-					event.source.postMessage('e', event.origin);
-				}
-			} else if (event.data !== 'viloveul.clear' && matched === true) {
+    <head>
+        <title>Proxy API</title>
+        <meta content="noindex, nofollow" name="robots">
+    </head>
+    <body>
+        <script type="text/javascript">
+            "use strict";
+			var handler = function (event) {
+				var url = window.localStorage.getItem('general:url') || '/';
+				var brand = window.localStorage.getItem('general:brand') || 'Viloveul';
 				try {
 					var parsed = JSON.parse(event.data);
-					for (var b in window.localStorage) {
-						if (b.search(/^features:/) !== -1) {
-							window.localStorage.removeItem(b)
+					if (url === event.origin) {
+						for (var a in parsed) {
+							window.localStorage.setItem('features:' + a, JSON.stringify(parsed[a]))
 						}
 					}
-					for (var a in parsed) {
-						if (a.search(/^features:/) !== -1) {
-							window.localStorage.setItem(a, JSON.stringify(parsed[a]))
-						}
-					}
+					event.source.postMessage('ok', event.origin);
 				} catch (e) {
-					event.source.postMessage('e', event.origin);
+					if (event.data.indexOf('viloveul.get:') === 0) {
+						var k = event.data.substr(13);
+						if (url === event.origin || confirm('allow ' + event.origin + ' for access ' + k + '?')) {
+							event.source.postMessage(window.localStorage.getItem(k), event.origin);
+						} else {
+							event.source.postMessage('e', event.origin);
+						}
+					} else if (event.data.indexOf('viloveul.unset:') === 0) {
+						var k = event.data.substr(15);
+						if (url === event.origin || confirm('allow ' + event.origin + ' for delete ' + k + '?')) {
+							window.localStorage.removeItem(k)
+						}
+						event.source.postMessage('ok', event.origin);
+					} else {
+						event.source.postMessage('e', event.origin);
+					}
 				}
-			} else {
-				window.localStorage.clear()
-			}
-			window.removeEventListener('message', handler, true);
-		};
-		window.addEventListener("message", handler, true);
-	</script>
-</body>
+			};
+			window.addEventListener("message", handler, true);
+        </script>
+    </body>
 </html>
