@@ -9,37 +9,56 @@
             "use strict";
 
 			window.addEventListener("message", function (event) {
-				var url = window.localStorage.getItem('general:url') || '/';
-				var brand = window.localStorage.getItem('general:brand') || 'Viloveul';
+				var FETCH_ITEM = 'viloveul.fetch';
+				var DELETE_ITEM = 'viloveul.delete';
+				var SYNC_FEATURE = 'viloveul.sync';
 
-				if (typeof event.data === 'object') {
-					if (url === event.origin) {
-						for (var z in event.data) {
-							if (typeof event.data[z] === 'string') {
-								window.localStorage.setItem('features:' + z, event.data[z]);
-							} else {
-								window.localStorage.setItem('features:' + z, JSON.stringify(event.data[z]));
+				try {
+					var uri = window.localStorage.getItem('general:url') || '/';
+					var brand = window.localStorage.getItem('general:brand') || 'Viloveul';
+					var cmd = event.data.cmd;
+					var matched = uri === event.origin || confirm('Allow "' + event.origin + '" execute "' + cmd + '" ?');
+
+					if (cmd === SYNC_FEATURE && matched === true) {
+						for (var a in window.localStorage) {
+							if (a.indexOf('features:') === 0) {
+								window.localStorage.removeItem(a);
 							}
 						}
-						event.source.postMessage('ok', event.origin);
-					} else {
-						event.source.postMessage('e', event.origin);
-					}
-				} else {
-					var matched = url === event.origin;
-					var ok = confirm('allow ' + event.origin + ' for execute ' + event.data + ' ?');
-					if (matched === true || ok === true) {
-						if (event.data.indexOf('viloveul.get:') === 0) {
-							event.source.postMessage(window.localStorage.getItem(event.data.substr(13)), event.origin);
-						} else if (event.data.indexOf('viloveul.unset:') === 0) {
-							window.localStorage.removeItem(event.data.substr(15));
-							event.source.postMessage('ok', event.origin);
-						} else {
-							event.source.postMessage('e', event.origin);
+
+						var params = event.data.params;
+						for (var b in params) {
+							var val = typeof params[b].value === 'string' ? params[b].value : JSON.stringify(params[b].value);
+							window.localStorage.setItem('features:' + params[b].key, val);
 						}
+
+						event.source.postMessage({status: 'success'}, event.origin);
+
+					} else if (cmd === FETCH_ITEM && matched === true) {
+
+						var params = {};
+						for (var c in event.data.params) {
+							params[event.data.params[c]] = window.localStorage.getItem(event.data.params[c]);
+						}
+
+						event.source.postMessage({status: 'success', params: params}, event.origin);
+
+					} else if (cmd === DELETE_ITEM && matched === true) {
+
+						for (var c in event.data.params) {
+							window.localStorage.removeItem(event.data.params[c]);
+						}
+
+						event.source.postMessage({status: 'success'}, event.origin);
+
 					} else {
-						event.source.postMessage('e', event.origin);
+						throw new Error('Missing operand.');
 					}
+
+				} catch (e) {
+
+					event.source.postMessage({status: 'error', message: e.message}, event.origin);
+
 				}
 			});
 
