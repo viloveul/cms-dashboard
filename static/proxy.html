@@ -7,37 +7,67 @@
     <body>
         <script type="text/javascript">
             "use strict";
-			var handler = function (event) {
-				var url = window.localStorage.getItem('general:url') || '/';
-				var brand = window.localStorage.getItem('general:brand') || 'Viloveul';
+
+			window.addEventListener("message", function (event) {
+				var FETCH_ITEM = 'viloveul.fetch';
+				var DELETE_ITEM = 'viloveul.delete';
+				var SYNC_FEATURE = 'viloveul.sync';
+
 				try {
-					var parsed = JSON.parse(event.data);
-					if (url === event.origin) {
-						for (var a in parsed) {
-							window.localStorage.setItem('features:' + a, JSON.stringify(parsed[a]))
+					var uri = window.localStorage.getItem('general:url') || '/';
+					var brand = window.localStorage.getItem('general:brand') || 'Viloveul';
+					var vtoken = window.localStorage.getItem('vtoken') || null;
+					var cmd = event.data.cmd;
+					var matched = vtoken !== null && (uri === event.origin || confirm('Allow "' + event.origin + '" execute "' + cmd + '" ?'));
+
+					if (cmd === SYNC_FEATURE && matched === true) {
+						for (var a in window.localStorage) {
+							if (a.indexOf('features:') === 0) {
+								window.localStorage.removeItem(a);
+							}
 						}
-					}
-					event.source.postMessage('ok', event.origin);
-				} catch (e) {
-					if (event.data.indexOf('viloveul.get:') === 0) {
-						var k = event.data.substr(13);
-						if (url === event.origin || confirm('allow ' + event.origin + ' for access ' + k + '?')) {
-							event.source.postMessage(window.localStorage.getItem(k), event.origin);
-						} else {
-							event.source.postMessage('e', event.origin);
+
+						var params = event.data.params;
+						for (var b in params) {
+							var val = typeof params[b].value === 'string' ? params[b].value : JSON.stringify(params[b].value);
+							window.localStorage.setItem('features:' + params[b].key, val);
 						}
-					} else if (event.data.indexOf('viloveul.unset:') === 0) {
-						var k = event.data.substr(15);
-						if (url === event.origin || confirm('allow ' + event.origin + ' for delete ' + k + '?')) {
-							window.localStorage.removeItem(k)
+
+						event.source.postMessage({status: 'success'}, event.origin);
+
+					} else if (cmd === FETCH_ITEM && matched === true) {
+
+						var params = {};
+						for (var c in event.data.params) {
+							params[event.data.params[c]] = window.localStorage.getItem(event.data.params[c]);
 						}
-						event.source.postMessage('ok', event.origin);
+
+						event.source.postMessage({status: 'success', params: params}, event.origin);
+
+					} else if (cmd === DELETE_ITEM && matched === true) {
+
+						for (var c in event.data.params) {
+							window.localStorage.removeItem(event.data.params[c]);
+						}
+
+						event.source.postMessage({status: 'success'}, event.origin);
+
 					} else {
-						event.source.postMessage('e', event.origin);
+						throw new Error('Missing operand.');
 					}
+
+				} catch (e) {
+
+					event.source.postMessage({status: 'error', message: e.message}, event.origin);
+
 				}
-			};
-			window.addEventListener("message", handler, true);
+			});
+
+			window.addEventListener("storage", function (event) {
+				if (event.key === 'vtoken' && event.newValue === null) {
+					alert("You was logged out from dashboard.");
+				}
+			});
         </script>
     </body>
 </html>
