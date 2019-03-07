@@ -17,6 +17,6 @@ VILOVEUL_API_URL=http://your-viloveul-cms-api
 jalankan:
 ```bash
 npm run dev
-## bukan http://localhost:8085
+## bukan http://localhost:19911
 ```
 response : https://jsonapi.org/recommendations
