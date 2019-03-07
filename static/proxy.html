@@ -16,8 +16,9 @@
 				try {
 					var uri = window.localStorage.getItem('general:url') || '/';
 					var brand = window.localStorage.getItem('general:brand') || 'Viloveul';
+					var vtoken = window.localStorage.getItem('vtoken') || null;
 					var cmd = event.data.cmd;
-					var matched = uri === event.origin || confirm('Allow "' + event.origin + '" execute "' + cmd + '" ?');
+					var matched = vtoken !== null && (uri === event.origin || confirm('Allow "' + event.origin + '" execute "' + cmd + '" ?'));
 
 					if (cmd === SYNC_FEATURE && matched === true) {
 						for (var a in window.localStorage) {
