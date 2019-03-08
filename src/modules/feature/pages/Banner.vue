@@ -46,25 +46,24 @@ import '@/modules/feature/assets/style.css'
 import 'vue-croppa/dist/vue-croppa.css'
 
 export default {
-  async created () {
-    let feature = window.localStorage.getItem('features:banner')
+  async mounted () {
+    await this.$store.dispatch('setting/fetchOption', 'features')
+    await this.$store.commit('setTitle', 'Banner')
+    await this.$store.commit('setBreadcrumbs', [
+      {label: 'Board', link: '/'},
+      {label: 'Banner'}
+    ])
     try {
-      let banner = JSON.parse(feature) || {}
+      let features = this.$store.getters['setting/getOption']('features', {})
+      let banner = features.banner
       if (banner.width !== undefined && banner.height !== undefined) {
+        this.url = await this.$store.dispatch('setting/fetchOption', 'banner') || null
         this.width = parseInt(banner.width)
         this.height = parseInt(banner.height)
       }
     } catch (e) {
       // do nothing
     }
-  },
-  async mounted () {
-    await this.$store.commit('setTitle', 'Banner')
-    await this.$store.commit('setBreadcrumbs', [
-      {label: 'Board', link: '/'},
-      {label: 'Banner'}
-    ])
-    this.url = await this.$store.dispatch('setting/fetchOption', 'banner') || null
   },
   methods: {
     async toggleModal () {

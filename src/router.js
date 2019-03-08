@@ -13,8 +13,8 @@ import {
 } from '@/modules/user'
 
 import {
-  Content as ContentSetting,
   General as GeneralSetting,
+  Theme as ThemeSetting,
   Moderator as ModeratorSetting
 } from '@/modules/setting'
 
@@ -60,8 +60,8 @@ const routes = [
         component: GeneralSetting
       },
       {
-        path: '/setting/content',
-        component: ContentSetting
+        path: '/setting/theme',
+        component: ThemeSetting
       },
       {
         path: '/setting/moderator',

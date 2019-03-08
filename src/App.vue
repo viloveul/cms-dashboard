@@ -1,5 +1,5 @@
 <template>
-  <div class="app-board">
+  <div class="app-board" v-if="me.id !== 0">
     <aside class="board-sidebar">
       <h3 class="brand">
         <a :href="getOption('url')" v-if="getOption('url') !== null && getOption('url') !== '/'">
@@ -43,16 +43,11 @@ export default {
     if (this.me.id === 0) {
       await this.$router.replace('/login')
     }
-    let url = await this.$store.dispatch('setting/fetchOption', 'url')
-    let brand = await this.$store.dispatch('setting/fetchOption', 'brand')
-    let email = await this.$store.dispatch('setting/fetchOption', 'email')
-    let description = await this.$store.dispatch('setting/fetchOption', 'description')
-    let banner = await this.$store.dispatch('setting/fetchOption', 'banner')
-    window.localStorage.setItem('general:url', url)
-    window.localStorage.setItem('general:brand', brand)
-    window.localStorage.setItem('general:email', email)
-    window.localStorage.setItem('general:description', description)
-    window.localStorage.setItem('general:banner', banner)
+    await this.$store.dispatch('setting/fetchOption', 'url')
+    await this.$store.dispatch('setting/fetchOption', 'brand')
+    await this.$store.dispatch('setting/fetchOption', 'email')
+    await this.$store.dispatch('setting/fetchOption', 'description')
+    await this.$store.dispatch('setting/fetchOption', 'banner')
   },
   methods: {
     handleDeleteError (index) {

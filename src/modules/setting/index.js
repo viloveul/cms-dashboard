@@ -1,9 +1,9 @@
 import General from '@/modules/setting/pages/General'
-import Content from '@/modules/setting/pages/Content'
+import Theme from '@/modules/setting/pages/Theme'
 import Moderator from '@/modules/setting/pages/Moderator'
 
 export {
   General,
-  Content,
+  Theme,
   Moderator
 }

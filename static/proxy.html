@@ -9,48 +9,22 @@
             "use strict";
 
 			window.addEventListener("message", function (event) {
-				var FETCH_ITEM = 'viloveul.fetch';
-				var DELETE_ITEM = 'viloveul.delete';
-				var SYNC_FEATURE = 'viloveul.sync';
+				var READ_TOKEN = 'viloveul.read';
+				var CLEAR_TOKEN = 'viloveul.clear';
 
 				try {
-					var uri = window.localStorage.getItem('general:url') || '/';
-					var brand = window.localStorage.getItem('general:brand') || 'Viloveul';
-					var vtoken = window.localStorage.getItem('vtoken') || null;
-					var cmd = event.data.cmd;
-					var matched = vtoken !== null && (uri === event.origin || confirm('Allow "' + event.origin + '" execute "' + cmd + '" ?'));
+					var token = window.localStorage.getItem('viloveul:token') || null;
+					var command = event.data.cmd;
+					var ok = token !== null && confirm('Allow "' + event.origin + '" execute "' + command + '" ?');
 
-					if (cmd === SYNC_FEATURE && matched === true) {
-						for (var a in window.localStorage) {
-							if (a.indexOf('features:') === 0) {
-								window.localStorage.removeItem(a);
-							}
-						}
+					if (command === READ_TOKEN && ok === true) {
 
-						var params = event.data.params;
-						for (var b in params) {
-							var val = typeof params[b].value === 'string' ? params[b].value : JSON.stringify(params[b].value);
-							window.localStorage.setItem('features:' + params[b].key, val);
-						}
+						event.source.postMessage({status: 'success', command: READ_TOKEN, value: token}, event.origin);
 
-						event.source.postMessage({status: 'success'}, event.origin);
+					} else if (command === CLEAR_TOKEN && ok === true) {
 
-					} else if (cmd === FETCH_ITEM && matched === true) {
-
-						var params = {};
-						for (var c in event.data.params) {
-							params[event.data.params[c]] = window.localStorage.getItem(event.data.params[c]);
-						}
-
-						event.source.postMessage({status: 'success', params: params}, event.origin);
-
-					} else if (cmd === DELETE_ITEM && matched === true) {
-
-						for (var c in event.data.params) {
-							window.localStorage.removeItem(event.data.params[c]);
-						}
-
-						event.source.postMessage({status: 'success'}, event.origin);
+						window.localStorage.removeItem('viloveul:token');
+						event.source.postMessage({status: 'success', command: CLEAR_TOKEN}, event.origin);
 
 					} else {
 						throw new Error('Missing operand.');
@@ -65,7 +39,8 @@
 
 			window.addEventListener("storage", function (event) {
 				if (event.key === 'vtoken' && event.newValue === null) {
-					alert("You was logged out from dashboard.");
+					// alert("You was logged out from dashboard.");
+					// notify();
 				}
 			});
         </script>
