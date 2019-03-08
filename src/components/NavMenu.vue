@@ -245,8 +245,8 @@ export default {
               actived: false
             },
             {
-              label: 'Contents',
-              link: '/setting/content',
+              label: 'Theme',
+              link: '/setting/theme',
               actived: false
             },
             {

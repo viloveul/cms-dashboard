@@ -88,15 +88,15 @@ export default {
   async mounted () {
     await this.$store.dispatch('feature/fetchWidgetAvailables')
     await this.$store.dispatch('setting/fetchOption', 'contents')
+    await this.$store.dispatch('setting/fetchOption', 'features')
     await this.$store.commit('setTitle', 'Widgets')
     await this.$store.commit('setBreadcrumbs', [
       {label: 'Board', link: '/'},
       {label: 'Widgets'}
     ])
-    let feature = window.localStorage.getItem('features:widget')
     try {
-      let widgets = JSON.parse(feature) || []
-      this.widgets = widgets.types
+      let features = this.$store.getters['setting/getOption']('features', {})
+      this.widgets = features.widget.types
       if (this.widgets.length > 0) {
         await this.handleChange(this.widgets[0])
       }

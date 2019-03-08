@@ -18,13 +18,13 @@ const actions = {
     await context.commit('setPrivileges', [])
   },
   resetToken: async (context) => {
-    await window.localStorage.removeItem('vtoken')
+    await window.localStorage.removeItem('viloveul:token')
     await context.dispatch('resetMe')
   },
   requestToken: async (context, payload) => {
     await context.dispatch('resetToken')
     let { data } = await endpoints.requestToken(payload)
-    await window.localStorage.setItem('vtoken', data.data.token)
+    await window.localStorage.setItem('viloveul:token', data.data.token)
     await context.dispatch('fetchMe')
     return data.data.token
   },
