@@ -2,6 +2,8 @@ const baseUrl = (typeof process.env.VILOVEUL_BASE_URL !== 'undefined') ? process
 
 const apiUrl = (typeof process.env.VILOVEUL_API_URL !== 'undefined') ? process.env.VILOVEUL_API_URL : 'http://localhost:19910/api/v1'
 
+const relayUrl = (typeof process.env.VILOVEUL_RELAY_URL !== 'undefined') ? process.env.VILOVEUL_RELAY_URL : 'http://localhost:19913'
+
 const tokenHeader = (typeof process.env.VILOVEUL_TOKEN_HEADER !== 'undefined') ? process.env.VILOVEUL_TOKEN_HEADER : 'Bearer'
 
 const defaultToken = (typeof process.env.VILOVEUL_DEFAULT_TOKEN !== 'undefined') ? process.env.VILOVEUL_DEFAULT_TOKEN : ''
@@ -12,6 +14,9 @@ const general = {
   },
   getApiUrl () {
     return (typeof window.viloveulApiUrl !== 'undefined') ? window.viloveulApiUrl : apiUrl
+  },
+  getRelayUrl () {
+    return (typeof window.viloveulRelayUrl !== 'undefined') ? window.viloveulRelayUrl : relayUrl
   },
   getTokenHeader () {
     return (typeof window.viloveulTokenHeader !== 'undefined') ? window.viloveulTokenHeader : tokenHeader

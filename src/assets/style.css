@@ -3,34 +3,27 @@
     position: relative;
     background: #fefefe;
 }
-
 .app-board fieldset {
     border: 1px solid #CCC;
     padding: 10px;
     margin-bottom: 10px;
     background-color: #f0f0f0;
 }
-
 .app-board fieldset>legend {
     border: none;
     width: auto;
     padding: 5px;
 }
-
 .app-board .table {
     background: white;
 }
-
 .app-board .form-horizontal .control-label-normal {
     text-align: left !important;
 }
-
 .app-board .modal {
     background: rgba(255, 255, 255, 0.5);
     overflow: auto !important;
 }
-
-
 /* SIDEBAR */
 
 .board-sidebar {
@@ -47,7 +40,6 @@
     transition: left 0.3s ease;
     z-index: 20;
 }
-
 .board-sidebar .brand {
     border-top: 2px solid #660000;
     border-bottom: 2px solid #660000;
@@ -58,30 +50,44 @@
     position: relative;
     overflow-x: hidden;
     margin: 0 auto;
-    text-align: center;
+    text-align: left;
     font-weight: bold;
 }
-
-.board-sidebar .brand:after {
-    width: 0;
-    height: 0;
-    border-top: 10px solid transparent;
-    border-right: 10px solid #fefefe;
-    border-bottom: 10px solid transparent;
-    content: " ";
-    position: absolute;
-    right: 0px;
-}
-
 .board-sidebar .brand a {
-    color: #DDDDDD;
+    color: #d0ce6f;
     text-decoration: none;
+    text-shadow: 1px 1px 10px black;
 }
-
 .board-sidebar .brand a:hover {
     color: #FFFFFF;
 }
-
+.board-sidebar .brand span.bell {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+}
+.board-sidebar .brand span.bell i.disconnected {
+    color: #666;
+    text-shadow: 0px 0px 1px black;
+}
+.board-sidebar .brand span.bell i {
+    text-shadow: 0px 0px 1px black;
+    color: #CCC;
+}
+.board-sidebar .brand span.bell:hover i {
+    color: #999;
+}
+.board-sidebar .brand span.bell .badge {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    padding: 2px;
+    border-radius: 2px;
+    background: rgba(0, 0, 0, 0.4);
+    color: white;
+    font-weight: normal;
+}
 .board-sidebar .board-menu {
     position: absolute;
     top: 50px;
@@ -92,7 +98,6 @@
     overflow-y: auto;
     padding-bottom: 30px;
 }
-
 @media (max-width: 991.98px) {
     .board-sidebar {
         position: relative;
@@ -108,78 +113,64 @@
         display: none;
     }
 }
-
 .board-sidebar .board-menu::-webkit-scrollbar {
     width: 5px;
 }
-
-
 /* Track */
 
 .board-sidebar .board-menu::-webkit-scrollbar-track {
     background: #222;
 }
-
-
 /* Handle */
 
 .board-sidebar .board-menu::-webkit-scrollbar-thumb {
     background: #660;
 }
-
-
 /* Handle on hover */
 
 .board-sidebar .board-menu::-webkit-scrollbar-thumb:hover {
     background: #990;
 }
-
 .board-sidebar .board-menu .menu-inner {
     font-size: 14px;
     list-style: none;
     margin: 0;
     padding: 0;
 }
-
 .board-sidebar .board-menu .menu-inner ul {
     padding: 0;
 }
-
 .board-sidebar .board-menu .menu-inner li>span, .board-sidebar .board-menu .menu-inner li>a {
-    color: rgba(255, 255, 255, 0.5);
+    color: #c3ba87;
     text-decoration: none;
     display: block;
     cursor: pointer;
+    text-shadow: 0px 0px 1px black;
 }
-
 .board-sidebar .board-menu .menu-inner li.opened>span, .board-sidebar .board-menu .menu-inner li>span:hover, .board-sidebar .board-menu .menu-inner li>a:hover {
     color: #ffffff;
     background-color: #853E36;
     background-image: linear-gradient(to right, #000000, #853E36 7px);
 }
-
 .board-sidebar .board-menu .menu-inner>li {
     border-top: 1px solid #660000;
 }
-
 .board-sidebar .board-menu .menu-inner>li>span, .board-sidebar .board-menu .menu-inner>li>a {
     padding-top: 15px;
     padding-bottom: 15px;
     padding-left: 20px;
     padding-right: 15px;
+    font-weight: bold;
 }
-
 .board-sidebar .board-menu .menu-inner>li.active>span, .board-sidebar .board-menu .menu-inner>li.active>a, .board-sidebar .board-menu .menu-inner>li.active>a:hover {
     background-color: #770000 !important;
     background-image: linear-gradient(to right, #000000, #770000 7px) !important;
-    color: #ffffff !important;
+    color: #d0ce6f !important;
 }
-
 .board-sidebar .board-menu .menu-inner>li>span i, .board-sidebar .board-menu .menu-inner>li>a i {
     margin-right: 5px;
     font-size: 16px;
 }
-
 .board-sidebar .board-menu .menu-inner>li>.sidebar-nav>li a {
     padding-top: 10px;
     padding-bottom: 10px;
@@ -188,8 +179,6 @@
     background-color: #B53E36;
     background-image: linear-gradient(to right, #000000, #B53E36 7px) !important;
 }
-
-
 /* WRAPPER */
 
 .board-wrapper {
@@ -198,12 +187,10 @@
     height: 100vh;
     overflow-y: auto;
 }
-
 .board-wrapper>header {
     margin: 0px;
     padding: 15px 20px;
 }
-
 .board-wrapper>header>.breadcrumb {
     border-radius: 0px;
     background: none;
@@ -211,22 +198,18 @@
     margin: 0 auto;
     padding: 0;
 }
-
 .board-wrapper>header>.breadcrumb li a {
     text-decoration: none;
     color: #999;
 }
-
 .board-wrapper>header>p.me {
     float: right;
     display: inline-block;
     color: #DDD;
 }
-
 .board-wrapper .wrapper-body {
     padding: 20px;
 }
-
 @media (max-width: 991.98px) {
     .board-wrapper {
         margin-left: 0px;
@@ -239,26 +222,21 @@
         padding: 20px;
     }
 }
-
 .board-wrapper .wrapper-body div.action {
     margin-top: 5px;
 }
-
 .board-wrapper .wrapper-body div.action .text-danger, .board-wrapper .wrapper-body div.action .text-primary, .board-wrapper .wrapper-body div.action .text-info, .board-wrapper .wrapper-body div.action .text-warning {
     font-size: 12px;
     margin-right: 10px;
     cursor: pointer;
     text-decoration: none;
 }
-
 table>tbody>tr>* {
     vertical-align: top !important;
 }
-
 table>tbody>tr>td.cell-min-300 {
     min-width: 300px;
 }
-
 table.vgt-table>tbody>tr>th.line-numbers {
     padding: .75em;
 }

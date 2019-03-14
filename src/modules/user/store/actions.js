@@ -15,7 +15,14 @@ const actions = {
   },
   resetMe: async (context) => {
     await context.commit('setMe', {...initial.user.attributes})
-    await context.commit('setPrivileges', [])
+    await context.commit('setMine', {
+      notification: {
+        total: 0,
+        unread: 0,
+        read: 0
+      },
+      privileges: []
+    })
   },
   resetToken: async (context) => {
     await window.localStorage.removeItem('viloveul:token')
@@ -31,7 +38,10 @@ const actions = {
   fetchMe: async (context) => {
     let res = await endpoints.getMe()
     await context.commit('setMe', res.data.data.attributes)
-    await context.commit('setPrivileges', res.data.meta.privileges)
+    await context.commit('setMine', {
+      notification: {...res.data.meta.notification},
+      privileges: [...res.data.meta.privileges]
+    })
     return res.data.data.attributes
   },
   createUser: async (context, payload) => {

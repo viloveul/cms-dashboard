@@ -8,8 +8,8 @@ export default {
   getProfile: (state) => () => {
     return state.profile
   },
-  getPrivileges: (state) => () => {
-    return state.privileges
+  getMine: (state) => () => {
+    return state.mine
   },
   getUsers: (state) => () => {
     return state.users
