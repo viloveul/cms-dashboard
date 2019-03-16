@@ -75,12 +75,10 @@ export default {
       this.socket.on('connect_error', () => {
         this.socket.close()
       })
-      this.socket.on('new message', (message) => {
-        if (message.task === 'system.notification') {
-          this.$store.commit('user/setMine', {
-            notification: {...message.data}
-          })
-        }
+      this.socket.on('system.notification', (message) => {
+        this.$store.commit('user/setMine', {
+          notification: {...message}
+        })
       })
       this.socket.on('connect', () => {
         this.socketConnected = true

@@ -1,7 +1,8 @@
-.app-board {
+body {
     min-height: 100vh;
     position: relative;
     background: #fefefe;
+    overflow-y: auto;
 }
 .app-board fieldset {
     border: 1px solid #CCC;
@@ -24,11 +25,31 @@
     background: rgba(255, 255, 255, 0.5);
     overflow: auto !important;
 }
+@media (min-width: 992px) {
+  .app-board .modal-dialog.modal-lg {
+    min-width: 100% !important;
+    padding: 0px;
+    margin: 0;
+  }
+  .app-board .modal-dialog.modal-lg .modal-content {
+    border: none;
+    border-radius: 0 !important;
+    min-height: 100vh !important;
+    position: relative;
+  }
+  .app-board .modal-dialog.modal-lg .modal-content .modal-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
 /* SIDEBAR */
 
 .board-sidebar {
     background-color: #990000;
     background-image: linear-gradient(to right, #000000, #990000 7px);
+    border-right: 5px solid #990000;
     width: 250px;
     position: absolute;
     top: 0;
@@ -41,8 +62,6 @@
     z-index: 20;
 }
 .board-sidebar .brand {
-    border-top: 2px solid #660000;
-    border-bottom: 2px solid #660000;
     background-color: #990000;
     background-image: linear-gradient(to right, #000000, #990000 7px);
     display: block;
@@ -96,12 +115,15 @@
     left: 0;
     overflow-x: hidden;
     overflow-y: auto;
-    padding-bottom: 30px;
+    margin-bottom: 30px;
+    border-top: 2px solid #660000;
+    border-bottom: 2px solid #660000;
 }
 @media (max-width: 991.98px) {
     .board-sidebar {
         position: relative;
         width: auto;
+        border: none;
     }
     .board-sidebar .board-menu {
         position: relative;
