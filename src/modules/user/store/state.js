@@ -7,5 +7,12 @@ export default {
   me: {
     ...initState.user.attributes
   },
-  privileges: []
+  mine: {
+    privileges: [],
+    notification: {
+      total: 0,
+      read: 0,
+      unread: 0
+    }
+  }
 }

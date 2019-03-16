@@ -8,28 +8,23 @@
     min-height: 100vh;
     background: #eee;
 }
-
 .login-page {
     max-width: 400px;
 }
-
 .login-page * {
     border-radius: 0px !important;
 }
-
 .login-page h1 {
     text-align: center;
     margin: 0px auto 15px;
     padding: 0px;
 }
-
 .login-page h1 a {
     text-decoration: none;
     font-family: 'times new romance';
     font-weight: bolder;
     color: #555666;
 }
-
 .login-page-inner {
     padding: 30px;
     border: 1px solid #999;

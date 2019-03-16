@@ -1,13 +1,18 @@
 <template>
   <div class="feature-container">
     <h2>Banner</h2>
-    <div class="form-group">
-      <div class="thumbnail" :style="'width: ' + width + 'px; height: ' + height + 'px;'">
-        <img :src="url" style="width: 100%; height: 100%;">
+    <div v-if="width > 0 && height > 0">
+      <div class="form-group">
+        <div class="thumbnail" :style="'width: ' + width + 'px; height: ' + height + 'px;'">
+          <img :src="url" style="width: 100%; height: 100%;">
+        </div>
+      </div>
+      <div class="form-group">
+        <span class="btn btn-warning" v-on:click="toggleModal">Change</span>
       </div>
     </div>
-    <div class="form-group">
-      <span class="btn btn-warning" v-on:click="toggleModal">Change</span>
+    <div v-else class="alert alert-danger">
+      Not Support
     </div>
     <div class="modal fade in" tabindex="-1" role="dialog" v-if="modal === true">
       <div class="modal-dialog modal-lg" role="document">

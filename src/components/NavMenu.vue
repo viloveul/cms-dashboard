@@ -95,7 +95,7 @@ export default {
       openedParent: -1,
       menus: [
         {
-          label: '@Profile',
+          label: 'Profile',
           link: '/',
           icon: 'sunglasses',
           match: /^$/

@@ -8,13 +8,22 @@
         <router-link :to="'/'" v-else>
           {{ getOption('brand') }}
         </router-link>
+        <span class="bell" v-on:click="handleNotification">
+          <i class="glyphicon glyphicon-bell connected" v-if="socketConnected"></i>
+          <i class="glyphicon glyphicon-bell disconnected" v-else></i>
+          <span class="badge" v-if="mine.notification.unread > 0">{{ mine.notification.unread }}</span>
+        </span>
       </h3>
-      <NavMenu :path="$route.path" :privileges="privileges" />
+      <NavMenu :path="$route.path" :privileges="mine.privileges">
+      </NavMenu>
     </aside>
+
     <div class="board-wrapper">
       <header v-if="breadcrumbs.length > 0">
-        <Breadcrumbs :items="breadcrumbs" />
+        <Breadcrumbs :items="breadcrumbs">
+        </Breadcrumbs>
       </header>
+
       <main class="wrapper-body">
         <div class="alert alert-danger" v-for="(error, index) in errors" :key="index">
           {{ error }}
@@ -22,6 +31,9 @@
         </div>
         <router-view :key="$route.path"></router-view>
       </main>
+
+      <Notification v-if="modalNotification === true" v-on:close-notification="toggleNotification">
+      </Notification>
     </div>
   </div>
 </template>
@@ -30,28 +42,64 @@
 
 import '@/assets/style.css'
 
+import io from 'socket.io-client'
+import general from '@/common/general'
 import NavMenu from '@/components/NavMenu'
 import Breadcrumbs from '@/components/Breadcrumbs'
+import Notification from '@/components/Notification'
 
 export default {
   components: {
     NavMenu,
-    Breadcrumbs
+    Breadcrumbs,
+    Notification
   },
   async mounted () {
     await this.$store.dispatch('user/fetchMe')
-    if (this.me.id === 0) {
-      await this.$router.replace('/login')
-    }
     await this.$store.dispatch('setting/fetchOption', 'url')
     await this.$store.dispatch('setting/fetchOption', 'brand')
     await this.$store.dispatch('setting/fetchOption', 'email')
     await this.$store.dispatch('setting/fetchOption', 'description')
     await this.$store.dispatch('setting/fetchOption', 'banner')
+    if (this.me.id === 0) {
+      await this.$router.replace('/login')
+    } else {
+      let vtoken = 'viloveul:token'
+      this.socket = io(general.getRelayUrl(), {
+        query: {
+          [vtoken]: window.localStorage.getItem('viloveul:token')
+        },
+        autoConnect: false
+      })
+      this.socket.open()
+      this.socket.on('connect_error', () => {
+        this.socket.close()
+      })
+      this.socket.on('system.notification', (message) => {
+        this.$store.commit('user/setMine', {
+          notification: {...message}
+        })
+      })
+      this.socket.on('connect', () => {
+        this.socketConnected = true
+      })
+      this.socket.on('disconnect', () => {
+        this.socketConnected = false
+      })
+    }
   },
   methods: {
     handleDeleteError (index) {
       this.errors.splice(index, 1)
+    },
+    handleNotification () {
+      this.toggleNotification()
+      if (this.socketConnected === false) {
+        this.socket.open()
+      }
+    },
+    toggleNotification () {
+      this.modalNotification = !this.modalNotification
     }
   },
   watch: {
@@ -74,11 +122,18 @@ export default {
     me () {
       return this.$store.getters['user/getMe']()
     },
-    privileges () {
-      return this.$store.getters['user/getPrivileges']()
+    mine () {
+      return this.$store.getters['user/getMine']()
     },
     status () {
       return this.$store.getters['getStatus']()
+    }
+  },
+  data () {
+    return {
+      socket: null,
+      socketConnected: false,
+      modalNotification: false
     }
   }
 }

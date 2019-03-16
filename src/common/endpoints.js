@@ -89,6 +89,16 @@ export default {
       params: $params || {}
     })
   },
+  async getNotifications ($params) {
+    return http.get('/notification/index', {
+      params: $params || {}
+    })
+  },
+  async getNotification ($id, $params) {
+    return http.get('/notification/detail/' + $id, {
+      params: $params || {}
+    })
+  },
   async updateRole ($id, $data, $params) {
     return http.post('/role/update/' + $id, qs.stringify($data), {
       params: $params || {}

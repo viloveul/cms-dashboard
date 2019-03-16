@@ -10,8 +10,10 @@ export default {
   setMe: (state, me) => {
     state.me = Object.assign({}, initial.user.attributes, me)
   },
-  setPrivileges: (state, privileges) => {
-    state.privileges = [...privileges]
+  setMine: (state, mine) => {
+    for (let a in mine) {
+      state.mine[a] = mine[a]
+    }
   },
   setRole: (state, role) => {
     state.role = Object.assign({}, initial.role, role)

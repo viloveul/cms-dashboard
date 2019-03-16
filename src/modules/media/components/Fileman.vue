@@ -112,7 +112,6 @@ export default {
   display: block;
 }
 .modal-body .content {
-  min-height: 50vh;
   padding: 20px;
   margin: 15px auto;
   border: 1px solid #CCC;
@@ -125,11 +124,5 @@ export default {
 }
 .pagination {
   margin: 0px auto;
-}
-@media (min-width: 992px) {
-  .modal-dialog.modal-lg {
-    width: 95vw !important;
-    height: 95vh !important;
-  }
 }
 </style>
