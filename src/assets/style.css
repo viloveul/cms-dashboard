@@ -1,7 +1,7 @@
 body {
     min-height: 100vh;
     position: relative;
-    background: #fefefe;
+    background: #ffffff;
     overflow-y: auto;
 }
 .app-board fieldset {
@@ -47,9 +47,9 @@ body {
 /* SIDEBAR */
 
 .board-sidebar {
-    background-color: #990000;
-    background-image: linear-gradient(to right, #000000, #990000 7px);
-    border-right: 5px solid #990000;
+    background-color: #6c0707;
+    background-image: linear-gradient(to right, #000000, #6c0707 7px);
+    border-right: 5px solid #6c0707;
     width: 250px;
     position: absolute;
     top: 0;
@@ -62,8 +62,8 @@ body {
     z-index: 20;
 }
 .board-sidebar .brand {
-    background-color: #990000;
-    background-image: linear-gradient(to right, #000000, #990000 7px);
+    background-color: #6c0707;
+    background-image: linear-gradient(to right, #000000, #6c0707 7px);
     display: block;
     padding: 10px 15px;
     position: relative;
@@ -73,9 +73,10 @@ body {
     font-weight: bold;
 }
 .board-sidebar .brand a {
-    color: #d0ce6f;
+    color: #fff;
     text-decoration: none;
     text-shadow: 1px 1px 10px black;
+    font-weight: bold;
 }
 .board-sidebar .brand a:hover {
     color: #FFFFFF;
@@ -87,15 +88,16 @@ body {
     cursor: pointer;
 }
 .board-sidebar .brand span.bell i.disconnected {
-    color: #666;
-    text-shadow: 0px 0px 1px black;
+    color: #000;
+    text-shadow: 0px 0px 1px white;
 }
-.board-sidebar .brand span.bell i {
+.board-sidebar .brand span.bell i.connected {
     text-shadow: 0px 0px 1px black;
-    color: #CCC;
+    color: #EEE;
 }
-.board-sidebar .brand span.bell:hover i {
-    color: #999;
+.board-sidebar .brand span.bell:hover i.disconnected {
+    color: #333;
+    text-shadow: 0px 0px 1px white;
 }
 .board-sidebar .brand span.bell .badge {
     position: absolute;
@@ -114,10 +116,10 @@ body {
     width: 100%;
     left: 0;
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: scroll;
     margin-bottom: 30px;
-    border-top: 2px solid #660000;
-    border-bottom: 2px solid #660000;
+    border-top: 2px solid #330000;
+    border-bottom: 2px solid #330000;
 }
 @media (max-width: 991.98px) {
     .board-sidebar {
@@ -130,6 +132,7 @@ body {
         width: auto;
         top: 0px;
         padding-bottom: 0px;
+        overflow-y: auto;
     }
     .board-sidebar .brand:after {
         display: none;
@@ -141,7 +144,7 @@ body {
 /* Track */
 
 .board-sidebar .board-menu::-webkit-scrollbar-track {
-    background: #222;
+    background: #330000;
 }
 /* Handle */
 
@@ -163,7 +166,7 @@ body {
     padding: 0;
 }
 .board-sidebar .board-menu .menu-inner li>span, .board-sidebar .board-menu .menu-inner li>a {
-    color: #c3ba87;
+    color: #FEFEFE;
     text-decoration: none;
     display: block;
     cursor: pointer;
@@ -175,7 +178,7 @@ body {
     background-image: linear-gradient(to right, #000000, #853E36 7px);
 }
 .board-sidebar .board-menu .menu-inner>li {
-    border-top: 1px solid #660000;
+    border-bottom: 1px solid #330000;
 }
 .board-sidebar .board-menu .menu-inner>li>span, .board-sidebar .board-menu .menu-inner>li>a {
     padding-top: 15px;

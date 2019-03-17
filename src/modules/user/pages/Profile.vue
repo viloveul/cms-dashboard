@@ -87,9 +87,6 @@
             </h4>
           </div>
           <div class="modal-body">
-            <div class="alert alert-danger">
-              Anda diharuskan memasukkan password untuk merubah info account
-            </div>
             <div class="thumbnail" style="max-width: 310px; margin: 0px auto 30px; text-align: center; display: block">
               <croppa
                 v-if="pictureUpload === true"
@@ -186,10 +183,8 @@ export default {
   },
   methods: {
     async handleSaveAccount () {
-      if (this.me.password !== null && this.me.password.length > 0 && this.me.password === this.me.passconf) {
-        await this.$store.dispatch('user/updateUser', this.me)
-        this.toggleEditAccount()
-      }
+      await this.$store.dispatch('user/updateUser', this.me)
+      this.toggleEditAccount()
     },
     async handleSaveProfile () {
       await this.$store.dispatch('user/updateProfile', {
