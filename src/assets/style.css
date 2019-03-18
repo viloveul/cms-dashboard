@@ -36,8 +36,10 @@ body {
     border-radius: 0 !important;
     min-height: 100vh !important;
     position: relative;
+    padding-bottom: 70px;
   }
   .app-board .modal-dialog.modal-lg .modal-content .modal-footer {
+    height: 70px;
     position: absolute;
     bottom: 0;
     left: 0;
