@@ -112,7 +112,7 @@ export default {
       await this.$router.push('/tag/update/' + id)
     },
     async handleSave () {
-      let act = this.tag.id === 0 ? 'post/createTag' : 'post/updateTag'
+      let act = this.tag.id > 0 ? 'post/updateTag' : 'post/createTag'
       await this.$store.dispatch(act, {...this.tag.attributes})
       await this.$store.dispatch('post/resetTag')
       await this.$router.push('/tag')

@@ -13,6 +13,22 @@ export default {
       params: $params || {}
     })
   },
+  async requestAccount ($data, $params) {
+    return http.request({
+      url: '/auth/register',
+      method: 'post',
+      data: qs.stringify($data),
+      params: $params || {}
+    })
+  },
+  async requestPassword ($data, $params) {
+    return http.request({
+      url: '/auth/forgot',
+      method: 'post',
+      data: qs.stringify($data),
+      params: $params || {}
+    })
+  },
 
   /**
    * USERS ENDPOINT

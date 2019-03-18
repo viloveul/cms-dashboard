@@ -64,7 +64,7 @@ import endpoints from '@/common/endpoints'
 
 export default {
   async created () {
-    this.serverParams = {...this.$route.query}
+    this.serverParams = Object.assign({}, this.def, {...this.$route.query})
     this.pagination.setCurrentPage = parseInt(this.serverParams.page || 1)
     this.pagination.perPage = parseInt(this.serverParams.size || 10)
     for (let i in this.columns) {
@@ -118,16 +118,11 @@ export default {
       }, 500)
     },
     async handleSave () {
-      let act = this.menu.id === 0 ? 'menu/createMenu' : 'menu/updateMenu'
+      let act = this.menu.id > 0 ? 'menu/updateMenu' : 'menu/createMenu'
       await this.$store.dispatch(act, this.menu)
       await this.$store.dispatch('menu/resetMenu')
       await this.$router.push('/menu')
-      this.serverParams = {
-        order: 'id',
-        sort: 'desc',
-        page: 1,
-        size: 10
-      }
+      this.serverParams = {...this.def}
       await this.loadData()
     },
     async handleDelete (id) {
@@ -141,8 +136,8 @@ export default {
           path: '/menu',
           query: this.serverParams
         })
-        this.loadData()
       }
+      this.loadData()
     },
     onPageChange (params) {
       if (this.serverParams.page !== params.currentPage) {
@@ -151,8 +146,8 @@ export default {
           path: '/menu',
           query: this.serverParams
         })
-        this.loadData()
       }
+      this.loadData()
     },
     onColumnFilter (filters) {
       for (let i in filters.columnFilters) {
@@ -183,6 +178,12 @@ export default {
   },
   data: () => {
     return {
+      def: {
+        order: 'id',
+        sort: 'desc',
+        page: 1,
+        size: 10
+      },
       timeout: null,
       rows: [],
       links: {},
@@ -263,12 +264,7 @@ export default {
           }
         }
       ],
-      serverParams: {
-        order: 'id',
-        sort: 'desc',
-        page: 1,
-        size: 10
-      },
+      serverParams: {},
       pagination: {
         enabled: true,
         perPage: 10,

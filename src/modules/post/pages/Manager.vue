@@ -35,7 +35,7 @@ import endpoints from '@/common/endpoints'
 
 export default {
   async created () {
-    this.serverParams = {...this.$route.query}
+    this.serverParams = Object.assign({}, this.def, {...this.$route.query})
     this.pagination.setCurrentPage = parseInt(this.serverParams.page || 1)
     this.pagination.perPage = parseInt(this.serverParams.size || 10)
     for (let i in this.columns) {
@@ -78,8 +78,8 @@ export default {
           path: '/post',
           query: this.serverParams
         })
-        this.loadData()
       }
+      this.loadData()
     },
     onPageChange (params) {
       if (this.serverParams.page !== params.currentPage) {
@@ -88,8 +88,8 @@ export default {
           path: '/post',
           query: this.serverParams
         })
-        this.loadData()
       }
+      this.loadData()
     },
     onColumnFilter (filters) {
       for (let i in filters.columnFilters) {
@@ -120,6 +120,12 @@ export default {
   },
   data: () => {
     return {
+      def: {
+        order: 'id',
+        sort: 'desc',
+        page: 1,
+        size: 10
+      },
       timeout: null,
       rows: [],
       links: {},
@@ -200,12 +206,7 @@ export default {
           }
         }
       ],
-      serverParams: {
-        order: 'id',
-        sort: 'desc',
-        page: 1,
-        size: 10
-      },
+      serverParams: {},
       pagination: {
         enabled: true,
         perPage: 10,

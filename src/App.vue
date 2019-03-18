@@ -62,7 +62,7 @@ export default {
     await this.$store.dispatch('setting/fetchOption', 'description')
     await this.$store.dispatch('setting/fetchOption', 'banner')
     if (this.me.id === 0) {
-      await this.$router.replace('/login')
+      await this.$router.replace('/gate')
     } else {
       let vtoken = 'viloveul:token'
       this.socket = io(general.getRelayUrl(), {
@@ -105,7 +105,7 @@ export default {
   watch: {
     async status (v) {
       if (v === 401) {
-        await this.$router.push('/login')
+        await this.$router.push('/gate')
       }
     }
   },

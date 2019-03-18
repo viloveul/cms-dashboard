@@ -1,0 +1,63 @@
+.gate-page-container {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+    background: #101010;
+}
+.gate-page-inner {
+    max-width: 400px;
+    padding: 30px;
+    background: #fff;
+    box-shadow: 1px 2px 2px rgba(255, 255, 255, 0.5);
+    border-radius: 0px !important;
+}
+.gate-page-inner * {
+    border-radius: 0px !important;
+}
+.gate-page-inner .gate-page-title {
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 100%;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #CCC;
+    color: #666;
+}
+.gate-page-inner ul.option {
+    padding: 0;
+    margin: 15px auto 0;
+    list-style: none;
+    text-align: left;
+    position: relative;
+    min-height: 20px;
+}
+.gate-page-inner ul.option li {
+    display: inline-block;
+    position: absolute;
+    color: #999;
+}
+.gate-page-inner ul.option li:first-child {
+    left: 0;
+    padding-left: 15px;
+}
+.gate-page-inner ul.option li:last-child {
+    right: 0;
+    padding-right: 15px;
+}
+.gate-page-inner ul.option li:first-child:before {
+    left: 0;
+    position: absolute;
+    content: "\2b60";
+}
+.gate-page-inner ul.option li:last-child:after {
+    right: 0;
+    position: absolute;
+    content: "\2b62";
+}
+.gate-page-inner ul.option li a {
+    color: #999;
+}

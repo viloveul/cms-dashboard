@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import general from '@/common/general'
 import App from '@/App'
-import Login from '@/Login'
+import Gate from '@/Gate'
 
 import {
   Profile as UserProfile,
@@ -48,8 +48,8 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/login',
-    component: Login
+    path: '/gate',
+    component: Gate
   },
   {
     path: '/',
