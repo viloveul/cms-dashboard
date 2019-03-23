@@ -4,7 +4,7 @@ MAINTAINER Fajrul Akbar Zuhdi<fajrulaz@gmail.com>
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y --no-install-recommends --no-install-suggests \
+ENV BASICDEP \
     apt-utils \
     lsb-release \
     gnupg \
@@ -27,11 +27,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends --no-install-su
     cron \
     supervisor
 
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends --no-install-suggests $BASICDEP && \
+    rm -rf /var/lib/apt/lists/*
+
 ADD . /viloveul
 
 WORKDIR /viloveul
 
-RUN apt-get install -y --no-install-recommends --no-install-suggests nginx && \
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends --no-install-suggests nginx && \
+    rm -rf /var/lib/apt/lists/* && \
     rm -f /etc/nginx/sites-enabled/* && \
     cp /viloveul/config/nginx.conf /etc/nginx/conf.d/default.conf && \
     mkdir -p /var/log/supervisor && \
@@ -39,13 +45,12 @@ RUN apt-get install -y --no-install-recommends --no-install-suggests nginx && \
 
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
     apt-get update && \
-    apt-get install -y --no-install-recommends --no-install-suggests nodejs
+    apt-get install -y --no-install-recommends --no-install-suggests nodejs && \
+    rm -rf /var/lib/apt/lists/*
 
-# WORK
 RUN npm install --prefix /viloveul && \
     npm cache clean --force && \
     apt-get autoremove -y && \
-    rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/* && \
     mkdir -p /viloveul/dist && \
     touch /viloveul/dist/index.html
