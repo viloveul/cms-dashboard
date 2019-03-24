@@ -1,28 +1,28 @@
-const baseUrl = (typeof process.env.VILOVEUL_BASE_URL !== 'undefined') ? process.env.VILOVEUL_BASE_URL : __dirname
+const baseUrl = (process.env.VILOVEUL_BASE_URL !== undefined) ? process.env.VILOVEUL_BASE_URL : __dirname
 
-const apiUrl = (typeof process.env.VILOVEUL_API_URL !== 'undefined') ? process.env.VILOVEUL_API_URL : 'http://localhost:19911'
+const apiUrl = (process.env.VILOVEUL_API_URL !== undefined) ? process.env.VILOVEUL_API_URL : 'http://localhost:19911'
 
-const relayUrl = (typeof process.env.VILOVEUL_RELAY_URL !== 'undefined') ? process.env.VILOVEUL_RELAY_URL : 'http://localhost:19910'
+const relayUrl = (process.env.VILOVEUL_RELAY_URL !== undefined) ? process.env.VILOVEUL_RELAY_URL : 'http://localhost:19910'
 
-const tokenHeader = (typeof process.env.VILOVEUL_TOKEN_HEADER !== 'undefined') ? process.env.VILOVEUL_TOKEN_HEADER : 'Bearer'
+const tokenHeader = (process.env.VILOVEUL_TOKEN_HEADER !== undefined) ? process.env.VILOVEUL_TOKEN_HEADER : 'Bearer'
 
-const defaultToken = (typeof process.env.VILOVEUL_DEFAULT_TOKEN !== 'undefined') ? process.env.VILOVEUL_DEFAULT_TOKEN : ''
+const defaultToken = (process.env.VILOVEUL_DEFAULT_TOKEN !== undefined) ? process.env.VILOVEUL_DEFAULT_TOKEN : ''
 
 const general = {
   getBaseUrl () {
-    return (typeof window.viloveulBaseUrl !== 'undefined') ? window.viloveulBaseUrl : baseUrl
+    return (window.viloveulBaseUrl !== undefined) ? window.viloveulBaseUrl : baseUrl
   },
   getApiUrl () {
-    return (typeof window.viloveulApiUrl !== 'undefined') ? window.viloveulApiUrl : apiUrl
+    return (window.viloveulApiUrl !== undefined) ? window.viloveulApiUrl : apiUrl
   },
   getRelayUrl () {
-    return (typeof window.viloveulRelayUrl !== 'undefined') ? window.viloveulRelayUrl : relayUrl
+    return (window.viloveulRelayUrl !== undefined) ? window.viloveulRelayUrl : relayUrl
   },
   getTokenHeader () {
-    return (typeof window.viloveulTokenHeader !== 'undefined') ? window.viloveulTokenHeader : tokenHeader
+    return (window.viloveulTokenHeader !== undefined) ? window.viloveulTokenHeader : tokenHeader
   },
   getDefaultToken () {
-    return (typeof window.viloveulDefaultToken !== 'undefined') ? window.viloveulDefaultToken : defaultToken
+    return (window.viloveulDefaultToken !== undefined) ? window.viloveulDefaultToken : defaultToken
   }
 }
 
