@@ -5,20 +5,8 @@ MAINTAINER Fajrul Akbar Zuhdi<fajrulaz@gmail.com>
 ENV DEBIAN_FRONTEND=noninteractive
 
 ENV BASICDEP \
-    apt-utils \
-    lsb-release \
-    gnupg \
-    autoconf \
     apt-transport-https \
     ca-certificates \
-    dpkg-dev \
-    file \
-    g++ \
-    gcc \
-    libc-dev \
-    make \
-    pkg-config \
-    re2c \
     curl \
     nano \
     wget \
@@ -48,9 +36,7 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
     apt-get install -y --no-install-recommends --no-install-suggests nodejs && \
     rm -rf /var/lib/apt/lists/*
 
-RUN npm install --prefix /viloveul && \
-    npm cache clean --force && \
-    apt-get autoremove -y && \
+RUN apt-get autoremove -y && \
     rm -rf /tmp/* && \
     mkdir -p /viloveul/dist && \
     touch /viloveul/dist/index.html
