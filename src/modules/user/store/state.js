@@ -5,7 +5,7 @@ let initState = {...JSON.parse(JSON.stringify(initial))}
 export default {
   ...initState,
   me: {
-    ...initState.user.attributes
+    ...initState.user
   },
   mine: {
     privileges: [],

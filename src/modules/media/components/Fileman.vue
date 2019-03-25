@@ -15,11 +15,11 @@
           <div class="content">
             <div class="row" v-for="(fileRows, index) in files" :key="'row' + index">
               <div class="col-md-2" v-for="(file, i) in fileRows" :key="'col' + i">
-                <div class="thumbnail" :title="file.attributes.name">
-                  <img :src="file.attributes.image_url">
+                <div class="thumbnail" :title="file.name">
+                  <img :src="file.image_url">
                   <div class="caption">
-                    <p>{{ file.attributes.name }}</p>
-                    <span class="btn btn-info btn-xs btn-block" v-on:click.prevent="$emit('selected-fileman', file.attributes)">
+                    <p>{{ file.name }}</p>
+                    <span class="btn btn-info btn-xs btn-block" v-on:click.prevent="$emit('selected-fileman', file)">
                       Select
                     </span>
                   </div>

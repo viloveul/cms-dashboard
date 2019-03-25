@@ -14,15 +14,11 @@ export default {
     status: 1,
     created_at: '',
     updated_at: '',
-    deleted_at: ''
-  },
-  relationships: {
+    deleted_at: '',
     author: {
-      data: {
-        id: 0,
-        name: '',
-        nickname: ''
-      }
+      id: 0,
+      name: '',
+      nickname: ''
     }
   }
 }

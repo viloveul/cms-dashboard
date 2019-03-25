@@ -6,24 +6,24 @@
         <form method="post" v-on:submit.prevent="handleSave">
           <div class="form-group">
             <label>Title</label>
-            <input type="text" class="form-control input-sm" v-model="tag.attributes.title" v-on:change="handleChangeTitle">
+            <input type="text" class="form-control input-sm" v-model="tag.title" v-on:change="handleChangeTitle">
           </div>
           <div class="form-group">
             <label>Slug</label>
-            <input type="text" class="form-control input-sm" v-model="tag.attributes.slug">
+            <input type="text" class="form-control input-sm" v-model="tag.slug">
           </div>
           <div class="form-group">
             <label>Type</label>
-            <select class="form-control input-sm" v-model="tag.attributes.type" v-on:change="handleChangeType">
+            <select class="form-control input-sm" v-model="tag.type" v-on:change="handleChangeType">
               <option v-for="type in types" :key="type.name" :value="type.name">{{ type.label }}</option>
             </select>
           </div>
           <div class="form-group" v-if="isFormatCategory() === true">
             <label>Parent</label>
-            <select class="form-control input-sm" v-model="tag.attributes.parent_id">
+            <select class="form-control input-sm" v-model="tag.parent_id">
               <option value="0">Select parent</option>
               <option v-for="(parentTag, parentIndex) in tags" :key="'parent-' + parentIndex" :value="parentTag.id">
-                {{ parentTag.attributes.display }}
+                {{ parentTag.display }}
               </option>
             </select>
           </div>
@@ -97,7 +97,7 @@ export default {
   methods: {
     isFormatCategory () {
       for (let i = 0; i < this.types.length; i++) {
-        if (this.types[i].name === this.tag.attributes.type && this.types[i].format === 'category') {
+        if (this.types[i].name === this.tag.type && this.types[i].format === 'category') {
           return true
         }
       }
@@ -112,8 +112,8 @@ export default {
       await this.$router.push('/tag/update/' + id)
     },
     async handleSave () {
-      let act = this.tag.id > 0 ? 'post/updateTag' : 'post/createTag'
-      await this.$store.dispatch(act, {...this.tag.attributes})
+      let act = this.tag.id !== 0 ? 'post/updateTag' : 'post/createTag'
+      await this.$store.dispatch(act, {...this.tag})
       await this.$store.dispatch('post/resetTag')
       await this.$router.push('/tag')
       this.serverParams = {
@@ -130,11 +130,11 @@ export default {
       await this.loadData()
     },
     async handleChangeType () {
-      await this.$store.dispatch('post/fetchTags', {type: this.tag.attributes.type})
+      await this.$store.dispatch('post/fetchTags', {type: this.tag.type})
     },
     async handleChangeTitle () {
-      if (this.tag.attributes.slug.length === 0) {
-        this.tag.attributes.slug = this.tag.attributes.title.toLowerCase().replace(/[^a-z0-9]/g, '-')
+      if (this.tag.slug.length === 0) {
+        this.tag.slug = this.tag.title.toLowerCase().replace(/[^a-z0-9]/g, '-')
       }
     },
     async loadData () {
@@ -143,9 +143,7 @@ export default {
       }
       this.timeout = setTimeout(async () => {
         await endpoints.getTags(this.serverParams).then(res => {
-          this.rows = res.data.data.map(tag => {
-            return tag.attributes
-          })
+          this.rows = res.data.data
           this.links = res.data.links
           this.meta = res.data.meta
         })

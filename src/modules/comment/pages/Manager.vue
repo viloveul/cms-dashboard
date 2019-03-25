@@ -59,9 +59,7 @@ export default {
       }
       this.timeout = setTimeout(async () => {
         await endpoints.getComments(this.serverParams).then(res => {
-          this.rows = res.data.data.map(comment => {
-            return comment.attributes
-          })
+          this.rows = res.data.data
           this.links = res.data.links
           this.meta = res.data.meta
         })
@@ -117,7 +115,7 @@ export default {
   data: () => {
     return {
       def: {
-        order: 'id',
+        order: 'created_at',
         sort: 'desc',
         page: 1,
         size: 10

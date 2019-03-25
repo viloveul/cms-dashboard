@@ -109,16 +109,14 @@ export default {
       }
       this.timeout = setTimeout(async () => {
         await endpoints.getMenus(this.serverParams).then(res => {
-          this.rows = res.data.data.map(menu => {
-            return menu.attributes
-          })
+          this.rows = res.data.data
           this.links = res.data.links
           this.meta = res.data.meta
         })
       }, 500)
     },
     async handleSave () {
-      let act = this.menu.id > 0 ? 'menu/updateMenu' : 'menu/createMenu'
+      let act = this.menu.id !== 0 ? 'menu/updateMenu' : 'menu/createMenu'
       await this.$store.dispatch(act, this.menu)
       await this.$store.dispatch('menu/resetMenu')
       await this.$router.push('/menu')
@@ -179,7 +177,7 @@ export default {
   data: () => {
     return {
       def: {
-        order: 'id',
+        order: 'created_at',
         sort: 'desc',
         page: 1,
         size: 10

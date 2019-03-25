@@ -4,10 +4,10 @@
     <form method="post" v-on:submit.prevent="handleSave" class="row">
       <div class="col-md-9">
         <div class="form-group">
-          <input type="text" class="form-control input-lg" v-model="post.attributes.title" placeholder="Post Title Here..." v-on:change="handleChangeTitle">
+          <input type="text" class="form-control input-lg" v-model="post.title" placeholder="Post Title Here..." v-on:change="handleChangeTitle">
         </div>
         <div class="form-group">
-          <input type="text" class="form-control input-xs" v-model="post.attributes.slug">
+          <input type="text" class="form-control input-xs" v-model="post.slug">
         </div>
         <div class="form-group">
           <span class="btn btn-default btn-sm" v-on:click="fileman = true">
@@ -15,7 +15,7 @@
           </span>
         </div>
         <div class="form-group">
-          <ckeditor ref="editor" :config="ckeconfig" :editor="ckeclassic" v-model="post.attributes.content"></ckeditor>
+          <ckeditor ref="editor" :config="ckeconfig" :editor="ckeclassic" v-model="post.content"></ckeditor>
         </div>
         <div class="row" v-if="isFormatPost() === true">
           <div class="col-md-6">
@@ -47,25 +47,25 @@
           <div class="panel-heading">Meta</div>
           <div class="panel-body">
             <div class="form-group">
-              <div class="thumbnail" v-if="post.attributes.cover !== null && post.attributes.cover.length > 0">
-                <img :src="post.attributes.cover" class="cover" style="max-width: 100%">
+              <div class="thumbnail" v-if="post.cover !== null && post.cover.length > 0">
+                <img :src="post.cover" class="cover" style="max-width: 100%">
                 <div class="caption">
-                  <span class="btn btn-danger btn-xs btn-block" v-on:click="post.attributes.cover = ''">
+                  <span class="btn btn-danger btn-xs btn-block" v-on:click="post.cover = ''">
                     Delete Cover
                   </span>
                 </div>
               </div>
-              <span v-if="post.attributes.cover === null || post.attributes.cover.length === 0" class="btn btn-info btn-xs btn-block" v-on:click="cover = true">
+              <span v-if="post.cover === null || post.cover.length === 0" class="btn btn-info btn-xs btn-block" v-on:click="cover = true">
                 Add Cover Image
               </span>
             </div>
             <div class="form-group">
               <label>Date</label>
-              <input v-model="post.attributes.created_at" type="text" class="form-control input-sm" readonly="readonly">
+              <input v-model="post.created_at" type="text" class="form-control input-sm" readonly="readonly">
             </div>
             <div class="form-group">
               <label>Type</label>
-              <select class="form-control input-sm" v-model="post.attributes.type">
+              <select class="form-control input-sm" v-model="post.type">
                 <option disabled="disabled">Select Type</option>
                 <option v-for="type in postTypes" :key="type.name" :value="type.name">{{ type.label }}</option>
               </select>
@@ -73,13 +73,13 @@
             <div class="form-group" v-if="isFormatPost() === true">
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" v-model="post.attributes.comment_enabled"> Enable Comment
+                  <input type="checkbox" v-model="post.comment_enabled"> Enable Comment
                 </label>
               </div>
             </div>
             <div class="form-group">
               <label>Status</label>
-              <select class="form-control input-sm" v-model="post.attributes.status">
+              <select class="form-control input-sm" v-model="post.status">
                 <option disabled="disabled">Select Status</option>
                 <option value="0">Draft</option>
                 <option value="1">Published</option>
@@ -122,7 +122,7 @@ export default {
     ])
     if (this.$route.params.id !== undefined) {
       await this.$store.dispatch('post/fetchPost', this.$route.params.id)
-      this.relations = this.post.relationships.tags.data.map(tag => {
+      this.relations = this.post.tags.map(tag => {
         return tag.id
       })
     }
@@ -133,15 +133,15 @@ export default {
   methods: {
     isFormatPost () {
       for (let i = 0; i < this.postTypes.length; i++) {
-        if (this.postTypes[i].name === this.post.attributes.type && this.postTypes[i].format === 'post') {
+        if (this.postTypes[i].name === this.post.type && this.postTypes[i].format === 'post') {
           return true
         }
       }
       return false
     },
     handleChangeTitle () {
-      if (this.post.attributes.slug.length === 0) {
-        this.post.attributes.slug = this.post.attributes.title.toLowerCase().replace(/[^a-z0-9]/g, '-')
+      if (this.post.slug.length === 0) {
+        this.post.slug = this.post.title.toLowerCase().replace(/[^a-z0-9]/g, '-')
       }
     },
     handleSelectedMedia (x) {
@@ -160,17 +160,17 @@ export default {
     handleSelectedCover (x) {
       this.cover = false
       if (x.type.indexOf('image') !== -1) {
-        this.post.attributes.cover = x.url
+        this.post.cover = x.url
       }
     },
     async handleSave () {
-      let action = this.post.attributes.id > 0 ? 'post/updatePost' : 'post/createPost'
+      let action = this.post.id !== 0 ? 'post/updatePost' : 'post/createPost'
       if (this.isFormatPost() === false) {
-        this.post.attributes.comment_enabled = 0
+        this.post.comment_enabled = 0
         this.relations = []
       }
       await this.$store.dispatch(action, {
-        ...this.post.attributes,
+        ...this.post,
         relations: this.relations
       })
       await this.$store.dispatch('post/resetPost')
@@ -180,14 +180,14 @@ export default {
       await this.$store.dispatch('post/resetPost')
       if (this.$route.params.id !== undefined) {
         await this.$store.dispatch('post/fetchPost', this.$route.params.id)
-        this.relations = this.post.relationships.tags.data.map(tag => {
+        this.relations = this.post.tags.map(tag => {
           return tag.id
         })
       }
     },
     tagByKey ($key) {
       return this.tags.filter(tag => {
-        return tag.attributes.type === $key
+        return tag.type === $key
       })
     }
   },

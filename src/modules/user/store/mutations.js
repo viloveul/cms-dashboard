@@ -8,7 +8,7 @@ export default {
     state.user = Object.assign({}, initial.user, user)
   },
   setMe: (state, me) => {
-    state.me = Object.assign({}, initial.user.attributes, me)
+    state.me = Object.assign({}, initial.user, me)
   },
   setMine: (state, mine) => {
     for (let a in mine) {

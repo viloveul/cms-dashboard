@@ -14,7 +14,7 @@ const actions = {
     }
   },
   resetMe: async (context) => {
-    await context.commit('setMe', {...initial.user.attributes})
+    await context.commit('setMe', {...initial.user})
     await context.commit('setMine', {
       notification: {
         total: 0,
@@ -37,31 +37,31 @@ const actions = {
   },
   fetchMe: async (context) => {
     let res = await endpoints.getMe()
-    await context.commit('setMe', res.data.data.attributes)
+    await context.commit('setMe', res.data.data)
     await context.commit('setMine', {
       notification: {...res.data.meta.notification},
       privileges: [...res.data.meta.privileges]
     })
-    return res.data.data.attributes
+    return res.data.data
   },
   createUser: async (context, payload) => {
     let { data } = await endpoints.createUser(payload)
-    return data.data.attributes
+    return data.data
   },
   deleteUser: async (context, payload) => {
     await endpoints.deleteUser(payload)
   },
   updateUser: async (context, payload) => {
     let { data } = await endpoints.updateUser(payload.id, payload)
-    return data.data.attributes
+    return data.data
   },
   syncRelations: async (context, payload) => {
     let { data } = await endpoints.syncUserRelations(payload.id, payload.relations)
-    return data.data.attributes
+    return data.data
   },
   updateProfile: async (context, payload) => {
     let { data } = await endpoints.updateProfile(payload.id, payload.params)
-    return data.data.attributes
+    return data.data
   },
   fetchUsers: async (context, payload) => {
     let { data } = await endpoints.getUsers(payload.params)
@@ -74,8 +74,8 @@ const actions = {
   },
   fetchProfile: async (context, payload) => {
     let { data } = await endpoints.getProfile(payload)
-    await context.commit('setProfile', data.data.attributes)
-    return data.data.attributes
+    await context.commit('setProfile', data.data)
+    return data.data
   },
   fetchRoles: async (context, payload) => {
     let { data } = await endpoints.getAllRoles(payload)
@@ -89,11 +89,11 @@ const actions = {
   },
   createRole: async (context, payload) => {
     let { data } = await endpoints.createRole(payload)
-    return data.data.attributes
+    return data.data
   },
   updateRole: async (context, payload) => {
     let { data } = await endpoints.updateRole(payload.id, payload)
-    return data.data.attributes
+    return data.data
   },
   assignRoleChilds: async (context, payload) => {
     await endpoints.assignRole(payload.id, {childs: [...payload.childIds]})

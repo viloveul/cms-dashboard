@@ -201,7 +201,7 @@ export default {
             form.append('profile', blob)
             let data = await this.$store.dispatch('media/uploadFile', form)
             if (data.length > 0) {
-              this.me.picture = data[0].attributes.url
+              this.me.picture = data[0].url
               this.pictureUpload = false
             }
           },
