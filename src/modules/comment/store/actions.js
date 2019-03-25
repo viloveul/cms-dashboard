@@ -3,7 +3,7 @@ import initial from '@/modules/comment/store/initial'
 
 export default {
   resetComment: async (context) => {
-    context.attributes = Object.assign({}, initial.attributes)
+    context.data = Object.assign({}, initial.data)
   },
   fetchComment: async (context, payload) => {
     let { data } = await endpoints.getComment(payload)

@@ -16,8 +16,8 @@ export default {
   },
   fetchMenu: async (context, payload) => {
     let { data } = await endpoints.getMenu(payload)
-    await context.commit('setMenu', data.data.attributes)
-    return data.data.attributes
+    await context.commit('setMenu', data.data)
+    return data.data
   },
   updateMenu: async (context, payload) => {
     let { data } = await endpoints.updateMenu(payload.id, payload)

@@ -60,9 +60,7 @@ export default {
         let data = await this.$store.dispatch('user/fetchUsers', {
           params: this.serverParams
         })
-        this.rows = data.data.map(user => {
-          return user.attributes
-        })
+        this.rows = data.data
         this.links = data.links
         this.meta = data.meta
       }, 500)
@@ -121,7 +119,7 @@ export default {
   data () {
     return {
       def: {
-        order: 'id',
+        order: 'created_at',
         sort: 'desc',
         page: 1,
         size: 10

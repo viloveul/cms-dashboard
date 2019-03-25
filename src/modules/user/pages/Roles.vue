@@ -6,15 +6,15 @@
         <form method="post" v-on:submit.prevent="handleSave">
           <div class="form-group">
             <label>Name</label>
-            <input type="text" class="form-control input-sm" v-model="role.attributes.name">
+            <input type="text" class="form-control input-sm" v-model="role.name">
           </div>
           <div class="form-group">
             <label>Description</label>
-            <textarea class="form-control input-sm" v-model="role.attributes.description"></textarea>
+            <textarea class="form-control input-sm" v-model="role.description"></textarea>
           </div>
           <div class="form-group">
             <label>Type</label>
-            <select class="form-control input-sm" v-model="role.attributes.type">
+            <select class="form-control input-sm" v-model="role.type">
               <option :value="'group'">Role Group</option>
               <option :value="'access'">Role Access</option>
             </select>
@@ -91,8 +91,8 @@ export default {
       await this.$router.push('/role/update/' + id)
     },
     async handleSave () {
-      let act = this.role.attributes.id === 0 ? 'user/createRole' : 'user/updateRole'
-      await this.$store.dispatch(act, {...this.role.attributes})
+      let act = this.role.id === 0 ? 'user/createRole' : 'user/updateRole'
+      await this.$store.dispatch(act, {...this.role})
       await this.$store.dispatch('user/resetRole')
       await this.$router.push('/role')
       this.serverParams = {...this.def}
@@ -104,9 +104,7 @@ export default {
       }
       this.timeout = setTimeout(async () => {
         await endpoints.getRoles(this.serverParams).then(res => {
-          this.rows = res.data.data.map(role => {
-            return role.attributes
-          })
+          this.rows = res.data.data
           this.links = res.data.links
           this.meta = res.data.meta
         })
@@ -167,7 +165,7 @@ export default {
   data: () => {
     return {
       def: {
-        order: 'id',
+        order: 'created_at',
         sort: 'desc',
         page: 1,
         size: 10

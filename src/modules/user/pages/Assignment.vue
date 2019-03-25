@@ -7,7 +7,7 @@
           <select class="form-control input-sm" v-model="id" v-on:change="handleChange">
             <option value="0" disabled="disabled">Select Group</option>
             <option v-for="(theGroup, x) in groups" :key="'group-' + x" :value="theGroup.id">
-              {{ theGroup.attributes.name }}
+              {{ theGroup.name }}
             </option>
           </select>
         </div>
@@ -18,7 +18,7 @@
         <div class="form-group">
           <label>Assigned Roles</label>
           <select class="form-control input-sm" v-model="toUnAssign" multiple="multiple" style="height: 300px;">
-            <option v-if="id > 0" v-for="(theAccess, x) in group.relationships.childs.data" :key="'assigned-' + x" :value="theAccess.id">
+            <option v-if="id.length > 0" v-for="(theAccess, x) in group.childs" :key="'assigned-' + x" :value="theAccess.id">
               {{ theAccess.name }}
             </option>
           </select>
@@ -32,8 +32,8 @@
         <div class="form-group">
           <label>Available Roles</label>
           <select class="form-control input-sm" v-model="toAssign" multiple="multiple" style="height: 300px;">
-            <option v-if="id > 0" v-for="(theAccess, x) in availables" :key="'available-' + x" :value="theAccess.id">
-              {{ theAccess.attributes.name }}
+            <option v-if="id.length > 0" v-for="(theAccess, x) in availables" :key="'available-' + x" :value="theAccess.id">
+              {{ theAccess.name }}
             </option>
           </select>
         </div>
@@ -81,16 +81,16 @@ export default {
     },
     access () {
       return this.roles.filter(res => {
-        return res.attributes.type !== 'group'
+        return res.type !== 'group'
       })
     },
     groups () {
       return this.roles.filter(res => {
-        return res.attributes.type === 'group'
+        return res.type === 'group'
       })
     },
     exists () {
-      return this.group.relationships.childs.data.map(res => {
+      return this.group.childs.map(res => {
         return res.id
       })
     },

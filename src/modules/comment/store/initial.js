@@ -1,5 +1,5 @@
 export default {
-  attributes: {
+  data: {
     id: 0,
     post_id: 0,
     parent_id: 0,
@@ -12,25 +12,19 @@ export default {
     status: 1,
     created_at: '',
     deleted_at: '',
-    updated_at: ''
-  },
-  relationships: {
+    updated_at: '',
     post: {
-      data: {
-        id: 0,
-        title: '',
-        slug: '',
-        type: 'post',
-        description: ''
-      }
+      id: 0,
+      title: '',
+      slug: '',
+      type: 'post',
+      description: ''
     },
     author: {
-      data: {
-        id: 0,
-        name: '',
-        nickname: '',
-        email: ''
-      }
+      id: 0,
+      name: '',
+      nickname: '',
+      email: ''
     }
   }
 }

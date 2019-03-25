@@ -1,17 +1,11 @@
 export default {
   roles: [],
   role: {
-    attributes: {
-      id: 0,
-      name: '',
-      description: '',
-      type: 'access'
-    },
-    relationships: {
-      childs: {
-        data: []
-      }
-    }
+    id: 0,
+    name: '',
+    description: '',
+    type: 'access',
+    childs: []
   },
   profile: {
     phone: '',
@@ -20,20 +14,14 @@ export default {
     quote: ''
   },
   user: {
-    attributes: {
-      id: 0,
-      picture: '',
-      name: '',
-      email: '',
-      username: '',
-      status: 0,
-      password: null,
-      passconf: null
-    },
-    relationships: {
-      roles: {
-        data: []
-      }
-    }
+    id: 0,
+    picture: '',
+    name: '',
+    email: '',
+    username: '',
+    status: 0,
+    password: null,
+    passconf: null,
+    roles: []
   }
 }
