@@ -6,10 +6,6 @@ export default {
     let menu = Object.assign({}, initial.menu, {})
     await context.commit('setMenu', menu)
   },
-  loadMenus: async (context, payload) => {
-    let { data } = await endpoints.loadMenus(payload)
-    await context.commit('setMenus', data.data)
-  },
   fetchMenus: async (context, payload) => {
     let {data} = await endpoints.getMenus(payload)
     return data.data
@@ -29,5 +25,29 @@ export default {
   },
   createMenu: async (context, payload) => {
     await endpoints.createMenu(payload)
+  },
+  resetLink: async (context, payload) => {
+    let menu = Object.assign({}, initial.menu, {})
+    await context.commit('setLink', menu)
+  },
+  fetchLinks: async (context, payload) => {
+    let {data} = await endpoints.getLinks(payload)
+    return data.data
+  },
+  fetchLink: async (context, payload) => {
+    let { data } = await endpoints.getLink(payload)
+    await context.commit('setLink', data.data)
+    return data.data
+  },
+  updateLink: async (context, payload) => {
+    let { data } = await endpoints.updateLink(payload.id, payload)
+    return data.data
+  },
+  deleteLink: async (context, payload) => {
+    let { data } = await endpoints.deleteLink(payload)
+    return data.data
+  },
+  createLink: async (context, payload) => {
+    await endpoints.createLink(payload)
   }
 }

@@ -25,7 +25,8 @@ import {
 
 import {
   Manager as MenuManager,
-  Editor as MenuEditor
+  Editor as MenuEditor,
+  Links as MenuLinks
 } from '@/modules/menu'
 
 import {
@@ -104,12 +105,16 @@ const routes = [
         component: MenuManager
       },
       {
-        path: '/menu/update/:id',
-        component: MenuManager
-      },
-      {
         path: '/menu/editor',
         component: MenuEditor
+      },
+      {
+        path: '/menu/editor/:id',
+        component: MenuEditor
+      },
+      {
+        path: '/link',
+        component: MenuLinks
       },
       {
         path: '/media',

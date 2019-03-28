@@ -4,5 +4,11 @@ export default {
   },
   setMenus: async (context, menus) => {
     context.menus = menus
+  },
+  setLink: async (context, link) => {
+    context.link = link
+  },
+  setLinks: async (context, links) => {
+    context.links = links
   }
 }

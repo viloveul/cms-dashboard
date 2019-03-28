@@ -7,7 +7,7 @@
           <input type="text" class="form-control input-lg" v-model="post.title" placeholder="Post Title Here..." v-on:change="handleChangeTitle">
         </div>
         <div class="form-group">
-          <input type="text" class="form-control input-xs" v-model="post.slug">
+          <input type="text" class="form-control input-sm" v-model="post.slug" placeholder="Slug or URL Title.." title="Slug or URL Title..">
         </div>
         <div class="form-group">
           <span class="btn btn-default btn-sm" v-on:click="fileman = true">

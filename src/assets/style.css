@@ -24,6 +24,7 @@ body {
 .app-board .modal {
     background: rgba(255, 255, 255, 0.5);
     overflow: auto !important;
+    display: block;
 }
 @media (min-width: 992px) {
   .app-board .modal-dialog.modal-lg {
