@@ -246,11 +246,6 @@ export default {
       params: $params || {}
     })
   },
-  async loadMenus ($type, $params) {
-    return http.get('/menu/load/' + $type, {
-      params: $params || {}
-    })
-  },
   async createMenu ($data, $params) {
     return http.post('/menu/create', qs.stringify($data), {
       params: $params || {}
@@ -263,6 +258,31 @@ export default {
   },
   async deleteMenu ($id, $params) {
     return http.delete('/menu/delete/' + $id, {
+      params: $params || {}
+    })
+  },
+  async createLink ($data, $params) {
+    return http.post('/link/create', qs.stringify($data), {
+      params: $params || {}
+    })
+  },
+  async updateLink ($id, $data, $params) {
+    return http.post('/link/update/' + $id, qs.stringify($data), {
+      params: $params || {}
+    })
+  },
+  async deleteLink ($id, $params) {
+    return http.delete('/link/delete/' + $id, {
+      params: $params || {}
+    })
+  },
+  async getLink ($id, $params) {
+    return http.get('/link/detail/' + $id, {
+      params: $params || {}
+    })
+  },
+  async getLinks ($params) {
+    return http.get('/link/index', {
       params: $params || {}
     })
   },

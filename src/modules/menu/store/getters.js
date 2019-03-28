@@ -4,5 +4,11 @@ export default {
   },
   getMenus: (state) => () => {
     return state.menus
+  },
+  getLink: (state) => () => {
+    return state.link
+  },
+  getLinks: (state) => () => {
+    return state.links
   }
 }

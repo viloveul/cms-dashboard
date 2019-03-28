@@ -226,8 +226,13 @@ export default {
               actived: false
             },
             {
-              label: 'Editor',
+              label: 'Editor Menu',
               link: '/menu/editor',
+              actived: false
+            },
+            {
+              label: 'Links',
+              link: '/link',
               actived: false
             }
           ]

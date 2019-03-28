@@ -1,22 +1,11 @@
 <template>
   <div class="menu-container">
-    <h2>Menus</h2>
+    <h2>
+      Links
+      <small class="btn btn-primary btn-xs" style="font-size: 8pt;" v-on:click.prevent="handleCreate">Create</small>
+    </h2>
     <div class="row">
-      <div class="col-md-3" v-if="types">
-        <div class="form-group" v-for="(type, index) in types" :key="'type-' + index">
-          <label>{{ type.label }}</label>
-          <select class="form-control" v-model="menuset[type.name]">
-            <option disabled="disabled">Select Menu</option>
-            <option v-for="(mymenu, indexMine) in menus" :key="indexMine" :value="mymenu.id">
-              {{ mymenu.label }}
-            </option>
-          </select>
-        </div>
-        <div class="form-group">
-          <button type="button" class="btn btn-primary" v-on:click.prevent="handleSave">Save</button>
-        </div>
-      </div>
-      <div :class="(types) ? 'col-md-9' : 'col-md-12'">
+      <div class="col-md-12">
         <vue-good-table
           @on-column-filter="onColumnFilter"
           @on-page-change="onPageChange"
@@ -43,6 +32,50 @@
         </vue-good-table>
       </div>
     </div>
+    <div class="modal fade in" tabindex="-1" role="dialog" v-if="modal === true">
+      <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" v-on:click.prevent="toggleModal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">Link Editor</h4>
+          </div>
+          <div class="modal-body">
+            <dir class="form-horizontal">
+              <div class="form-group">
+                <label class="col-md-3 control-label control-label-normal">Label</label>
+                <div class="col-md-9">
+                  <input type="text" class="form-control input-sm" v-model="link.label">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-3 control-label control-label-normal">Url</label>
+                <div class="col-md-9">
+                  <input type="text" class="form-control input-sm" v-model="link.url">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-3 control-label control-label-normal">Icon Url</label>
+                <div class="col-md-9">
+                  <input type="text" class="form-control input-sm" v-model="link.icon">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-3 control-label control-label-normal">Description</label>
+                <div class="col-md-9">
+                  <input type="text" class="form-control input-sm" v-model="link.description">
+                </div>
+              </div>
+            </dir>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-warning" type="button" v-on:click.prevent="toggleModal">Cancel</button>
+            <button class="btn btn-primary" type="button" v-on:click.prevent="handleSave">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -64,69 +97,63 @@ export default {
     await this.loadData()
   },
   async mounted () {
-    await this.$store.dispatch('setting/fetchOption', 'contents')
-    await this.$store.commit('setTitle', 'Menus')
+    await this.$store.dispatch('menu/resetLink')
+    await this.$store.commit('setTitle', 'Links')
     await this.$store.commit('setBreadcrumbs', [
       {label: 'Board', link: '/'},
-      {label: 'Menus'}
+      {label: 'Links'}
     ])
-    for (let z in this.types) {
-      if (this.menuset[this.types[z].name] === undefined) {
-        let opt = await this.$store.dispatch(
-          'setting/fetchOption',
-          'menu-' + this.types[z].name
-        )
-        if (opt.id !== undefined) {
-          this.menuset[this.types[z].name] = opt.id
-        }
-      }
-    }
   },
   computed: {
-    types () {
-      let contents = this.$store.getters['setting/getOption']('contents')
-      return contents.menus
+    link () {
+      return this.$store.getters['menu/getLink']()
     }
   },
   methods: {
-    async handleSave () {
-      let options = {}
-      for (let y in this.menuset) {
-        let {data} = await endpoints.getMenu(this.menuset[y])
-        options['menu-' + y] = {
-          id: data.data.id,
-          items: data.data.items
-        }
-      }
-      await this.$store.dispatch('setting/updateOption', options)
-    },
-    async handleUpdate (id) {
-      await this.$router.push('/menu/editor/' + id)
-    },
     async loadData () {
       if (this.timeout !== null) {
         clearTimeout(this.timeout)
       }
       this.timeout = setTimeout(async () => {
-        await endpoints.getMenus(this.serverParams).then(res => {
+        await endpoints.getLinks(this.serverParams).then(res => {
           this.rows = res.data.data
           this.links = res.data.links
           this.meta = res.data.meta
         })
-        await endpoints.getMenus({order: 'label', sort: 'asc', size: 1000, search_status: 1}).then(res => {
-          this.menus = res.data.data
-        })
       }, 500)
     },
-    async handleDelete (id) {
-      await this.$store.dispatch('menu/deleteMenu', id)
+    async handleCreate () {
+      await this.$store.dispatch('menu/resetLink')
+      await this.toggleModal()
+    },
+    async handleUpdate (id) {
+      await this.toggleModal()
+      await this.$store.dispatch('menu/fetchLink', id)
+    },
+    async handleSave () {
+      let act = this.link.id !== 0 ? 'menu/updateLink' : 'menu/createLink'
+      await this.$store.dispatch(act, this.link)
+      await this.$store.dispatch('menu/resetLink')
+      await this.$router.push('/link')
+      this.serverParams = {...this.def}
+      await this.toggleModal()
       await this.loadData()
+    },
+    async handleDelete (id) {
+      await this.$store.dispatch('menu/deleteLink', id)
+      await this.loadData()
+    },
+    async toggleModal () {
+      this.modal = !this.modal
+      if (this.modal === false) {
+        await this.$store.dispatch('menu/resetLink')
+      }
     },
     onPerPageChange (params) {
       if (this.serverParams.size !== params.currentPerPage && this.serverParams.size !== undefined) {
         this.serverParams.size = parseInt(params.currentPerPage)
         this.$router.push({
-          path: '/menu',
+          path: '/link',
           query: this.serverParams
         })
       }
@@ -136,7 +163,7 @@ export default {
       if (this.serverParams.page !== params.currentPage) {
         this.serverParams.page = parseInt(params.currentPage)
         this.$router.push({
-          path: '/menu',
+          path: '/link',
           query: this.serverParams
         })
       }
@@ -148,7 +175,7 @@ export default {
       }
       this.serverParams.page = 1
       this.$router.push({
-        path: '/menu',
+        path: '/link',
         query: this.serverParams
       })
       this.loadData()
@@ -163,7 +190,7 @@ export default {
       }
 
       this.$router.push({
-        path: '/menu',
+        path: '/link',
         query: this.serverParams
       })
       this.loadData()
@@ -171,8 +198,7 @@ export default {
   },
   data: () => {
     return {
-      menus: [],
-      menuset: [],
+      modal: false,
       def: {
         order: 'created_at',
         sort: 'desc',
@@ -190,6 +216,20 @@ export default {
           label: 'Label',
           field: 'label',
           tdClass: 'cell-min-300',
+          filterOptions: {
+            enabled: true
+          }
+        },
+        {
+          label: 'Url',
+          field: 'url',
+          filterOptions: {
+            enabled: true
+          }
+        },
+        {
+          label: 'Icon',
+          field: 'icon',
           filterOptions: {
             enabled: true
           }
