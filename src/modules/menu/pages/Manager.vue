@@ -76,7 +76,7 @@ export default {
           'setting/fetchOption',
           'menu-' + this.types[z].name
         )
-        if (opt.id !== undefined) {
+        if (opt !== null && opt.id !== undefined) {
           this.menuset[this.types[z].name] = opt.id
         }
       }

@@ -64,7 +64,7 @@
               <div class="form-group">
                 <label class="col-md-3 control-label control-label-normal">Description</label>
                 <div class="col-md-9">
-                  <input type="text" class="form-control input-sm" v-model="link.description">
+                  <textarea class="form-control input-sm" v-model="link.description"></textarea>
                 </div>
               </div>
             </dir>

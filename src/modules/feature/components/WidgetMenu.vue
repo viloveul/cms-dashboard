@@ -7,8 +7,8 @@
     <div class="item-body" v-if="body === true">
       <div class="form-group">
         <label>Type</label>
-        <select v-model="options.type" class="form-control">
-          <option v-for="type in types" :key="type.name" :value="type.name">{{ type.name }}</option>
+        <select v-model="options.id" class="form-control">
+          <option v-for="menu in menus" :key="menu.id" :value="menu.id">{{ menu.label }}</option>
         </select>
       </div>
       <div class="form-group">
@@ -19,6 +19,8 @@
 </template>
 
 <script type="text/javascript">
+
+import endpoints from '@/common/endpoints'
 
 export default {
   props: {
@@ -36,8 +38,9 @@ export default {
     }
   },
   async mounted () {
-    let contents = this.$store.getters['setting/getOption']('contents')
-    this.types = contents.menus
+    await endpoints.getMenus({order: 'label', sort: 'asc', size: 1000, search_status: 1}).then(res => {
+      this.menus = res.data.data
+    })
   },
   methods: {
     toggle () {
@@ -47,7 +50,7 @@ export default {
   data () {
     return {
       body: false,
-      types: []
+      menus: []
     }
   }
 }

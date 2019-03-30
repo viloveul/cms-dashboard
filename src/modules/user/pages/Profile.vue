@@ -113,7 +113,7 @@
                 </span>
               </div>
             </div>
-            <form class="form-horizontal" v-on:submit.prevent="handleSaveAccount">
+            <div class="form-horizontal">
               <div class="form-group">
                 <label class="control-label col-md-2">Name</label>
                 <div class="col-md-8">
@@ -150,12 +150,11 @@
                   <input type="password" v-model="me.passconf" class="form-control">
                 </div>
               </div>
-              <div class="form-group">
-                <div class="col-md-8 col-md-offset-2">
-                  <button type="submit" class="btn btn-primary">Save</button>
-                </div>
-              </div>
-            </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-warning" v-on:click.prevent="toggleEditAccount">Cancel</button>
+            <button type="button" class="btn btn-primary" v-on:click.prevent="handleSaveAccount">Save</button>
           </div>
         </div>
       </div>

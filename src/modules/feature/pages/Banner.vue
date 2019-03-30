@@ -8,24 +8,25 @@
         </div>
       </div>
       <div class="form-group">
-        <span class="btn btn-warning" v-on:click="toggleModal">Change</span>
+        <span class="btn btn-warning" v-on:click="toggleModalUploader">Upload</span>
+        <span class="btn btn-warning" v-on:click="toggleModalMedia">Media</span>
       </div>
     </div>
     <div v-else class="alert alert-danger">
       Not Support
     </div>
-    <div class="modal fade in" tabindex="-1" role="dialog" v-if="modal === true">
+    <div class="modal fade in" tabindex="-1" role="dialog" v-if="modalUploader === true">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" v-on:click="toggleModal" aria-label="Close">
+            <button type="button" class="close" v-on:click="toggleModalUploader" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
             <h4 class="modal-title">
               Change Banner Image
             </h4>
           </div>
-          <div class="modal-body">
+          <div class="modal-body" style="text-align: center;">
             <croppa v-model="banner"
               :width="width"
               :height="height"
@@ -42,6 +43,14 @@
         </div>
       </div>
     </div>
+
+    <Fileman
+      :type="'banner'"
+      v-on:close-fileman="toggleModalMedia"
+      v-if="modalMedia === true"
+      v-on:selected-fileman="handleSelectedMedia"
+    >
+    </Fileman>
   </div>
 </template>
 
@@ -49,8 +58,12 @@
 
 import '@/modules/feature/assets/style.css'
 import 'vue-croppa/dist/vue-croppa.css'
+import Fileman from '@/modules/media/components/Fileman'
 
 export default {
+  components: {
+    Fileman
+  },
   async mounted () {
     await this.$store.dispatch('setting/fetchOption', 'features')
     await this.$store.commit('setTitle', 'Banner')
@@ -71,8 +84,18 @@ export default {
     }
   },
   methods: {
-    async toggleModal () {
-      this.modal = !this.modal
+    async toggleModalUploader () {
+      this.modalUploader = !this.modalUploader
+    },
+    async toggleModalMedia () {
+      this.modalMedia = !this.modalMedia
+    },
+    async handleSelectedMedia (media) {
+      this.url = media.url
+      await this.$store.dispatch('setting/updateOption', {
+        banner: this.url
+      })
+      await this.toggleModalMedia()
     },
     async handleSave () {
       await this.banner.generateBlob(
@@ -81,8 +104,8 @@ export default {
           form.append('banner', blob)
           let data = await this.$store.dispatch('media/uploadFile', form)
           if (data.length > 0) {
-            this.url = data[0].attributes.url
-            this.toggleModal()
+            this.url = data[0].url
+            this.toggleModalUploader()
             await this.$store.dispatch('setting/updateOption', {
               banner: this.url
             })
@@ -95,7 +118,8 @@ export default {
   },
   data () {
     return {
-      modal: false,
+      modalUploader: false,
+      modalMedia: false,
       url: '',
       width: 0,
       height: 0,
@@ -107,19 +131,3 @@ export default {
 }
 
 </script>
-
-<style type="text/css" scoped="true">
-.modal {
-  display: block;
-}
-.modal .modal-dialog {
-  width: auto;
-  min-width: 100%;
-  margin: 0px;
-  border: none;
-}
-.modal .modal-dialog .modal-content {
-  border-radius: 0px;
-  min-height: 100vh;
-}
-</style>
