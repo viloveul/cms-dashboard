@@ -25,18 +25,58 @@
 .menu-container .item-manager .tree-node-inner div.item {
     display: block;
     position: relative;
+    padding: 0px 25px;
 }
 
-.menu-container .item-manager .tree-node-inner div.item span.handler {
-    cursor: move;
-    width: 30px;
+.menu-container .item-manager .tree-node-inner div.item span.drag-handler, .menu-container .item-manager .tree-node-inner div.item span.delete-handler {
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    padding: 0;
+    margin: 0;
     display: inline-block;
     text-align: center;
-    background: #EEE;
+    position: absolute;
 }
 
-.menu-container .item-manager .tree-node-inner div.item-editable {
-    margin: 20px 10px 0px 10px;
-    border: 1px solid #EEE;
-    padding: 15px 15px 0px;
+.menu-container .item-manager .tree-node-inner div.item span.drag-handler {
+    cursor: move;
+    background: #EEE;
+    content: " ";
+    left: 0;
+    font-size: 0px;
+    border: 1px solid #CCC;
+}
+
+.menu-container .item-manager .tree-node-inner div.item span.drag-handler:before {
+    position: absolute;
+    top: 3px;
+    left: 1px;
+    right: 1px;
+    width: 16px;
+    height: 5px;
+    content: " ";
+    border-top: 1px solid #CCC;
+    border-bottom: 1px solid #CCC;
+}
+
+.menu-container .item-manager .tree-node-inner div.item span.drag-handler:after {
+    position: absolute;
+    bottom: 3px;
+    left: 1px;
+    right: 1px;
+    width: 16px;
+    height: 5px;
+    content: " ";
+    border-top: 1px solid #CCC;
+    border-bottom: 1px solid #CCC;
+}
+
+.menu-container .item-manager .tree-node-inner div.item span.delete-handler {
+    cursor: pointer;
+    background: #EEE;
+    border-radius: 100%;
+    right: 0;
+    color: red;
+    border: 1px solid red;
 }

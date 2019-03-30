@@ -6,15 +6,15 @@
         <div class="item-manager">
           <div class="panel panel-default panel-editor">
             <div class="panel-heading">Menu Items</div>
-            <div class="panel-body" style="min-height: 100px;">
+            <div class="panel-body" style="min-height: 200px;">
               <div class="item-manager-box">
                 <DraggableTree :data="menu.items" draggable="draggable" cross-tree="cross-tree" :get-trigger-el="treeHandler">
                   <div slot-scope="{data, store}">
                     <template v-if="!data.isDragPlaceHolder">
                       <div class="item">
-                        <span class="handler">##</span>
+                        <span class="drag-handler">##</span>
                         <span class="text">{{ data.label }}</span>
-                        <span class="delete" v-on:click.prevent="handleDeleteItem(data)">X</span>
+                        <span class="delete-handler" v-on:click.prevent="handleDeleteItem(data)">&times;</span>
                       </div>
                     </template>
                   </div>
@@ -27,8 +27,12 @@
           </div>
         </div>
       </div>
+
       <div class="col-md-3">
         <div class="panel panel-default panel-editor">
+          <div class="panel-heading">
+            Meta
+          </div>
           <div class="panel-body">
             <div class="form-group">
               <label>Label</label>
@@ -43,6 +47,7 @@
         <button type="button" class="btn btn-primary btn-block" v-on:click.prevent="handleSave">Save</button>
       </div>
     </div>
+
     <div class="modal fade in" tabindex="-1" role="dialog" v-if="modal === true">
       <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
@@ -161,7 +166,7 @@ export default {
       await this.$router.push('/menu')
     },
     treeHandler (node) {
-      return node.$el.querySelector('span.handler')
+      return node.$el.querySelector('span.drag-handler')
     },
     parseRecursive (items) {
       let newItems = []
