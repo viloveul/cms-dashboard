@@ -2,8 +2,10 @@
   <div class="gate-page-container">
     <div class="gate-page-inner">
       <div class="gate-page-title">{{ title }}</div>
-      <div class="alert alert-danger" v-for="(error, index) in errors" :key="index">
-        {{ error }}
+      <div class="alert-collection">
+        <div class="alert alert-danger" v-for="(error, index) in errors" :key="index">
+          {{ error }}
+        </div>
       </div>
       <form method="post" v-on:submit.prevent="handleSubmitLogin" v-if="page === 'login'">
         <div class="form-group">

@@ -112,7 +112,10 @@ export default {
   },
   async mounted () {
     await this.$store.dispatch('post/resetPost')
-    await this.$store.dispatch('post/fetchTags')
+    await this.$store.dispatch('post/fetchTags', {
+      size: 1000,
+      page: 1
+    })
     await this.$store.dispatch('setting/fetchOption', 'contents')
     await this.$store.commit('setTitle', 'Post Editor')
     await this.$store.commit('setBreadcrumbs', [

@@ -72,7 +72,11 @@ export default {
       {label: 'Users', link: '/user'},
       {label: 'Editor'}
     ])
-    this.roles = await this.$store.dispatch('user/fetchRoles', {type: 'group'})
+    this.roles = await this.$store.dispatch('user/fetchRoles', {
+      size: 1000,
+      page: 1,
+      search_type: 'group'
+    })
     if (this.$route.params.id !== undefined) {
       let user = await this.$store.dispatch('user/fetchUser', this.$route.params.id)
       this.relations = user.roles.map(role => {

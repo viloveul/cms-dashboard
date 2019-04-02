@@ -78,7 +78,7 @@ const actions = {
     return data.data
   },
   fetchRoles: async (context, payload) => {
-    let { data } = await endpoints.getAllRoles(payload)
+    let { data } = await endpoints.getRoles(payload)
     await context.commit('setRoles', data.data)
     return data.data
   },

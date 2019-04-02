@@ -54,7 +54,10 @@ export default {
       {label: 'Roles', link: '/role'},
       {label: 'Role Assignment'}
     ])
-    this.roles = await this.$store.dispatch('user/fetchRoles')
+    this.roles = await this.$store.dispatch('user/fetchRoles', {
+      size: 1000,
+      page: 1
+    })
   },
   methods: {
     async handleAssign () {

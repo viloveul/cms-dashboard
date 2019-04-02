@@ -12,6 +12,7 @@ import Croppa from 'vue-croppa'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'vue-good-table/dist/vue-good-table.css'
 import 'nprogress/nprogress.css'
+import '@/assets/alert.css'
 
 Vue.config.productionTip = false
 

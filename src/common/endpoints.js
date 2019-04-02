@@ -90,11 +90,6 @@ export default {
       params: $params || {}
     })
   },
-  async getAllRoles ($params) {
-    return http.get('/role/all', {
-      params: $params || {}
-    })
-  },
   async getRoles ($params) {
     return http.get('/role/index', {
       params: $params || {}
@@ -102,16 +97,6 @@ export default {
   },
   async getRole ($id, $params) {
     return http.get('/role/detail/' + $id, {
-      params: $params || {}
-    })
-  },
-  async getNotifications ($params) {
-    return http.get('/notification/index', {
-      params: $params || {}
-    })
-  },
-  async getNotification ($id, $params) {
-    return http.get('/notification/detail/' + $id, {
       params: $params || {}
     })
   },
@@ -132,6 +117,16 @@ export default {
   },
   async unAssignRole ($id, $data, $params) {
     return http.post('/role/unassign/' + $id, qs.stringify($data), {
+      params: $params || {}
+    })
+  },
+  async getNotifications ($params) {
+    return http.get('/notification/index', {
+      params: $params || {}
+    })
+  },
+  async getNotification ($id, $params) {
+    return http.get('/notification/detail/' + $id, {
       params: $params || {}
     })
   },
@@ -209,11 +204,6 @@ export default {
   },
   async getTags ($params) {
     return http.get('/tag/index', {
-      params: $params || {}
-    })
-  },
-  async getAllTags ($params) {
-    return http.get('/tag/all', {
       params: $params || {}
     })
   },

@@ -29,7 +29,7 @@ export default {
     return data.data
   },
   fetchTags: async (context, payload) => {
-    let { data } = await endpoints.getAllTags(payload)
+    let { data } = await endpoints.getTags(payload)
     context.commit('setTags', data.data)
     return data.data
   },
