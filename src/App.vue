@@ -25,9 +25,11 @@
       </header>
 
       <main class="wrapper-body">
-        <div class="alert alert-danger" v-for="(error, index) in errors" :key="index">
-          {{ error }}
-          <span class="close" v-on:click="handleDeleteError(index)">&times;</span>
+        <div class="alert-collection">
+          <div class="alert alert-danger" v-for="(error, index) in errors" :key="index">
+            {{ error }}
+            <span class="close" v-on:click="handleDeleteError(index)">&times;</span>
+          </div>
         </div>
         <router-view :key="$route.path"></router-view>
       </main>
