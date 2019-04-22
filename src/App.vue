@@ -9,8 +9,7 @@
           {{ getOption('brand') }}
         </router-link>
         <span class="bell" v-on:click="handleNotification">
-          <i class="glyphicon glyphicon-bell connected" v-if="socketConnected"></i>
-          <i class="glyphicon glyphicon-bell disconnected" v-else></i>
+          <i class="glyphicon glyphicon-bell connected"></i>
           <span class="badge" v-if="mine.notification.unread > 0">{{ mine.notification.unread }}</span>
         </span>
       </h3>
@@ -44,8 +43,6 @@
 
 import '@/assets/style.css'
 
-import io from 'socket.io-client'
-import general from '@/common/general'
 import NavMenu from '@/components/NavMenu'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import Notification from '@/components/Notification'
@@ -65,29 +62,6 @@ export default {
     await this.$store.dispatch('setting/fetchOption', 'banner')
     if (this.me.id === 0) {
       await this.$router.replace('/gate')
-    } else {
-      let vtoken = 'viloveul:token'
-      this.socket = io(general.getRelayUrl(), {
-        query: {
-          [vtoken]: window.localStorage.getItem('viloveul:token')
-        },
-        autoConnect: false
-      })
-      this.socket.open()
-      this.socket.on('connect_error', () => {
-        this.socket.close()
-      })
-      this.socket.on('system.notification', (message) => {
-        this.$store.commit('user/setMine', {
-          notification: {...message}
-        })
-      })
-      this.socket.on('connect', () => {
-        this.socketConnected = true
-      })
-      this.socket.on('disconnect', () => {
-        this.socketConnected = false
-      })
     }
   },
   methods: {
@@ -96,9 +70,6 @@ export default {
     },
     handleNotification () {
       this.toggleNotification()
-      if (this.socketConnected === false) {
-        this.socket.open()
-      }
     },
     toggleNotification () {
       this.modalNotification = !this.modalNotification
@@ -133,8 +104,6 @@ export default {
   },
   data () {
     return {
-      socket: null,
-      socketConnected: false,
       modalNotification: false
     }
   }
