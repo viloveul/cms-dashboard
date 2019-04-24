@@ -1,20 +1,23 @@
 export default {
   menus: [],
-  links: [],
+  menuItems: [],
   menu: {
     id: 0,
     label: '',
     description: '',
-    content: null,
     status: 1,
     items: []
   },
-  link: {
+  menuItem: {
     id: 0,
     label: '',
     url: '#',
     icon: '',
     role_id: '',
+    author_id: '',
+    parent_id: '',
+    menu_id: '',
+    order: 0,
     description: '',
     status: 1
   }

@@ -1,9 +1,9 @@
-import Manager from '@/modules/menu/pages/Manager'
 import Editor from '@/modules/menu/pages/Editor'
-import Links from '@/modules/menu/pages/Links'
+import Manager from '@/modules/menu/pages/Manager'
+import MenuItem from '@/modules/menu/pages/MenuItem'
 
 export {
   Manager,
   Editor,
-  Links
+  MenuItem
 }

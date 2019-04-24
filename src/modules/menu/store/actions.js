@@ -6,9 +6,9 @@ export default {
     let menu = Object.assign({}, initial.menu, {})
     await context.commit('setMenu', menu)
   },
-  fetchMenus: async (context, payload) => {
-    let {data} = await endpoints.getMenus(payload)
-    return data.data
+  resetMenuItem: async (context, payload) => {
+    let menuItem = Object.assign({}, initial.menuItem, {})
+    await context.commit('setMenuItem', menuItem)
   },
   fetchMenu: async (context, payload) => {
     let { data } = await endpoints.getMenu(payload)
@@ -26,28 +26,21 @@ export default {
   createMenu: async (context, payload) => {
     await endpoints.createMenu(payload)
   },
-  resetLink: async (context, payload) => {
-    let menu = Object.assign({}, initial.menu, {})
-    await context.commit('setLink', menu)
-  },
-  fetchLinks: async (context, payload) => {
-    let {data} = await endpoints.getLinks(payload)
+  fetchMenuItem: async (context, payload) => {
+    let { data } = await endpoints.getMenuItem(payload)
+    await context.commit('setMenuItem', data.data)
     return data.data
   },
-  fetchLink: async (context, payload) => {
-    let { data } = await endpoints.getLink(payload)
-    await context.commit('setLink', data.data)
+  updateMenuItem: async (context, payload) => {
+    let { data } = await endpoints.updateMenuItem(payload.id, payload)
     return data.data
   },
-  updateLink: async (context, payload) => {
-    let { data } = await endpoints.updateLink(payload.id, payload)
+  deleteMenuItem: async (context, payload) => {
+    let { data } = await endpoints.deleteMenuItem(payload)
     return data.data
   },
-  deleteLink: async (context, payload) => {
-    let { data } = await endpoints.deleteLink(payload)
+  createMenuItem: async (context, payload) => {
+    let { data } = await endpoints.createMenuItem(payload)
     return data.data
-  },
-  createLink: async (context, payload) => {
-    await endpoints.createLink(payload)
   }
 }
