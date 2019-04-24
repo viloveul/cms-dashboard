@@ -62,6 +62,17 @@
                 </div>
               </div>
               <div class="form-group">
+                <label class="col-md-3 control-label control-label-normal">Role User</label>
+                <div class="col-md-9">
+                  <select class="form-control input-sm" v-model="link.role_id">
+                    <option :value="0">-</option>
+                    <option v-for="(role, indexRole) in roles" :key="indexRole" :value="role.id">
+                      {{ role.name }} # {{ role.type }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
                 <label class="col-md-3 control-label control-label-normal">Description</label>
                 <div class="col-md-9">
                   <textarea class="form-control input-sm" v-model="link.description"></textarea>
@@ -103,6 +114,10 @@ export default {
       {label: 'Board', link: '/'},
       {label: 'Links'}
     ])
+    this.roles = await this.$store.dispatch('user/fetchRoles', {
+      size: 1000,
+      page: 1
+    })
   },
   computed: {
     link () {
@@ -198,6 +213,7 @@ export default {
   },
   data: () => {
     return {
+      roles: [],
       modal: false,
       def: {
         order: 'created_at',

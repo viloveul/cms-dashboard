@@ -14,6 +14,7 @@ export default {
     label: '',
     url: '#',
     icon: '',
+    role_id: '',
     description: '',
     status: 1
   }
