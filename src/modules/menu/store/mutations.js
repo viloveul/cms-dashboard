@@ -5,10 +5,10 @@ export default {
   setMenus: async (context, menus) => {
     context.menus = menus
   },
-  setLink: async (context, link) => {
-    context.link = link
+  setMenuItem: async (context, menuItem) => {
+    context.menuItem = menuItem
   },
-  setLinks: async (context, links) => {
-    context.links = links
+  setMenuItems: async (context, menuItems) => {
+    context.menuItems = menuItems
   }
 }

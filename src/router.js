@@ -26,7 +26,7 @@ import {
 import {
   Manager as MenuManager,
   Editor as MenuEditor,
-  Links as MenuLinks
+  MenuItem
 } from '@/modules/menu'
 
 import {
@@ -36,6 +36,7 @@ import {
 
 import {
   Widget,
+  Menu,
   Banner
 } from '@/modules/feature'
 
@@ -105,16 +106,12 @@ const routes = [
         component: MenuManager
       },
       {
-        path: '/menu/editor',
-        component: MenuEditor
-      },
-      {
         path: '/menu/editor/:id',
         component: MenuEditor
       },
       {
-        path: '/link',
-        component: MenuLinks
+        path: '/menu/item/:id',
+        component: MenuItem
       },
       {
         path: '/media',
@@ -155,6 +152,10 @@ const routes = [
       {
         path: '/feature/banner',
         component: Banner
+      },
+      {
+        path: '/feature/menu',
+        component: Menu
       },
       {
         path: '',

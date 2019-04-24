@@ -26,9 +26,11 @@
     display: block;
     position: relative;
     padding: 0px 25px;
+    line-height: 20px;
+    min-height: 20px;
 }
 
-.menu-container .item-manager .tree-node-inner div.item span.drag-handler, .menu-container .item-manager .tree-node-inner div.item span.delete-handler {
+.menu-container .item-manager .tree-node-inner div.item span.drag-handler, .menu-container .item-manager .tree-node-inner div.item span.edit-handler {
     width: 20px;
     height: 20px;
     line-height: 20px;
@@ -72,11 +74,11 @@
     border-bottom: 1px solid #CCC;
 }
 
-.menu-container .item-manager .tree-node-inner div.item span.delete-handler {
+.menu-container .item-manager .tree-node-inner div.item span.edit-handler {
     cursor: pointer;
     background: #EEE;
     border-radius: 100%;
     right: 0;
-    color: red;
-    border: 1px solid red;
+    color: green;
+    border: 1px solid green;
 }

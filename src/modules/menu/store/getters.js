@@ -5,10 +5,10 @@ export default {
   getMenus: (state) => () => {
     return state.menus
   },
-  getLink: (state) => () => {
-    return state.link
+  getMenuItem: (state) => () => {
+    return state.menuItem
   },
-  getLinks: (state) => () => {
-    return state.links
+  getMenuItems: (state) => () => {
+    return state.menuItems
   }
 }

@@ -14,7 +14,7 @@
                       <div class="item">
                         <span class="drag-handler">##</span>
                         <span class="text">{{ data.label }}</span>
-                        <span class="delete-handler" v-on:click.prevent="handleDeleteItem(data)">&times;</span>
+                        <span class="edit-handler" title="Edit Item" v-on:click.prevent="handleDetailItem(data)">&raquo;</span>
                       </div>
                     </template>
                   </div>
@@ -55,22 +55,43 @@
             <button type="button" class="close" v-on:click.prevent="toggleModal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
-            <h4 class="modal-title">Links</h4>
+            <h4 class="modal-title">Add Item</h4>
           </div>
           <div class="modal-body">
-            <ul class="nav nav-pills nav-stacked">
-              <li v-for="(itemAvailable, indexAvailable) in links" :key="'item-available-' + indexAvailable">
-                <a href="#" v-on:click.prevent="handleSelectedItem(itemAvailable)">
-                  {{ itemAvailable.label }}
-                </a>
-              </li>
-            </ul>
-            <Paginate
-              :page-count="total"
-              :container-class="'pagination'"
-              :click-handler="handlePageChanged"
-            >
-            </Paginate>
+            <div class="form-horizontal">
+              <div class="form-group">
+                <label class="control-label col-md-3">Label</label>
+                <div class="col-md-9">
+                  <input type="text" class="form-control" v-model="item.label">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-md-3">Link</label>
+                <div class="col-md-9">
+                  <input type="text" class="form-control" v-model="item.url">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-md-3">Icon Url</label>
+                <div class="col-md-9">
+                  <input type="text" class="form-control" v-model="item.icon">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-md-3">Role User</label>
+                <div class="col-md-9">
+                  <select class="form-control" v-model="item.role_id">
+                    <option :value="''">-</option>
+                    <option v-for="(role, indexRole) in roles" :key="'role-' + indexRole" :value="role.id">
+                      {{ role.name }}#{{ role.type }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" v-on:click.prevent="handleAddItem" class="btn btn-primary">Save</button>
           </div>
         </div>
       </div>
@@ -82,7 +103,6 @@
 
 import './../assets/style.css'
 import Paginate from 'vuejs-paginate'
-import endpoints from '@/common/endpoints'
 import { DraggableTree } from 'vue-draggable-nested-tree'
 
 export default {
@@ -92,14 +112,17 @@ export default {
   },
   async mounted () {
     await this.$store.dispatch('menu/resetMenu')
-    if (this.$route.params.id !== undefined) {
-      await this.$store.dispatch('menu/fetchMenu', this.$route.params.id)
-    }
+    await this.$store.dispatch('menu/fetchMenu', this.$route.params.id)
     await this.$store.commit('setTitle', 'Menu Editor')
     await this.$store.commit('setBreadcrumbs', [
       {label: 'Board', link: '/'},
       {label: 'Menu Editor'}
     ])
+    this.item.menu_id = this.menu.id
+    this.roles = await this.$store.dispatch('user/fetchRoles', {
+      size: 1000,
+      page: 1
+    })
   },
   computed: {
     menu () {
@@ -107,62 +130,28 @@ export default {
     }
   },
   methods: {
-    async loadLinks () {
-      if (this.timeout !== null) {
-        clearTimeout(this.timeout)
-      }
-      this.timeout = setTimeout(async () => {
-        let { data } = await endpoints.getLinks({
-          order: 'label',
-          sort: 'asc',
-          size: 20,
-          page: parseInt(this.page),
-          search_status: 1
-        })
-        this.links = data.data
-        this.total = Math.ceil(data.meta.total / 20)
-      }, 500)
+    async handleDetailItem (item) {
+      await this.$router.push('/menu/item/' + item.id)
     },
-    async handleDeleteItem (item) {
-      for (let a = 0; a < item.parent.children.length; a++) {
-        if (item.parent.children[a]._id === item._id) {
-          item.parent.children.splice(a, 1)
-        }
-      }
-    },
-    async handleSelectedItem (item) {
-      this.menu.items.push(item)
+    async handleAddItem () {
+      await this.$store.dispatch('menu/createMenuItem', {...this.item})
+      await this.$store.dispatch('menu/fetchMenu', this.$route.params.id)
       this.toggleModal()
-    },
-    async handlePageChanged (n) {
-      this.page = n
-      await this.loadLinks()
     },
     async handleReset () {
       //
     },
     async toggleModal () {
       this.modal = !this.modal
-      if (this.modal === true) {
-        await this.loadLinks()
-      }
     },
     async handleSave () {
-      this.menu.content = this.parseRecursive(this.menu.items)
-      if (this.menu.id === 0) {
-        await this.$store.dispatch('menu/createMenu', {
-          label: this.menu.label,
-          description: this.menu.description,
-          content: this.menu.content
-        })
-      } else {
-        await this.$store.dispatch('menu/updateMenu', {
-          id: this.menu.id,
-          label: this.menu.label,
-          description: this.menu.description,
-          content: this.menu.content
-        })
-      }
+      this.menu.items = this.parseRecursive(this.menu.items)
+      await this.$store.dispatch('menu/updateMenu', {
+        id: this.menu.id,
+        label: this.menu.label,
+        description: this.menu.description,
+        items: this.menu.items
+      })
       await this.$router.push('/menu')
     },
     treeHandler (node) {
@@ -181,11 +170,19 @@ export default {
   },
   data () {
     return {
-      links: [],
+      roles: [],
       timeout: null,
       page: 1,
       total: 0,
-      modal: 0
+      modal: 0,
+      item: {
+        label: '',
+        url: '#',
+        icon: '',
+        role_id: '',
+        menu_id: '',
+        description: ''
+      }
     }
   }
 }

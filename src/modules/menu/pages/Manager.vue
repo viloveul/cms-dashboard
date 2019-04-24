@@ -1,22 +1,21 @@
 <template>
   <div class="menu-container">
-    <h2>Menus</h2>
+    <h2>Menu(s)</h2>
     <div class="row">
-      <div class="col-md-3" v-if="types">
-        <div class="form-group" v-for="(type, index) in types" :key="'type-' + index">
-          <label>{{ type.label }}</label>
-          <select class="form-control" v-model="menuset[type.name]">
-            <option disabled="disabled">Select Menu</option>
-            <option v-for="(mymenu, indexMine) in menus" :key="indexMine" :value="mymenu.id">
-              {{ mymenu.label }}
-            </option>
-          </select>
-        </div>
-        <div class="form-group">
-          <button type="button" class="btn btn-primary" v-on:click.prevent="handleSave">Save</button>
-        </div>
+      <div class="col-md-3">
+        <form v-on:submit.prevent="handleSave">
+          <div class="form-group">
+            <label>Label</label>
+            <input type="text" class="form-control" v-model="menu.label">
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea class="form-control" v-model="menu.description"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </form>
       </div>
-      <div :class="(types) ? 'col-md-9' : 'col-md-12'">
+      <div :class="'col-md-9'">
         <vue-good-table
           @on-column-filter="onColumnFilter"
           @on-page-change="onPageChange"
@@ -70,35 +69,16 @@ export default {
       {label: 'Board', link: '/'},
       {label: 'Menus'}
     ])
-    for (let z in this.types) {
-      if (this.menuset[this.types[z].name] === undefined) {
-        let opt = await this.$store.dispatch(
-          'setting/fetchOption',
-          'menu-' + this.types[z].name
-        )
-        if (opt !== null && opt.id !== undefined) {
-          this.menuset[this.types[z].name] = opt.id
-        }
-      }
-    }
-  },
-  computed: {
-    types () {
-      let contents = this.$store.getters['setting/getOption']('contents')
-      return contents.menus
-    }
   },
   methods: {
     async handleSave () {
-      let options = {}
-      for (let y in this.menuset) {
-        let {data} = await endpoints.getMenu(this.menuset[y])
-        options['menu-' + y] = {
-          id: data.data.id,
-          items: data.data.items
-        }
-      }
-      await this.$store.dispatch('setting/updateOption', options)
+      await this.$store.dispatch('menu/createMenu', {
+        label: this.menu.label,
+        description: this.menu.description
+      })
+      this.menu.label = ''
+      this.menu.description = ''
+      await this.loadData()
     },
     async handleUpdate (id) {
       await this.$router.push('/menu/editor/' + id)
@@ -171,8 +151,11 @@ export default {
   },
   data: () => {
     return {
+      menu: {
+        label: '',
+        description: ''
+      },
       menus: [],
-      menuset: [],
       def: {
         order: 'created_at',
         sort: 'desc',

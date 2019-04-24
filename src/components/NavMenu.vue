@@ -197,7 +197,7 @@ export default {
           label: 'Features',
           link: '/feature',
           icon: 'link',
-          match: /^\/feature\/(widget|banner)$/,
+          match: /^\/feature\/(widget|banner|menu)$/,
           childs: [
             {
               label: 'Widgets',
@@ -210,6 +210,12 @@ export default {
               link: '/feature/banner',
               actived: false,
               privilege: 'setting.set#access'
+            },
+            {
+              label: 'Menu Featured',
+              link: '/feature/menu',
+              actived: false,
+              privilege: 'setting.set#access'
             }
           ]
         },
@@ -217,25 +223,8 @@ export default {
           label: 'Menus',
           link: '/menu',
           icon: 'th-list',
-          match: /^\/menu\/editor$/,
-          privilege: 'menu.index#access',
-          childs: [
-            {
-              label: 'List Menus',
-              link: '/menu',
-              actived: false
-            },
-            {
-              label: 'Editor Menu',
-              link: '/menu/editor',
-              actived: false
-            },
-            {
-              label: 'Links',
-              link: '/link',
-              actived: false
-            }
-          ]
+          match: /^\/menu\/(editor|item)/,
+          privilege: 'menu.index#access'
         },
         {
           label: 'Setting',

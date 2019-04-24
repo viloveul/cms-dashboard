@@ -251,28 +251,23 @@ export default {
       params: $params || {}
     })
   },
-  async createLink ($data, $params) {
-    return http.post('/link/create', qs.stringify($data), {
+  async getMenuItem ($id, $params) {
+    return http.get('/menu/item/detail/' + $id, {
       params: $params || {}
     })
   },
-  async updateLink ($id, $data, $params) {
-    return http.post('/link/update/' + $id, qs.stringify($data), {
+  async createMenuItem ($data, $params) {
+    return http.post('/menu/item/create', qs.stringify($data), {
       params: $params || {}
     })
   },
-  async deleteLink ($id, $params) {
-    return http.delete('/link/delete/' + $id, {
+  async updateMenuItem ($id, $data, $params) {
+    return http.post('/menu/item/update/' + $id, qs.stringify($data), {
       params: $params || {}
     })
   },
-  async getLink ($id, $params) {
-    return http.get('/link/detail/' + $id, {
-      params: $params || {}
-    })
-  },
-  async getLinks ($params) {
-    return http.get('/link/index', {
+  async deleteMenuItem ($id, $params) {
+    return http.delete('/menu/item/delete/' + $id, {
       params: $params || {}
     })
   },
