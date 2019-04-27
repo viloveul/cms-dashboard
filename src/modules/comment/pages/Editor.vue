@@ -38,16 +38,6 @@
               <label>Date</label>
               <input v-model="comment.created_at" type="text" class="form-control input-sm" readonly="readonly">
             </div>
-            <div class="form-group">
-              <label>Status</label>
-              <select class="form-control input-sm" v-model="comment.status">
-                <option disabled="disabled">Select Status</option>
-                <option value="0">Draft</option>
-                <option value="1">Published</option>
-                <option value="2">On Moderate</option>
-                <option value="3">Deleted</option>
-              </select>
-            </div>
           </div>
         </div>
         <span class="btn btn-warning btn-block" v-on:click="handleReset">Reset</span>
