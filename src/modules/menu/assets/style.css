@@ -74,11 +74,30 @@
     border-bottom: 1px solid #CCC;
 }
 
-.menu-container .item-manager .tree-node-inner div.item span.edit-handler {
-    cursor: pointer;
-    background: #EEE;
-    border-radius: 100%;
+.menu-container .item-manager .tree-node-inner div.item > div.item-action {
+    position: absolute;
     right: 0;
+    top: 0;
+}
+.menu-container .item-manager .tree-node-inner div.item > div.item-action > span {
+    cursor: pointer;
+    border-radius: 100%;
+    width: 22px;
+    height: 22px;
+    line-height: 20px;
+    padding: 0px;
+    margin: 0px;
+    display: inline-block;
+    text-align: center;
+    background: #EEE;
+    border: 1px solid yellow;
+}
+.menu-container .item-manager .tree-node-inner div.item > div.item-action > span.update {
     color: green;
-    border: 1px solid green;
+}
+.menu-container .item-manager .tree-node-inner div.item > div.item-action > span.delete {
+    color: red;
+}
+.menu-container .item-manager .tree-node-inner div.item > div.item-action > span:hover {
+    background: white;
 }

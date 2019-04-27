@@ -14,7 +14,14 @@
                       <div class="item">
                         <span class="drag-handler">##</span>
                         <span class="text">{{ data.label }}</span>
-                        <span class="edit-handler" title="Edit Item" v-on:click.prevent="handleDetailItem(data)">&raquo;</span>
+                        <div class="item-action">
+                          <span class="update" title="Edit Item" v-on:click.prevent="handleDetailItem(data)">
+                            &raquo;
+                          </span>
+                          <span class="delete" title="Delete Item" v-on:click.prevent="handleDeleteItem(data)">
+                            &times;
+                          </span>
+                        </div>
                       </div>
                     </template>
                   </div>
@@ -111,9 +118,8 @@ export default {
     Paginate
   },
   async mounted () {
-    await this.$store.dispatch('menu/resetMenu')
-    await this.$store.dispatch('menu/fetchMenu', this.$route.params.id)
     await this.$store.commit('setTitle', 'Menu Editor')
+    await this.loadData()
     await this.$store.commit('setBreadcrumbs', [
       {label: 'Board', link: '/'},
       {label: 'Menu Editor'}
@@ -130,19 +136,31 @@ export default {
     }
   },
   methods: {
+    async loadData () {
+      await this.$store.dispatch('menu/resetMenu')
+      await this.$store.dispatch('menu/fetchMenu', this.$route.params.id)
+    },
     async handleDetailItem (item) {
       await this.$router.push('/menu/item/' + item.id)
     },
+    async handleDeleteItem (item) {
+      if (window.confirm('Delete item ?')) {
+        await this.$store.dispatch('menu/deleteMenuItem', item.id)
+        await this.loadData()
+      }
+    },
     async handleAddItem () {
       await this.$store.dispatch('menu/createMenuItem', {...this.item})
-      await this.$store.dispatch('menu/fetchMenu', this.$route.params.id)
+      await this.loadData()
       this.toggleModal()
-    },
-    async handleReset () {
-      //
     },
     async toggleModal () {
       this.modal = !this.modal
+      this.item.label = ''
+      this.item.url = '#'
+      this.item.icon = ''
+      this.item.role_id = ''
+      this.item.description = ''
     },
     async handleSave () {
       this.menu.items = this.parseRecursive(this.menu.items)

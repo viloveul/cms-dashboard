@@ -1,5 +1,5 @@
 
-# Viloveul CMS (UI Dashboard)
+# Viloveul CMS (Dashboard UI)
 
 clone this repository
 ```bash
@@ -17,6 +17,6 @@ VILOVEUL_API_URL=http://your-viloveul-cms-api
 jalankan:
 ```bash
 npm run dev
-## bukan http://localhost:19911
+## buka http://localhost:19911
 ```
 response : https://jsonapi.org/recommendations

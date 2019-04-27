@@ -1,10 +1,10 @@
 <template>
   <div class="feature-container">
     <h2>Menu Featured</h2>
-    <div class="" v-if="types">
+    <div class="" v-if="types.length > 0">
       <div class="form-group" v-for="(type, index) in types" :key="'type-' + index">
         <label>{{ type.label }}</label>
-        <select class="form-control" v-model="menuset[type.name]">
+        <select class="form-control" v-model="menuset[type.location]">
           <option disabled="disabled">Select Menu</option>
           <option v-for="(mymenu, indexMine) in menus" :key="indexMine" :value="mymenu.id">
             {{ mymenu.label }}
@@ -27,7 +27,7 @@ import endpoints from '@/common/endpoints'
 
 export default {
   async created () {
-    await this.$store.dispatch('setting/fetchOption', 'contents')
+    await this.$store.dispatch('setting/fetchOption', 'features')
     let { data } = await endpoints.getMenus({
       size: 1000,
       page: 1
@@ -43,18 +43,23 @@ export default {
     async prepare () {
       return new Promise(async (resolve, reject) => {
         let sets = {}
-        let contents = await this.$store.dispatch('setting/fetchOption', 'contents')
-        let types = contents.menus
-        for (let z in contents.menus) {
-          if (sets[contents.menus[z].name] === undefined) {
-            let opt = await this.$store.dispatch(
-              'setting/fetchOption',
-              'menu-' + contents.menus[z].name
-            )
-            if (opt !== null && opt.id !== undefined) {
-              sets[contents.menus[z].name] = opt.id
+        let types = []
+        try {
+          let features = await this.$store.dispatch('setting/fetchOption', 'features')
+          for (let z in features.menu) {
+            types.push({location: z, label: features.menu[z]})
+            if (sets[z] === undefined) {
+              let opt = await this.$store.dispatch(
+                'setting/fetchOption',
+                'menu-' + z
+              )
+              if (opt !== null && opt.id !== undefined) {
+                sets[z] = opt.id
+              }
             }
           }
+        } catch (e) {
+          // do nothing
         }
         resolve({
           sets: sets,
