@@ -27,22 +27,13 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="control-label col-md-3">Role User</label>
+        <label class="control-label control-label-normal col-md-2">Role User</label>
         <div class="col-md-9">
           <select class="form-control" v-model="item.role_id">
             <option :value="''">-</option>
             <option v-for="(role, indexRole) in roles" :key="'role-' + indexRole" :value="role.id">
               {{ role.name }}#{{ role.type }}
             </option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="control-label control-label-normal col-md-2">Status</label>
-        <div class="col-md-3">
-          <select class="form-control" v-model="item.status">
-            <option :value="1">Enabled</option>
-            <option :value="3">Disabled</option>
           </select>
         </div>
       </div>
