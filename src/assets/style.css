@@ -253,7 +253,7 @@ body {
 .board-wrapper .wrapper-body div.action {
     margin-top: 5px;
 }
-.board-wrapper .wrapper-body div.action .text-danger, .board-wrapper .wrapper-body div.action .text-primary, .board-wrapper .wrapper-body div.action .text-info, .board-wrapper .wrapper-body div.action .text-warning {
+.board-wrapper .wrapper-body div.action .text-danger, .board-wrapper .wrapper-body div.action .text-primary, .board-wrapper .wrapper-body div.action .text-info, .board-wrapper .wrapper-body div.action .text-warning, .board-wrapper .wrapper-body div.action .text-success {
     font-size: 12px;
     margin-right: 10px;
     cursor: pointer;

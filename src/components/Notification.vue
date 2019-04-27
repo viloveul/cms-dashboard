@@ -11,11 +11,11 @@
         <div class="modal-body">
           <div class="notification-item" v-for="(row, index) in rows" :key="index">
             <div
-              :class="['alert', parseInt(row.attributes.status) === 1 ? 'alert-warning' : 'alert-info']"
+              :class="['alert', parseInt(row.status) === 1 ? 'alert-warning' : 'alert-info']"
               style="margin: 2px auto;"
             >
-              {{ row.attributes.content }}
-              <span class="close" v-on:click="handleStatus(row.id)" v-if="row.attributes.status === 0">&times;</span>
+              {{ row.content }}
+              <span class="close" v-on:click="handleStatus(row.id)" v-if="parseInt(row.status) === 0">&times;</span>
             </div>
           </div>
         </div>
