@@ -60,6 +60,10 @@ export default {
       await endpoints.approveComment(id)
       await this.loadData()
     },
+    async handleDelete (id) {
+      await endpoints.deleteComment(id)
+      await this.loadData()
+    },
     async loadData () {
       if (this.timeout !== null) {
         clearTimeout(this.timeout)
