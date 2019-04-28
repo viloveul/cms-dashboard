@@ -104,8 +104,8 @@ export default {
           label: 'Users',
           link: '/user',
           icon: 'user',
-          match: /^\/user\/(update|detail)\/(\d+)/,
-          privilege: 'user.index#access',
+          match: /^\/user\/(update|detail)\/([^/]+)/,
+          privilege: 'user.create#access',
           childs: [
             {
               label: 'List User',
@@ -124,8 +124,8 @@ export default {
           label: 'Roles',
           link: '/role',
           icon: 'transfer',
-          match: /^\/role\/(update\/\d+|detail\/\d+|assignment\/\d+)?$/,
-          privilege: 'role.index#access',
+          match: /^\/role\/(update\/.+|detail\/.+|assignment\/.+)?$/,
+          privilege: 'role.create#access',
           childs: [
             {
               label: 'Management Roles',
@@ -144,7 +144,7 @@ export default {
           link: '/media',
           icon: 'picture',
           match: /^\/media\/(gallery|upload)$/,
-          privilege: 'media.index#access',
+          privilege: 'media.upload#access',
           childs: [
             {
               label: 'Gallery',
@@ -160,18 +160,11 @@ export default {
           ]
         },
         {
-          label: 'Tags',
-          link: '/tag',
-          icon: 'tag',
-          match: /^\/tag\/update\/\d+$/,
-          privilege: 'tag.index#access'
-        },
-        {
           label: 'Posts',
           link: '/post',
           icon: 'book',
-          match: /^\/post\/(detail|update)\/(\d+)$/,
-          privilege: 'post.index#access',
+          match: /^\/(post|tag)\/(detail|update|create)(\/[^/]+)?$/,
+          privilege: 'post.create#access',
           childs: [
             {
               label: 'List Posts',
@@ -183,6 +176,12 @@ export default {
               link: '/post/create',
               actived: false,
               privilege: 'post.create#access'
+            },
+            {
+              label: 'Tags',
+              link: '/tag',
+              actived: false,
+              privilege: 'tag.index#access'
             }
           ]
         },
@@ -190,14 +189,14 @@ export default {
           label: 'Comments',
           link: '/comment',
           icon: 'comment',
-          match: /^\/comment\/(detail|update)\/(\d+)$/,
-          privilege: 'comment.index#access'
+          match: /^\/comment\/(detail|update)\/([^/]+)$/
         },
         {
           label: 'Features',
           link: '/feature',
           icon: 'link',
           match: /^\/feature\/(widget|banner|menu)$/,
+          privilege: 'setting.set#access',
           childs: [
             {
               label: 'Widgets',
@@ -230,7 +229,7 @@ export default {
           label: 'Setting',
           link: '/setting',
           icon: 'cog',
-          match: /^\/setting\/\\.+$/,
+          match: /^\/setting\/.+$/,
           privilege: 'setting.set#access',
           childs: [
             {
