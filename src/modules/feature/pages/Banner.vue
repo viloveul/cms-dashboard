@@ -45,7 +45,6 @@
     </div>
 
     <Fileman
-      :type="'banner'"
       v-on:close-fileman="toggleModalMedia"
       v-if="modalMedia === true"
       v-on:selected-fileman="handleSelectedMedia"
