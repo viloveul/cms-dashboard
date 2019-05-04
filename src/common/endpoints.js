@@ -54,12 +54,12 @@ export default {
     })
   },
   async getProfile ($id, $params) {
-    return http.get('/profile/detail/' + $id, {
+    return http.get('/user/profile/' + $id, {
       params: $params || {}
     })
   },
   async updateProfile ($id, $data, $params) {
-    return http.post('/profile/update/' + $id, qs.stringify($data), {
+    return http.post('/user/profile/' + $id, qs.stringify($data), {
       params: $params || {}
     })
   },
@@ -132,6 +132,11 @@ export default {
   },
   async getNotification ($id, $params) {
     return http.get('/notification/detail/' + $id, {
+      params: $params || {}
+    })
+  },
+  async getCountNotifications ($id, $params) {
+    return http.get('/notification/count', {
       params: $params || {}
     })
   },
