@@ -3,6 +3,10 @@
     margin-bottom: 15px;
     font-weight: bold;
 }
+.post-container .left-tags:empty,
+.post-container .right-tags:empty {
+	display: none !important;
+}
 .post-container .ck-content {
     height: 300px;
 }
