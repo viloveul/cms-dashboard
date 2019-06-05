@@ -18,7 +18,7 @@
           <ckeditor ref="editor" :config="ckeconfig" :editor="ckeclassic" v-model="post.content"></ckeditor>
         </div>
         <div class="row" v-if="isFormatPost() === true">
-          <div class="col-md-6">
+          <div class="col-md-6 left-tags">
             <TagPanel
               v-for="(tag, i) in leftTags"
               :key="'left' + i"
@@ -29,7 +29,7 @@
             >
             </TagPanel>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-6 right-tags">
             <TagPanel
               v-for="(tag, i) in rightTags"
               :key="'right' + i"
