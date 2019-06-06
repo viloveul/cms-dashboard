@@ -35,6 +35,13 @@
           <div class="panel-heading">Meta</div>
           <div class="panel-body">
             <div class="form-group">
+              <label>Status</label>
+              <select class="form-control input-sm" v-model="comment.status">
+                <option value="1">Publish</option>
+                <option value="0">Un Publish</option>
+              </select>
+            </div>
+            <div class="form-group">
               <label>Date</label>
               <input v-model="comment.created_at" type="text" class="form-control input-sm" readonly="readonly">
             </div>

@@ -70,6 +70,13 @@
                 <option v-for="type in postTypes" :key="type.name" :value="type.name">{{ type.label }}</option>
               </select>
             </div>
+            <div class="form-group">
+              <label>Status</label>
+              <select class="form-control input-sm" v-model="post.status">
+                <option value="1">Publish</option>
+                <option value="0">Un Publish</option>
+              </select>
+            </div>
             <div class="form-group" v-if="isFormatPost() === true">
               <div class="checkbox">
                 <label>
