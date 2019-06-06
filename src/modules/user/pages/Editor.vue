@@ -48,7 +48,6 @@
             <select class="form-control input-sm" v-model="user.status">
               <option value="0">Inactive</option>
               <option value="1">Active</option>
-              <option value="2">On Moderate</option>
               <option value="3">Deleted</option>
             </select>
           </div>

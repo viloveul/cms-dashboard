@@ -80,11 +80,6 @@ export default {
       params: $params || {}
     })
   },
-  async approveUser ($id, $params) {
-    return http.post('/user/approve/' + $id, {
-      params: $params || {}
-    })
-  },
   async assignUser ($id, $data, $params) {
     return http.post('/user/assign/' + $id, qs.stringify($data), {
       params: $params || {}
@@ -207,11 +202,6 @@ export default {
       params: $params || {}
     })
   },
-  async approvePost ($id, $params) {
-    return http.post('/post/approve/' + $id, {
-      params: $params || {}
-    })
-  },
   async getTag ($id, $params) {
     return http.get('/tag/detail/' + $id, {
       params: $params || {}
@@ -321,11 +311,6 @@ export default {
   },
   async updateComment ($id, $data, $params) {
     return http.post('/comment/update/' + $id, qs.stringify($data), {
-      params: $params || {}
-    })
-  },
-  async approveComment ($id, $params) {
-    return http.post('/comment/approve/' + $id, {
       params: $params || {}
     })
   },

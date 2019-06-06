@@ -22,9 +22,6 @@
           <span class="text-danger" v-if="parseInt(props.row.status) !== 3" v-on:click="handleDelete(props.row.id)">
             <i class="glyphicon glyphicon-trash"></i> Delete
           </span>
-          <span class="text-success" v-if="parseInt(props.row.status) === 0" v-on:click="handleApprove(props.row.id)">
-            <i class="glyphicon glyphicon-check"></i> Approve
-          </span>
         </div>
       </template>
     </vue-good-table>
@@ -56,10 +53,6 @@ export default {
     ])
   },
   methods: {
-    async handleApprove (id) {
-      await endpoints.approveComment(id)
-      await this.loadData()
-    },
     async handleDelete (id) {
       await endpoints.deleteComment(id)
       await this.loadData()
