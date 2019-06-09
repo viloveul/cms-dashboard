@@ -74,7 +74,6 @@ import WidgetMenu from '@/modules/feature/components/WidgetMenu'
 import WidgetRecentPost from '@/modules/feature/components/WidgetRecentPost'
 import WidgetRecentComment from '@/modules/feature/components/WidgetRecentComment'
 import WidgetArchive from '@/modules/feature/components/WidgetArchive'
-import WidgetSearchForm from '@/modules/feature/components/WidgetSearchForm'
 
 export default {
   components: {
@@ -82,7 +81,6 @@ export default {
     WidgetMenu,
     WidgetRecentPost,
     WidgetRecentComment,
-    WidgetSearchForm,
     WidgetArchive
   },
   async mounted () {
