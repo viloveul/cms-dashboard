@@ -2,11 +2,11 @@
   <div class="app-board" v-if="me.id !== 0">
     <aside class="board-sidebar">
       <h3 class="brand">
-        <a :href="getOption('url')" v-if="getOption('url') !== null && getOption('url') !== '/'">
-          {{ getOption('brand') }}
+        <a :href="options.url" v-if="options.url !== null && options.url !== '/'">
+          {{ options.brand }}
         </a>
         <router-link :to="'/'" v-else>
-          {{ getOption('brand') }}
+          {{ options.brand }}
         </router-link>
         <span class="bell" v-on:click="handleNotification">
           <i class="glyphicon glyphicon-bell connected"></i>
@@ -54,12 +54,8 @@ export default {
     Notification
   },
   async mounted () {
+    await this.$store.dispatch('setting/loadOptions')
     await this.$store.dispatch('user/fetchMe')
-    await this.$store.dispatch('setting/fetchOption', 'url')
-    await this.$store.dispatch('setting/fetchOption', 'brand')
-    await this.$store.dispatch('setting/fetchOption', 'email')
-    await this.$store.dispatch('setting/fetchOption', 'description')
-    await this.$store.dispatch('setting/fetchOption', 'banner')
     if (this.me.id === 0) {
       await this.$router.replace('/gate')
     }
@@ -83,8 +79,8 @@ export default {
     }
   },
   computed: {
-    getOption () {
-      return this.$store.getters['setting/getOption']
+    options () {
+      return this.$store.getters['setting/getOptions']()
     },
     breadcrumbs () {
       return this.$store.getters['getBreadcrumbs']()

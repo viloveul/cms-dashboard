@@ -46,14 +46,12 @@ export default {
       {label: 'Board', link: '/'},
       {label: 'Settings'}
     ])
-    await this.$store.dispatch('setting/fetchOption', 'brand')
-    await this.$store.dispatch('setting/fetchOption', 'description')
-    await this.$store.dispatch('setting/fetchOption', 'email')
-    await this.$store.dispatch('setting/fetchOption', 'url')
-    this.options.brand = this.$store.getters['setting/getOption']('brand')
-    this.options.description = this.$store.getters['setting/getOption']('description')
-    this.options.email = this.$store.getters['setting/getOption']('email')
-    this.options.url = this.$store.getters['setting/getOption']('url')
+    await this.$store.dispatch('setting/loadOptions')
+  },
+  computed: {
+    options () {
+      return this.$store.getters['setting/getOptions']()
+    }
   },
   methods: {
     async handleSave () {
@@ -65,13 +63,7 @@ export default {
   },
   data () {
     return {
-      banner: false,
-      options: {
-        brand: '',
-        description: '',
-        email: '',
-        url: ''
-      }
+      banner: false
     }
   }
 }

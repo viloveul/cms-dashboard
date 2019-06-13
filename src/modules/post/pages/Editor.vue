@@ -113,7 +113,7 @@ export default {
       size: 1000,
       page: 1
     })
-    await this.$store.dispatch('setting/fetchOption', 'contents')
+    await this.$store.dispatch('setting/loadOptions')
     await this.$store.commit('setTitle', 'Post Editor')
     await this.$store.commit('setBreadcrumbs', [
       {label: 'Board', link: '/'},
@@ -126,7 +126,7 @@ export default {
         return tag.id
       })
     }
-    let contents = this.$store.getters['setting/getOption']('contents', [])
+    let contents = this.options.contents
     this.postTypes = contents.posts
     this.tagTypes = contents.tags
   },
@@ -192,6 +192,9 @@ export default {
     }
   },
   computed: {
+    options () {
+      return this.$store.getters['setting/getOptions']()
+    },
     post () {
       return this.$store.getters['post/getPost']()
     },

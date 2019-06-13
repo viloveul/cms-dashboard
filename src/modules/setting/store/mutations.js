@@ -1,5 +1,5 @@
 export default {
-  setOption: async (state, payload) => {
+  setOptions: async (state, payload) => {
     for (let i in payload) {
       if (payload[i] !== null) {
         if (typeof payload[i] !== 'string') {

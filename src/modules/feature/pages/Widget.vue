@@ -85,15 +85,14 @@ export default {
   },
   async mounted () {
     await this.$store.dispatch('feature/fetchWidgetAvailables')
-    await this.$store.dispatch('setting/fetchOption', 'contents')
-    await this.$store.dispatch('setting/fetchOption', 'features')
+    await this.$store.dispatch('setting/loadOptions')
     await this.$store.commit('setTitle', 'Widgets')
     await this.$store.commit('setBreadcrumbs', [
       {label: 'Board', link: '/'},
       {label: 'Widgets'}
     ])
     try {
-      let features = this.$store.getters['setting/getOption']('features', {})
+      let features = this.options.features
       this.widgets = features.widget.types
       if (this.widgets.length > 0) {
         await this.handleChange(this.widgets[0])
@@ -118,7 +117,11 @@ export default {
       this.actived = type
       await this.$store.dispatch('feature/resetWidgetDetail')
       await this.$store.dispatch('feature/resetWidgetItems')
-      this.items = await this.$store.dispatch('setting/fetchOption', 'widget-' + type) || []
+      if (this.options['widget-' + type] !== undefined) {
+        this.items = this.options['widget-' + type]
+      } else {
+        this.items = []
+      }
     },
     async handleAddItem () {
       this.modal = true
@@ -135,6 +138,9 @@ export default {
     }
   },
   computed: {
+    options () {
+      return this.$store.getters['setting/getOptions']()
+    },
     availables () {
       return this.$store.getters['feature/getWidgetAvailables']()
     }

@@ -139,12 +139,15 @@ export default {
   /**
    * SETTINGS ENDPOINT
    */
-  async getOption ($name) {
-    return http.get('/setting/' + $name)
+  async getOptions () {
+    return http.get('/setting')
   },
-  async setOption ($name, $value) {
-    let data = typeof $value !== 'string' ? JSON.stringify($value) : $value
-    return http.post('/setting/' + $name, data)
+  async setOptions ($value) {
+    return http.post('/setting', JSON.stringify($value), {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
   },
 
   /**
