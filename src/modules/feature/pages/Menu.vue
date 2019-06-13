@@ -27,12 +27,17 @@ import endpoints from '@/common/endpoints'
 
 export default {
   async created () {
-    await this.$store.dispatch('setting/fetchOption', 'features')
+    await this.$store.dispatch('setting/loadOptions')
     let { data } = await endpoints.getMenus({
       size: 1000,
       page: 1
     })
     this.menus = data.data
+  },
+  computed: {
+    options () {
+      return this.$store.getters['setting/getOptions']()
+    }
   },
   async mounted () {
     let prepared = await this.prepare()
@@ -45,14 +50,11 @@ export default {
         let sets = {}
         let types = []
         try {
-          let features = await this.$store.dispatch('setting/fetchOption', 'features')
+          let features = this.options.features
           for (let z in features.menu) {
             types.push({location: z, label: features.menu[z]})
             if (sets[z] === undefined) {
-              let opt = await this.$store.dispatch(
-                'setting/fetchOption',
-                'menu-' + z
-              )
+              let opt = this.options['menu-' + z] === undefined ? {} : this.options['menu-' + z]
               if (opt !== null && opt.id !== undefined) {
                 sets[z] = opt.id
               }

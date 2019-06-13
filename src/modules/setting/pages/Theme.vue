@@ -58,16 +58,19 @@ export default {
       {label: 'Board', link: '/'},
       {label: 'Settings'}
     ])
-    await this.$store.dispatch('setting/fetchOption', 'theme')
-    await this.$store.dispatch('setting/fetchOption', 'contents')
-    await this.$store.dispatch('setting/fetchOption', 'features')
+    await this.$store.dispatch('setting/loadOptions')
     await this.assign()
+  },
+  computed: {
+    options () {
+      return this.$store.getters['setting/getOptions']()
+    }
   },
   methods: {
     async assign () {
-      this.theme = this.$store.getters['setting/getOption']('theme', {name: null, author: null})
-      this.contents = this.$store.getters['setting/getOption']('contents', {})
-      this.features = this.$store.getters['setting/getOption']('features', {})
+      this.theme = this.options.theme
+      this.contents = this.options.contents
+      this.features = this.options.features
     },
     async handleJsonFile (e) {
       if (e.target.files[0] !== undefined && e.target.files[0].type === 'application/json') {

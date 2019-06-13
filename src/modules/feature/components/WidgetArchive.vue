@@ -35,9 +35,13 @@ export default {
       required: true
     }
   },
+  computed: {
+    opts () {
+      return this.$store.getters['setting/getOptions']()
+    }
+  },
   async mounted () {
-    let contents = this.$store.getters['setting/getOption']('contents')
-    this.types = contents.tags
+    this.types = this.opts.contents.tags
   },
   methods: {
     toggle () {

@@ -64,22 +64,26 @@ export default {
     Fileman
   },
   async mounted () {
-    await this.$store.dispatch('setting/fetchOption', 'features')
+    await this.$store.dispatch('setting/loadOptions')
     await this.$store.commit('setTitle', 'Banner')
     await this.$store.commit('setBreadcrumbs', [
       {label: 'Board', link: '/'},
       {label: 'Banner'}
     ])
     try {
-      let features = this.$store.getters['setting/getOption']('features', {})
-      let banner = features.banner
+      let banner = this.options.features.banner || {}
       if (banner.width !== undefined && banner.height !== undefined) {
-        this.url = await this.$store.dispatch('setting/fetchOption', 'banner') || null
+        this.url = this.options.banner
         this.width = parseInt(banner.width)
         this.height = parseInt(banner.height)
       }
     } catch (e) {
       // do nothing
+    }
+  },
+  computed: {
+    options () {
+      return this.$store.getters['setting/getOptions']()
     }
   },
   methods: {

@@ -81,15 +81,14 @@ export default {
     await this.loadData()
   },
   async mounted () {
+    await this.$store.dispatch('setting/loadOptions')
     await this.$store.dispatch('post/resetTag')
     await this.$store.commit('setTitle', 'Tags')
     await this.$store.commit('setBreadcrumbs', [
       {label: 'Board', link: '/'},
       {label: 'Tags'}
     ])
-    await endpoints.getOption('contents').then(res => {
-      this.types = res.data.data.option.tags
-    })
+    this.types = this.options.contents.tags
     if (this.$route.params.id !== undefined) {
       await this.loadUpdate(this.$route.params.id)
     }
@@ -197,6 +196,9 @@ export default {
     }
   },
   computed: {
+    options () {
+      return this.$store.getters['setting/getOptions']()
+    },
     tags () {
       return this.$store.getters['post/getTags']()
     },

@@ -63,7 +63,6 @@ export default {
     await this.loadData()
   },
   async mounted () {
-    await this.$store.dispatch('setting/fetchOption', 'contents')
     await this.$store.commit('setTitle', 'Menus')
     await this.$store.commit('setBreadcrumbs', [
       {label: 'Board', link: '/'},

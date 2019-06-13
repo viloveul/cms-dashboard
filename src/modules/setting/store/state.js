@@ -2,6 +2,8 @@ export default {
   brand: 'Viloveul',
   description: 'Content Management System',
   email: 'me@viloveul.com',
+  theme: {},
+  features: {},
   contents: {
     posts: [
       {
