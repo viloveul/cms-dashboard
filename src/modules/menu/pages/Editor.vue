@@ -9,7 +9,7 @@
             <div class="panel-body" style="min-height: 200px;">
               <div class="item-manager-box">
                 <DraggableTree :data="menu.items" draggable="draggable" cross-tree="cross-tree" :get-trigger-el="treeHandler">
-                  <div slot-scope="{data, store}">
+                  <div slot-scope="{data}">
                     <template v-if="!data.isDragPlaceHolder">
                       <div class="item">
                         <span class="drag-handler">##</span>
@@ -109,13 +109,11 @@
 <script type="text/javascript">
 
 import './../assets/style.css'
-import Paginate from 'vuejs-paginate'
 import { DraggableTree } from 'vue-draggable-nested-tree'
 
 export default {
   components: {
-    DraggableTree,
-    Paginate
+    DraggableTree
   },
   async mounted () {
     await this.$store.commit('setTitle', 'Menu Editor')

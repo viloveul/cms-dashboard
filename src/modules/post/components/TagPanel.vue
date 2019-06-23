@@ -8,7 +8,7 @@
             <input type="checkbox" :value="item.id" v-model="myRelations"> {{ item.display }}
           </label>
         </div>
-        <div class="form-group" v-if="type === 'category'" v-for="(item, index) in myItems" :key="name + type + index">
+        <div class="form-group" v-for="(item, index) in myItems" :key="name + type + index">
           <div class="checkbox">
             <label>
               <input type="checkbox" :value="item.id" v-model="myRelations"> {{ item.display }}

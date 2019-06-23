@@ -18,5 +18,5 @@ VILOVEUL_API_URL=http://your-viloveul-cms-api
 ```
 jalankan:
 ```bash
-npm run dev
+npm run serve
 ## buka http://localhost:19912

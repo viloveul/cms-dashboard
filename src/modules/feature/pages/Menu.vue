@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     async prepare () {
-      return new Promise(async (resolve, reject) => {
+      return new Promise(async (resolve) => {
         let sets = {}
         let types = []
         try {

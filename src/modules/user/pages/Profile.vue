@@ -209,7 +209,7 @@ export default {
         )
       }
     },
-    async handleFileChoose (file) {
+    async handleFileChoose () {
       this.pictureUpload = true
       this.picture.refresh()
     },
