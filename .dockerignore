@@ -1,6 +1,28 @@
-/.env
-/.git
-/node_modules
+.DS_Store
+node_modules
 /dist
-/package-lock.json
-/npm-debug.log
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# lock
+package-lock.json
+composer.lock
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# git
+.git

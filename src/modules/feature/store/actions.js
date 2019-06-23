@@ -8,7 +8,7 @@ export default {
   resetWidgetDetail: async (context) => {
     await context.commit('setWidgetDetail', initial.widgetDetail)
   },
-  fetchWidgetAvailables: async (context, payload) => {
+  fetchWidgetAvailables: async (context) => {
     let res = await endpoints.getWidgetAvailables()
     await context.commit('setWidgetAvailables', res.data.data)
   }

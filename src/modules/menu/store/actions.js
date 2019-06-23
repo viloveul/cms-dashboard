@@ -2,11 +2,11 @@ import endpoints from '@/common/endpoints'
 import initial from '@/modules/menu/store/initial'
 
 export default {
-  resetMenu: async (context, payload) => {
+  resetMenu: async (context) => {
     let menu = Object.assign({}, initial.menu, {})
     await context.commit('setMenu', menu)
   },
-  resetMenuItem: async (context, payload) => {
+  resetMenuItem: async (context) => {
     let menuItem = Object.assign({}, initial.menuItem, {})
     await context.commit('setMenuItem', menuItem)
   },

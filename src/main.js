@@ -71,14 +71,12 @@ router.beforeResolve((to, from, next) => {
   return next()
 })
 
-router.afterEach((to, from) => {
+router.afterEach(() => {
   NProgress.done()
 })
 
-/* eslint-disable no-new */
 new Vue({
-  el: '#viloveul',
   store,
   router,
   template: '<transition name="slide"><router-view></router-view></transition>'
-})
+}).$mount('#viloveul')

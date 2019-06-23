@@ -22,7 +22,6 @@
             >
               <component
                 v-for="(useItem, useIndex) in items"
-                v-if="getComponent(useItem) !== false"
                 v-on:delete-item="handleDeleteItem(useIndex)"
                 :key="'item-used-' + useIndex + Math.random()"
                 :is="getComponent(useItem)"

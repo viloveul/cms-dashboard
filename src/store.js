@@ -12,7 +12,7 @@ import feature from '@/modules/feature/module'
 Vue.use(Vuex)
 
 const state = {
-  redirect: '/',
+  redirect: process.env.BASE_URL,
   breadcrumbs: [],
   errors: [],
   status: 200
@@ -45,7 +45,7 @@ const getters = {
   getErrors: (context) => () => {
     return context.errors
   },
-  getTitle: (context) => () => {
+  getTitle: () => () => {
     return window.document.title
   },
   getRedirect: (context) => () => {
@@ -57,7 +57,7 @@ const getters = {
 }
 
 const actions = {
-  resetErrors: (context, payload) => {
+  resetErrors: (context) => {
     context.state.errors = []
   }
 }
