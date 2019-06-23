@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import general from '@/common/general'
 import App from '@/App'
 import Gate from '@/Gate'
 
@@ -165,7 +164,7 @@ const routes = [
       {
         path: '/*',
         component: () => {
-          window.location.href = '/'
+          window.location.href = process.env.BASE_URL
         }
       }
     ]
@@ -174,7 +173,7 @@ const routes = [
 
 const router = new VueRouter({
   mode: 'history',
-  base: general.getBaseUrl(),
+  base: process.env.BASE_URL,
   routes: routes
 })
 

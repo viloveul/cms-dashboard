@@ -179,7 +179,7 @@ export default {
       })
       this.loadData()
     },
-    onSortChange (params, x) {
+    onSortChange (params) {
       if (this.serverParams.order !== params[0].field) {
         this.serverParams.order = params[0].field
       }

@@ -18,7 +18,7 @@
         <div class="form-group">
           <label>Assigned Roles</label>
           <select class="form-control input-sm" v-model="toUnAssign" multiple="multiple" style="height: 300px;">
-            <option v-if="id.length > 0" v-for="(theAccess, x) in group.childs" :key="'assigned-' + x" :value="theAccess.id">
+            <option v-for="(theAccess, x) in group.childs" :key="'assigned-' + x" :value="theAccess.id">
               {{ theAccess.name }}
             </option>
           </select>
@@ -32,7 +32,7 @@
         <div class="form-group">
           <label>Available Roles</label>
           <select class="form-control input-sm" v-model="toAssign" multiple="multiple" style="height: 300px;">
-            <option v-if="id.length > 0" v-for="(theAccess, x) in availables" :key="'available-' + x" :value="theAccess.id">
+            <option v-for="(theAccess, x) in availables" :key="'available-' + x" :value="theAccess.id">
               {{ theAccess.name }}
             </option>
           </select>
