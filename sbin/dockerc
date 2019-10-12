@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-printenv | more | grep ^VILOVEUL_ > /viloveul/.env
+printenv | more | grep ^VILOVEUL_ > /viloveul/.env.local
 npm install --prefix /viloveul >/dev/null 2>&1
 npm cache clean --force    
 npm run build --prefix=/viloveul >/dev/null 2>&1

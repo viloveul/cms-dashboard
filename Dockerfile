@@ -29,7 +29,7 @@ RUN apt-get update && \
     rm -f /etc/nginx/sites-enabled/* && \
     cp /viloveul/config/nginx.conf /etc/nginx/conf.d/default.conf && \
     mkdir -p /var/log/supervisor && \
-    touch /viloveul/.env
+    touch /viloveul/.env.local
 
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
     apt-get update && \
